@@ -61,7 +61,6 @@ cat <<'EOF'
   1. npx impeccable install          (choisir Claude Code, installation projet)
   2. /impeccable init                (garder PRODUCT.md et DESIGN.md existants)
   3. /impeccable hooks on            (puis approuver les hooks)
-  4. /output-style                   (choisir « Learning »)
-  5. /mcp                            (vérifier que playwright et shadcn sont connectés)
-  6. Lire docs/TASKS.md et lancer T01
+  4. /mcp                            (vérifier que playwright et shadcn sont connectés)
+  5. Lire docs/TASKS.md et lancer T01
 EOF

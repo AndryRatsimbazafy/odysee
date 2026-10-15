@@ -22,7 +22,7 @@ Le site est lui-même une preuve de compétence. Sa qualité d'exécution (desig
 | O2 | Faire comprendre mon profil instantanément | Titre + spécialité + disponibilité lisibles sans scroll (above the fold) |
 | O3 | Prouver l'expertise front par le site lui-même | Lighthouse ≥ 95 (Perf, A11y, Best Practices, SEO) sur mobile |
 | O4 | Contenu à jour sans toucher au code | 100 % du contenu éditable via `/admin` |
-| O5 | Apprendre Next.js (App Router) et Supabase | Projet livré en codant moi-même une partie (mode Learning) |
+| O5 | Découvrir Next.js (App Router) et Supabase | Comprendre les choix techniques grâce aux explications de Claude Code à chaque session |
 
 ## 3. Cibles (personas)
 
@@ -240,7 +240,7 @@ Champs `*_fr` / `*_en` = texte bilingue saisi manuellement.
 | Gmail SMTP bloqué ou limité | Mot de passe d'application ; sauvegarde en base (F-CON-06) ; volume faible attendu |
 | Spam sur le formulaire | Honeypot + limitation de débit + captcha invisible si nécessaire |
 | Dérive de périmètre (trop d'effets visuels) | Le design sert la lisibilité ; revue `/impeccable critique` à chaque section |
-| Courbe d'apprentissage Next.js / Supabase | Mode Learning, sessions courtes, une fonctionnalité par session |
+| Courbe d'apprentissage Next.js / Supabase | Claude Code code et explique brièvement chaque concept nouveau ; sessions courtes, une fonctionnalité par session |
 
 ## 12. Questions ouvertes
 

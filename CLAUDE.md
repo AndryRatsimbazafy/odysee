@@ -22,12 +22,12 @@ En cas de conflit : ARCHITECTURE > DESIGN > STORYBOARD > PRD. Signaler le confli
 
 Next.js 16 (App Router) · React 19 · TypeScript strict · npm · next-intl v4 · Tailwind v4 · next-themes · Supabase (`@supabase/ssr`, pas d'ORM) · Zod · shadcn/ui (admin uniquement) · GSAP + `@gsap/react` · OGL · Nodemailer · Vercel.
 
-## Mode d'apprentissage
+## Rôle de Claude Code
 
-Andry apprend Next.js et Supabase. Le style de sortie **Learning** est actif :
-- Expliquer brièvement le *pourquoi* des concepts nouveaux (Server Components, Server Actions, cache/tags, RLS, `proxy.ts`).
-- Laisser Andry écrire lui-même les parties marquées **[Andry]** dans `docs/TASKS.md` (TODO guidés, puis relecture).
+Claude Code écrit **tout** le code. Andry valide les plans, relit et teste.
+- En fin de tâche, résumer en quelques lignes ce qui a été fait et pourquoi, en expliquant brièvement les concepts Next.js / Supabase nouveaux (Server Components, Server Actions, cache/tags, RLS, `proxy.ts`).
 - Ne pas réexpliquer JS, React ou TypeScript de base.
+- Signaler clairement toute action manuelle nécessaire côté Andry (dashboard Supabase, variables d'environnement, Vercel).
 
 ## Règles de travail
 
