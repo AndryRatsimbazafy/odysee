@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# supabase CLI local cache (project ref, pooler URL)
+supabase/.temp/
+
+# impeccable platform binary (the launcher downloads it on demand)
+.claude/skills/impeccable/scripts/bin/

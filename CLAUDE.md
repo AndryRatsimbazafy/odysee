@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # CLAUDE.md — Portfolio Andry « L'Odyssée »
 
 Portfolio bilingue FR/EN de Andry, Lead Front-End Developer React/TypeScript (+ AMOA), basé à Madagascar.
@@ -40,7 +42,7 @@ Andry apprend Next.js et Supabase. Le style de sortie **Learning** est actif :
 - Le middleware s'appelle **`src/proxy.ts`** (fonction `proxy`). next-intl v4 : `getRequestConfig` doit renvoyer `locale` ; layout enveloppé dans `NextIntlClientProvider`.
 - `params`, `searchParams`, `cookies()`, `headers()` sont **asynchrones** : toujours `await`.
 - Imports de navigation depuis `next/navigation` (ou `@/i18n/navigation`), jamais `next/router`.
-- Cache : vérifier l'API actuelle (`'use cache'`, `cacheTag`, `updateTag`/`revalidateTag`) avec la skill `nextjs` avant de l'utiliser.
+- Cache : vérifier l'API actuelle (`'use cache'`, `cacheTag`, `updateTag`/`revalidateTag`) dans la doc Next.js embarquée (voir AGENTS.md) avant de l'utiliser.
 
 ## Sécurité
 
@@ -66,7 +68,7 @@ Andry apprend Next.js et Supabase. Le style de sortie **Learning** est actif :
 | Construire / revoir une animation | `animate`, `review-animations` (Emil) |
 | Scènes de scroll GSAP en React | `gsap-scrolltrigger`, `gsap-react` |
 | Transition liste → détail | `vercel-react-view-transitions` |
-| Next.js App Router | `nextjs` ; perf : `vercel-react-best-practices` |
+| Next.js App Router | doc embarquée (AGENTS.md) ; perf : `vercel-react-best-practices` |
 | Supabase (SQL, RLS, auth, storage) | `supabase` |
 | SEO | `seo` ; audit global : `web-quality-audit` |
 | Données extrêmes / textes longs | `break-ui` |

@@ -19,8 +19,8 @@ skill() { run npx -y skills add "$1" --skill "$2" --agent claude-code -y; }
 
 echo "== Skills =="
 
-# Next.js / React (Vercel)
-skill vercel-labs/vercel-plugin nextjs
+# Next.js : pas de skill, la doc officielle est embarquée (AGENTS.md généré par create-next-app)
+# React (Vercel)
 skill vercel-labs/agent-skills vercel-react-best-practices
 skill vercel-labs/agent-skills vercel-react-view-transitions
 
