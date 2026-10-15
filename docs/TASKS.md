@@ -20,7 +20,7 @@
 
 ## Phase 1 — Fondations
 
-- [ ] **T01** Socle projet 🧭
+- [x] **T01** Socle projet 🧭
   Lire : ARCHITECTURE §1, §9, §11. Installer les dépendances de la stack, créer l'arborescence, scripts `check` et `db:types`, `.env.example`, Prettier. Vérifier `npm run check`.
 - [ ] **T02** Tokens et thème Hélios/Nyx
   Lire : DESIGN §2, §3, §4, §7. `globals.css` (tokens + `@theme` Tailwind), polices `next/font`, next-themes. Page `/dev/tokens` temporaire pour voir couleurs et typos dans les deux modes.
