@@ -9,12 +9,12 @@
 
 ## Phase 0 — Préparation (hors Claude Code, ~1 h)
 
-- [ ] **P0.1** 👤 Créer le dépôt : `npx create-next-app@latest portfolio --ts --eslint --tailwind --app --src-dir --turbopack --import-alias "@/*"` puis `cd portfolio && git init` (si besoin).
-- [ ] **P0.2** 👤 Copier dans le dépôt : `CLAUDE.md` et `DESIGN.md` et `PRODUCT.md` à la racine ; `PRD.md`, `STORYBOARD.md`, `ARCHITECTURE.md`, `TASKS.md` dans `docs/`.
-- [ ] **P0.3** 👤 Lancer `bash setup-claude-kit.sh` (skills, MCP Playwright et shadcn). Puis dans Claude Code : installer Impeccable (`npx impeccable install`), `/impeccable init` (il doit détecter PRODUCT.md et DESIGN.md existants : les garder), `/impeccable hooks on`, puis activer le style **Learning** (`/output-style`).
-- [ ] **P0.4** 👤 Supabase : créer le projet (région Europe), désactiver les inscriptions (Auth → Sign In / Providers → décocher « Allow new users to sign up »), créer ton compte admin à la main (Auth → Users → Add user), noter l'URL et les clés.
-- [ ] **P0.5** 👤 Google : activer la validation en 2 étapes, créer un **mot de passe d'application** pour Gmail.
-- [ ] **P0.6** 👤 Créer `.env.local` à partir de la liste d'ARCHITECTURE §10 (ne jamais le commiter).
+- [x] **P0.1** 👤 Créer le dépôt : `npx create-next-app@latest portfolio --ts --eslint --tailwind --app --src-dir --turbopack --import-alias "@/*"` puis `cd portfolio && git init` (si besoin).
+- [x] **P0.2** 👤 Copier dans le dépôt : `CLAUDE.md` et `DESIGN.md` et `PRODUCT.md` à la racine ; `PRD.md`, `STORYBOARD.md`, `ARCHITECTURE.md`, `TASKS.md` dans `docs/`.
+- [x] **P0.3** 👤 Lancer `bash setup-claude-kit.sh` (skills, MCP Playwright et shadcn). Puis dans Claude Code : installer Impeccable (`npx impeccable install`), `/impeccable init` (il doit détecter PRODUCT.md et DESIGN.md existants : les garder), `/impeccable hooks on`, puis activer le style **Learning** (`/output-style`).
+- [x] **P0.4** 👤 Supabase : créer le projet (région Europe), désactiver les inscriptions (Auth → Sign In / Providers → décocher « Allow new users to sign up »), créer ton compte admin à la main (Auth → Users → Add user), noter l'URL et les clés.
+- [x] **P0.5** 👤 Google : activer la validation en 2 étapes, créer un **mot de passe d'application** pour Gmail.
+- [x] **P0.6** 👤 Créer `.env.local` à partir de la liste d'ARCHITECTURE §10 (ne jamais le commiter).
 
 ---
 
