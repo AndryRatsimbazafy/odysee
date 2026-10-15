@@ -1,18 +1,14 @@
-# PRODUCT.md
+# Product
 
-> Contexte produit lu par Impeccable avant tout travail de design. Détails complets : docs/PRD.md, docs/DESIGN.md, docs/STORYBOARD.md.
+<!-- impeccable:product-schema 1 -->
 
-## Register
-
-Brand / persuade. Un portfolio personnel qui doit convaincre et donner envie de contacter.
+> Contexte produit lu par Impeccable avant tout travail de design. Détails complets : docs/PRD.md, DESIGN.md, docs/STORYBOARD.md.
 
 ## Platform
 
-Web, mobile d'abord (375 px) jusqu'au grand écran (1440 px). Next.js App Router, bilingue FR/EN, modes clair (Hélios) et sombre (Nyx).
+web
 
-## Product purpose
-
-Présenter Andry, Lead Front-End Developer React/TypeScript avec une double compétence AMOA, basé à Madagascar et travaillant en remote. Obtenir des prises de contact pour un CDI ou des missions freelance à l'international. Le site est lui-même une preuve de savoir-faire.
+Mobile d'abord (375 px) jusqu'au grand écran (1440 px). Next.js App Router, bilingue FR/EN, modes clair (Hélios) et sombre (Nyx).
 
 ## Users
 
@@ -20,11 +16,37 @@ Présenter Andry, Lead Front-End Developer React/TypeScript avec une double comp
 - **CTO / lead technique** : 2 à 5 min. Lisent les études de cas, jugent les choix techniques et la qualité d'exécution du site.
 - **Clients freelance** : 1 à 3 min. Cherchent fiabilité, résultats concrets, compréhension du métier, contact facile.
 
-## Brand
+## Product Purpose
 
-Une Odyssée racontée sur un vase grec, avec le sourire. Luxueux par la retenue, drôle par les détails, authentique (Madagascar = Ithaque). Beige parchemin, encre, accent terre cuite. Mythologie grecque traitée en silhouettes de céramique, jamais en marbre ni en colonnes.
+Présenter Andry, Lead Front-End Developer React/TypeScript avec une double compétence AMOA, basé à Madagascar et travaillant en remote. Obtenir des prises de contact pour un CDI ou des missions freelance à l'international. Le site est lui-même une preuve de savoir-faire.
 
-## Principles
+Succès : au moins un contact qualifié par mois après la mise en ligne ; titre, spécialité et disponibilité lisibles sans scroll ; Lighthouse ≥ 95 sur mobile (PRD §2).
+
+## Positioning
+
+Un Lead Front-End React/TypeScript : l'expertise front et le lead technique sont l'argument central. La double compétence AMOA est un plus discret : elle l'aide à comprendre un besoin métier et à le traduire en interface, sans jamais passer devant le front. Le remote depuis Madagascar est un fait de contexte, pas le pitch.
+
+## Capabilities and Constraints
+
+- Site public one-page + pages de détail projet ; CV téléchargeable (PDF FR et EN) ; formulaire de contact (email + sauvegarde en base).
+- Tout le contenu est éditable via `/admin` ; saisie manuelle des deux langues, sans traduction automatique.
+- Hors V1 : blog, statistiques, domaine personnalisé (V1 sur `*.vercel.app`, URL de base configurable), multi-utilisateurs admin, tests automatisés.
+- Admin (`/admin`) : interface utilitaire avec shadcn/ui, sobre, aux couleurs du site mais sans éléments mythologiques ni animations narratives.
+
+## Brand Commitments
+
+Une Odyssée racontée sur un vase grec, avec le sourire. Luxueux par la retenue, drôle par les détails, authentique (Madagascar = Ithaque). Beige parchemin, encre, accent terre cuite. Mythologie grecque traitée en silhouettes de céramique, jamais en marbre ni en colonnes. Aucune image générée par IA.
+
+Voix : celle d'Andry. Précise, chaleureuse, un clin d'œil maximum par section.
+
+## Evidence on Hand
+
+- **Projets Bocasay** : études de cas autorisées par l'employeur ; client et données anonymisés, visuels floutés ou maquettes redessinées.
+- **CV** : PDF FR et EN.
+- **Engagement Rotaract** : rôle associatif réel, à placer dans le parcours.
+- **Absent** : aucun témoignage collecté à ce jour. Ne jamais en inventer ; la section « Paroles d'oracles » reste masquée tant qu'elle est vide (F-TEM-01). Pas de chiffres d'impact, clients nommés ou métriques non fournis par Andry.
+
+## Product Principles
 
 1. L'information d'abord : l'humour et les animations ne retardent ni ne cachent jamais le contenu.
 2. Chaque section a sa propre composition ; rien ne doit ressembler à un template.
@@ -32,14 +54,10 @@ Une Odyssée racontée sur un vase grec, avec le sourire. Luxueux par la retenue
 4. Un seul accent de couleur, une seule frise signature, un seul effet WebGL.
 5. Performance et accessibilité font partie du design (Lighthouse ≥ 95, WCAG 2.2 AA).
 
-## Accessibility and inclusion
+## Accessibility & Inclusion
 
 - Contrastes AA vérifiés dans les deux modes.
 - Navigation complète au clavier, focus toujours visible.
 - `prefers-reduced-motion` : récit entièrement lisible sans animation.
 - Éléments fun décoratifs masqués aux lecteurs d'écran ; exploits annoncés poliment et désactivables.
 - Textes longs, champs EN manquants et listes vides gérés sans casse (contenu édité dans l'admin).
-
-## Out of scope
-
-Admin (`/admin`) : interface utilitaire avec shadcn/ui, sobre, aux couleurs du site mais sans éléments mythologiques ni animations narratives.

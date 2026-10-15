@@ -1,8 +1,9 @@
-# PRD — Portfolio Andry (v1.2)
+# PRD — Portfolio Andry (v1.3)
 
 > Statut : validé · Étapes 3–4 du workflow · Date : 2026-10-15
 > v1.1 : clair/sombre confirmé, positionnement AMOA, accord Bocasay, exigences SEO renforcées, aucun test automatisé
 > v1.2 : direction « L'Odyssée » (voir DESIGN.md / STORYBOARD.md), témoignages, engagement Rotaract, éléments fun
+> v1.3 : positionnement recentré sur le Lead Front ; l'AMOA devient un atout secondaire, plus le différenciant central
 > Source de vérité produit. Sert d'entrée à `PRODUCT.md` (Impeccable) et au plan de tâches Claude Code.
 
 ---
@@ -76,7 +77,7 @@ Priorités : **M** = Must, **S** = Should, **C** = Could.
 |---|---|---|
 | F-ABO-01 | Bio courte, photo, localisation, langues parlées | M |
 | F-ABO-02 | Liens sociaux (GitHub, LinkedIn, Malt…) | M |
-| F-ABO-03 | Mise en avant de la double compétence **Lead Front + AMOA** (recueil du besoin, spécifications, lien métier ↔ technique) comme différenciant — interrupteur Athéna ⇄ Héphaïstos | M |
+| F-ABO-03 | Double compétence **Lead Front + AMOA** : le Lead Front reste au premier plan, l'AMOA (recueil du besoin, spécifications, lien métier ↔ technique) est présentée comme un plus — interrupteur Athéna ⇄ Héphaïstos | M |
 | F-ABO-04 | Encart discret « À l'agora » : engagement au Rotaract Club d'Ivandry (intronisé en 2020, fonctions successives, président 2025-2026, vice-président 2026-2027), éditable | M |
 
 ### 5.3 bis Témoignages
@@ -245,7 +246,7 @@ Champs `*_fr` / `*_en` = texte bilingue saisi manuellement.
 
 Aucune.
 
-Résolues (v1.1) : bascule clair/sombre ✔ · double compétence AMOA mise en avant ✔ · accord Bocasay obtenu ✔ · aucun test automatisé ✔ · V1 sur `*.vercel.app`, migration vers un domaine personnalisé envisagée plus tard (prévoir une URL de base configurable par variable d'environnement pour la faciliter) ✔
+Résolues (v1.1) : bascule clair/sombre ✔ · double compétence AMOA présentée (atout secondaire depuis v1.3) ✔ · accord Bocasay obtenu ✔ · aucun test automatisé ✔ · V1 sur `*.vercel.app`, migration vers un domaine personnalisé envisagée plus tard (prévoir une URL de base configurable par variable d'environnement pour la faciliter) ✔
 
 ---
 

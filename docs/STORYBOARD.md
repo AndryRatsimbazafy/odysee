@@ -38,17 +38,17 @@
 **Mobile** : nom sur 2 lignes, tampon sous le titre, pas de WebGL.
 **Mouvement réduit** : tout est affiché d'emblée.
 
-**Accroche proposée** : « Je traduis le besoin métier en interfaces React solides. Depuis Madagascar, pour des équipes partout. »
+**Accroche proposée** : « Je conçois et je mène des interfaces React solides. Depuis Madagascar, pour des équipes partout. »
 
 ---
 
 ## Chant I — *Deux divinités tutélaires* (à propos)
 
-**Objectif** : la personne derrière le dev, et la double compétence Dev + AMOA.
+**Objectif** : la personne derrière le dev. Le Lead Front d'abord ; l'AMOA comme un plus qui l'aide à comprendre le métier.
 
 **Contenu (admin : Profile + Engagement)** : photo, bio, localisation, langues, liens sociaux, encart Rotaract.
 
-**Mise en page** : photo à gauche dans un cadre de frise (format vertical), texte à droite décalé vers le bas. Au-dessus du texte, l'interrupteur **Athéna ⇄ Héphaïstos** (deux silhouettes) qui réécrit le paragraphe central :
+**Mise en page** : photo à gauche dans un cadre de frise (format vertical), texte à droite décalé vers le bas. Au-dessus du texte, l'interrupteur **Athéna ⇄ Héphaïstos** (deux silhouettes) qui réécrit le paragraphe central. **Héphaïstos est actif par défaut** (c'est lui que voit un visiteur pressé) ; Athéna est le bonus qu'on découvre en basculant :
 - **Héphaïstos (Dev)** : architecture front, React/TypeScript, qualité de code, lead d'équipe.
 - **Athéna (AMOA)** : recueil du besoin, spécifications, dialogue entre métier et technique.
 
