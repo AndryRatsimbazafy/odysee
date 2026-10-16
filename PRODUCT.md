@@ -3,6 +3,7 @@
 <!-- impeccable:product-schema 1 -->
 
 > Contexte produit lu par Impeccable avant tout travail de design. Détails complets : docs/PRD.md, DESIGN.md, docs/STORYBOARD.md.
+> Référence visuelle exécutable : docs/prototype/odyssee-prototype.html (v2, 2026-10-16).
 
 ## Platform
 
@@ -28,14 +29,14 @@ Un Lead Front-End React/TypeScript : l'expertise front et le lead technique sont
 
 ## Capabilities and Constraints
 
-- Site public one-page + pages de détail projet ; CV téléchargeable (PDF FR et EN) ; formulaire de contact (email + sauvegarde en base).
+- Site public one-page narratif (une rive par section, une rive par projet) ; détail d'un projet en modale au clic, page détail par URL pour le SEO ; CV téléchargeable (PDF FR et EN) ; formulaire de contact (email + sauvegarde en base).
 - Tout le contenu est éditable via `/admin` ; saisie manuelle des deux langues, sans traduction automatique.
 - Hors V1 : blog, statistiques, domaine personnalisé (V1 sur `*.vercel.app`, URL de base configurable), multi-utilisateurs admin, tests automatisés.
-- Admin (`/admin`) : interface utilitaire avec shadcn/ui, sobre, aux couleurs du site mais sans éléments mythologiques ni animations narratives.
+- Admin (`/admin`) : interface utilitaire avec shadcn/ui, sobre, aux couleurs du site mais sans éléments narratifs.
 
 ## Brand Commitments
 
-Une Odyssée racontée sur un vase grec, avec le sourire. Luxueux par la retenue, drôle par les détails, authentique (Madagascar = Ithaque). Beige parchemin, encre, accent terre cuite. Mythologie grecque traitée en silhouettes de céramique, jamais en marbre ni en colonnes. Aucune image générée par IA.
+La traversée du Styx : une barque menée par Charon (le narrateur) emmène Andry de rive en rive au fil du scroll. Chaque section est une rive et chaque bloc un objet de l'univers (pinax suspendu, tessons, assiettes d'armes légendaires, parchemins à méandres, cartes postales), peint en figure noire sur terre cuite. Luxueux par la retenue, drôle par les détails (répliques de Charon), jamais « cartoon ». Madagascar = Ithaque. Jamais de marbre ni de colonnes. Aucune image générée par IA.
 
 Voix : celle d'Andry. Précise, chaleureuse, un clin d'œil maximum par section.
 
@@ -51,7 +52,7 @@ Voix : celle d'Andry. Précise, chaleureuse, un clin d'œil maximum par section.
 1. L'information d'abord : l'humour et les animations ne retardent ni ne cachent jamais le contenu.
 2. Chaque section a sa propre composition ; rien ne doit ressembler à un template.
 3. Le texte a la voix d'Andry : précis, chaleureux, un clin d'œil maximum par section.
-4. Un seul accent de couleur, une seule frise signature, un seul effet WebGL.
+4. Un seul accent d'interface ; aucun bloc ne ressemble à une card de site web ; la rivière, la barque et le cartouche de Charon ne chevauchent jamais le contenu ; ajouter du contenu dans l'admin redessine la rivière sans code.
 5. Performance et accessibilité font partie du design (Lighthouse ≥ 95, WCAG 2.2 AA).
 
 ## Accessibility & Inclusion

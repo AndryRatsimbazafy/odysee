@@ -1,6 +1,7 @@
 # ARCHITECTURE.md — Portfolio Andry
 
 > Étape 5 du workflow · v1.0 (validée) · 2026-10-15
+> v2.0 (2026-10-16) : direction « traversée du Styx » — Lenis ajouté, WebGL/OGL retiré, rives générées depuis les données. Référence visuelle : `docs/prototype/odyssee-prototype.html`.
 > Décisions validées : connexion admin email + mot de passe · un seul projet Supabase · skills GSAP officielles ajoutées au kit
 > Choix techniques et structure. Lu par Claude Code avec PRD.md, DESIGN.md et STORYBOARD.md.
 > Les API Next.js évoluent vite : avant d'implémenter une fonctionnalité de cache ou de routage, vérifier la doc officielle (skill `nextjs`).
@@ -23,15 +24,17 @@
 | Formulaires admin | **react-hook-form** + composants **shadcn/ui** | Formulaires bilingues longs |
 | Formulaire contact | Server Action + `useActionState` (React 19) | Léger, fonctionne sans JS côté client |
 | Email | **Nodemailer** + Gmail SMTP (mot de passe d'application) | F-CON-03, gratuit |
-| Animations | **GSAP** + `@gsap/react` (ScrollTrigger, DrawSVG, SplitText — tous gratuits) | Frise, scènes de scroll, nom lettre à lettre |
+| Animations | **GSAP** + `@gsap/react` (ScrollTrigger) | Barque, rivière, narrateur, scènes, assiettes |
+| Scroll fluide | **Lenis** (branché sur le ticker GSAP, `data-lenis-prevent` sur les zones qui défilent seules) | Traversée fluide ; désactivé en reduced-motion |
 | Transitions | API View Transitions de React | F-PRO-07 |
-| WebGL | **OGL**, import dynamique | Un seul effet, le plus léger possible |
 | Icônes UI | lucide-react | DESIGN §6 |
 | Hébergement | **Vercel** (Hobby) | Gratuit, intégré à Next.js |
 
 ## 2. Rendu et mise à jour du contenu
 
-- **Tout le site public est en Server Components**, rendu statique par langue et par projet (`generateStaticParams`). Les Client Components sont réservés aux îlots interactifs : animations, interrupteur Athéna/Héphaïstos, formulaire, bascule de thème, curseur, amphore.
+- **Tout le site public est en Server Components**, rendu statique par langue et par projet (`generateStaticParams`). Les Client Components sont réservés aux îlots interactifs : rivière, barque et cartouche de Charon, animations de rive, onglets Athéna/Héphaïstos, modale, formulaire, bascule de thème.
+- **Rives générées depuis les données** : la page serveur rend une rive par section fixe et une rive par projet publié ; l'ordre détermine le côté (gauche/droite). Le composant client `River` mesure les rives (ResizeObserver) et calcule le tracé ; ajouter du contenu dans l'admin redessine la rivière sans code.
+- **Bibliothèques d'illustrations** (`src/components/odyssey/library/`) : armes légendaires, scènes de bataille, timbres ; chaque élément de contenu reçoit une illustration par mapping, sinon la suivante de la réserve.
 - **Lecture des données** dans `src/lib/data/*` : fonctions serveur mises en cache (Cache Components : `'use cache'` + `cacheTag('projects')`, `cacheTag('profile')`, etc.).
 - **Mise à jour sans redéploiement (F-ADM-11)** : chaque Server Action de l'admin invalide le tag concerné (`updateTag` / `revalidateTag`). Le site public se régénère à la visite suivante.
 - **Repli** si l'API de cache diffère au moment de l'implémentation : ISR + `revalidatePath`. Le principe ne change pas.
@@ -109,8 +112,8 @@ Tables (colonnes bilingues suffixées `_fr` / `_en`) :
 ## 8. Performance (NF-01, SEO-11)
 
 - Polices via `next/font`, images via `next/image` (formats modernes, `sizes`, lazy hors écran).
-- GSAP et ses plugins chargés uniquement dans les Client Components qui en ont besoin ; OGL en import dynamique après le premier rendu.
-- Le nom du prologue (texte HTML) est l'élément LCP ; aucune animation ne le cache au premier rendu.
+- GSAP et Lenis chargés uniquement côté client, après le premier rendu ; animations de rive démarrées seulement quand la rive est visible (pause hors écran).
+- Le nom sur le pinax (texte HTML) est l'élément LCP ; aucune animation ne le cache au premier rendu.
 - Budget JS du site public : viser < 150 Ko gzippés au premier chargement.
 
 ## 9. Structure des dossiers
@@ -136,9 +139,10 @@ Tables (colonnes bilingues suffixées `_fr` / `_en`) :
     │   ├── sitemap.ts · robots.ts
     │   └── globals.css                   tokens DESIGN.md + Tailwind
     ├── components/
-    │   ├── chants/           prologue/, chant-1/, chant-2/, … (un dossier par chant)
-    │   ├── odyssey/          frise, amphore, curseur, exploits, easter eggs
-    │   ├── illustrations/    SVG (chouette, caducée, navire…)
+    │   ├── stops/            une rive par dossier : embarcadere/, courant/, rive-dieux/, forge/, epreuve/, escales/, delphes/, hermes/, elysee/
+    │   ├── odyssey/          river/, ferry/ (barque + Charon + Andry), charon-caption/, narrator/
+    │   ├── objects/          pinax, shard (tesson), plate (assiette), meander-frame, postcard, wax-seal, dock
+    │   ├── odyssey/library/  weapons.tsx, scenes.tsx, stamps.tsx (SVG figure noire + animations)
     │   ├── ui/               composants publics réutilisables
     │   └── admin/            composants shadcn de l'admin
     ├── lib/
@@ -169,10 +173,11 @@ Tables (colonnes bilingues suffixées `_fr` / `_en`) :
 ## 11. Qualité (sans tests automatisés)
 
 - `tsc --noEmit`, ESLint et `next build` doivent passer avant chaque commit de fin de session.
-- Revue visuelle : Playwright MCP, une capture desktop + une mobile par chant validé.
-- Revue design : `/impeccable critique` par chant, `/impeccable audit` en fin de projet ; hook de détection actif.
-- Animations : `review-animations` (Emil) par chant animé.
-- Robustesse : `break-ui` sur les chants alimentés par l'admin.
+- Revue visuelle : Playwright MCP, une capture desktop + une mobile par rive validée ; comparer au prototype.
+- Chevauchements : script Playwright qui fait défiler la page par pas de 60 px à 1440 / 1280 / 1000 / 920 px et vérifie que le cartouche de Charon ne touche ni rive, ni navigation, ni barque.
+- Revue design : `/impeccable critique` par rive, `/impeccable audit` en fin de projet ; hook de détection actif.
+- Animations : `review-animations` (Emil) par rive animée.
+- Robustesse : `break-ui` sur les rives alimentées par l'admin.
 - Audit final : Lighthouse mobile (≥ 95 partout, SEO = 100), Rich Results Test, contrastes clair et sombre.
 
 ## 12. Déploiement

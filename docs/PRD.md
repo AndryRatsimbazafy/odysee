@@ -1,9 +1,9 @@
-# PRD — Portfolio Andry (v1.3)
+# PRD — Portfolio Andry (v1.2)
 
 > Statut : validé · Étapes 3–4 du workflow · Date : 2026-10-15
 > v1.1 : clair/sombre confirmé, positionnement AMOA, accord Bocasay, exigences SEO renforcées, aucun test automatisé
-> v1.2 : direction « L'Odyssée » (voir DESIGN.md / STORYBOARD.md), témoignages, engagement Rotaract, éléments fun
-> v1.3 : positionnement recentré sur le Lead Front ; l'AMOA devient un atout secondaire, plus le différenciant central
+> v1.2 : direction « L'Odyssée », témoignages, engagement Rotaract, éléments fun
+> v2.0 (2026-10-16) : traversée du Styx (barque, Charon narrateur, rives-objets), modale projet, images projets, assiettes d'armes, cartes postales, contenu extensible. Référence : docs/prototype/odyssee-prototype.html
 > Source de vérité produit. Sert d'entrée à `PRODUCT.md` (Impeccable) et au plan de tâches Claude Code.
 
 ---
@@ -69,15 +69,15 @@ Priorités : **M** = Must, **S** = Should, **C** = Could.
 |---|---|---|
 | F-HER-01 | Nom, titre (ex. « Lead Front-End Developer — React / TypeScript ») et accroche courte | M |
 | F-HER-02 | Indicateur de disponibilité (CDI / freelance / remote), éditable | M |
-| F-HER-03 | 2 CTA : « Voir mes projets » et « Me contacter » | M |
-| F-HER-04 | Élément visuel signature (défini à l'étape 4 — Design) | M |
+| F-HER-03 | 2 CTA : « Embarquer » (vers les épreuves) et « Dérouler le CV » | M |
+| F-HER-04 | Nom peint sur un pinax suspendu, sceau « Disponible », ponton de départ de la barque | M |
 
 ### 5.3 À propos
 | ID | Exigence | Prio |
 |---|---|---|
 | F-ABO-01 | Bio courte, photo, localisation, langues parlées | M |
 | F-ABO-02 | Liens sociaux (GitHub, LinkedIn, Malt…) | M |
-| F-ABO-03 | Double compétence **Lead Front + AMOA** : le Lead Front reste au premier plan, l'AMOA (recueil du besoin, spécifications, lien métier ↔ technique) est présentée comme un plus — interrupteur Athéna ⇄ Héphaïstos | M |
+| F-ABO-03 | Mise en avant de la double compétence **Lead Front + AMOA** (recueil du besoin, spécifications, lien métier ↔ technique) comme différenciant — interrupteur Athéna ⇄ Héphaïstos | M |
 | F-ABO-04 | Encart discret « À l'agora » : engagement au Rotaract Club d'Ivandry (intronisé en 2020, fonctions successives, président 2025-2026, vice-président 2026-2027), éditable | M |
 
 ### 5.3 bis Témoignages
@@ -89,31 +89,31 @@ Priorités : **M** = Must, **S** = Should, **C** = Could.
 | ID | Exigence | Prio |
 |---|---|---|
 | F-PRO-01 | Liste de 6 à 8 projets, triés selon un ordre défini dans l'admin | M |
-| F-PRO-02 | Carte projet : titre, résumé, visuel, technologies, badge « Confidentiel » si applicable | M |
+| F-PRO-02 | Une rive par projet : tesson avec scène de bataille, **emplacement de capture**, titre, quête, technos, sceau « Scellé par Hadès » si confidentiel | M |
 | F-PRO-03 | Filtre par technologie | C |
 | F-PRO-04 | Page détail `/[locale]/projects/[slug]` : contexte, mon rôle, défis, solutions, résultats, stack, galerie, liens démo/repo | M |
 | F-PRO-05 | Projet confidentiel : client anonymisé, pas de lien repo, visuels floutés ou maquettes | M |
 | F-PRO-06 | Navigation projet précédent / suivant | S |
-| F-PRO-07 | Transition animée liste → détail (View Transitions) | S |
+| F-PRO-07 | « Lire l'épreuve » ouvre une modale (parchemin à méandres) avec galerie d'images ; la page détail reste accessible par URL | M |
 | F-PRO-08 | Badge « Projet associatif » et sous-titre humoristique facultatif par projet (champs admin) | S |
 
 ### 5.4 bis Éléments fun (globaux)
 | ID | Exigence | Prio |
 |---|---|---|
-| F-FUN-01 | Frise signature dessinée au scroll, reliant les chants | M |
-| F-FUN-02 | Curseur divin, amphore de progression, exploits débloqués (désactivables), personnages qui réagissent, easter eggs — règles en DESIGN.md §9 | S |
-| F-FUN-03 | Un seul effet WebGL léger dans le prologue, avec repli statique | C |
+| F-FUN-01 | Rivière du Styx générée depuis les rives, barque (Charon + Andry) qui la descend au scroll, cartouche de Charon qui ne chevauche jamais le contenu | M |
+| F-FUN-02 | Narrateur mot à mot, répliques de Charon par rive, exploit Athéna/Héphaïstos, obole en épilogue, message console, 404 labyrinthe (DESIGN §9) | S |
+| F-FUN-03 | Ajouter un projet, une techno, une expérience ou un témoignage crée la rive / l'objet correspondant et redessine la rivière, sans code | M |
 
 ### 5.5 Parcours / expériences
 | ID | Exigence | Prio |
 |---|---|---|
-| F-EXP-01 | Timeline : entreprise, poste, période, lieu/remote, description, technologies | M |
+| F-EXP-01 | Escales : carte de navigation (navire au scroll) + une carte postale par expérience (entreprise, poste, période, lieu, message) | M |
 | F-EXP-02 | Lien optionnel entre une expérience et ses projets | C |
 
 ### 5.6 Skills & technologies
 | ID | Exigence | Prio |
 |---|---|---|
-| F-SKI-01 | **Technologies** regroupées par catégorie (Front, Back, Outils, IA…) | M |
+| F-SKI-01 | **Technologies** : une assiette décorative par techno, avec une arme légendaire (mapping ou réserve automatique) et les années d'usage | M |
 | F-SKI-02 | **Compétences** (lead technique, architecture front, revue de code, AMOA / spécifications…) distinctes des technos | M |
 | F-SKI-03 | Pas de barres de niveau en % (anti-pattern) : indication par années d'usage ou mise en avant | M |
 
@@ -139,9 +139,10 @@ Priorités : **M** = Must, **S** = Should, **C** = Could.
 | F-ADM-01 | Accès réservé à moi seul (authentification Supabase par email), inscription désactivée | M |
 | F-ADM-02 | Toutes les routes `/admin` et toutes les écritures protégées côté serveur, pas seulement côté interface | M |
 | F-ADM-03 | Édition du profil (hero, bio, photo, disponibilité, liens) | M |
-| F-ADM-04 | CRUD projets : champs FR/EN côte à côte, upload d'images, statut brouillon / publié, ordre | M |
+| F-ADM-04 | CRUD projets : champs FR/EN côte à côte, capture principale + galerie (alt FR/EN), narration et réplique de Charon, scène (optionnelle), statut, ordre | M |
+| F-ADM-15 | Aperçu de l'ordre des rives (les projets publiés apparaissent dans l'ordre choisi) | C |
 | F-ADM-05 | CRUD expériences | M |
-| F-ADM-06 | CRUD technologies et compétences (avec catégories) | M |
+| F-ADM-06 | CRUD technologies (arme légendaire optionnelle) et savoir-faire | M |
 | F-ADM-14 | CRUD témoignages et édition de l'encart d'engagement (Rotaract) | S |
 | F-ADM-07 | Upload / remplacement des CV PDF FR et EN | M |
 | F-ADM-08 | Indicateur de traduction manquante (champ EN vide alors que FR rempli) | S |
@@ -158,9 +159,9 @@ Champs `*_fr` / `*_en` = texte bilingue saisi manuellement.
 | Entité | Champs principaux |
 |---|---|
 | **Profile** (unique) | nom, titre_fr/en, accroche_fr/en, bio_fr/en, photo, localisation, langues, disponibilité (CDI / freelance / remote + texte_fr/en), seo_titre_fr/en, seo_description_fr/en, image_og |
-| **Project** | slug, sous_titre_fun_fr/en, associatif, titre_fr/en, résumé_fr/en, contexte_fr/en, rôle_fr/en, défis_fr/en, solutions_fr/en, résultats_fr/en, image de couverture (+ alt_fr/en), galerie, technologies[], lien_démo, lien_repo, confidentiel, client_affiché, statut, ordre, mis_en_avant, seo_titre_fr/en, seo_description_fr/en, date de mise à jour |
-| **Experience** | entreprise, poste_fr/en, date_début, date_fin, lieu, remote, description_fr/en, technologies[], ordre |
-| **Technology** | nom, catégorie, icône, années d'usage, mis_en_avant |
+| **Project** | slug, scène (optionnelle : maze, hydra, herald, boat), narration_fr/en, réplique_charon_fr/en, quête_fr/en, capture (+ alt), sous_titre_fun_fr/en, associatif, titre_fr/en, résumé_fr/en, contexte_fr/en, rôle_fr/en, défis_fr/en, solutions_fr/en, résultats_fr/en, image de couverture (+ alt_fr/en), galerie, technologies[], lien_démo, lien_repo, confidentiel, client_affiché, statut, ordre, mis_en_avant, seo_titre_fr/en, seo_description_fr/en, date de mise à jour |
+| **Experience** | entreprise, poste_fr/en, date_début, date_fin, lieu, remote, message_fr/en (texte de la carte postale), technologies[], ordre |
+| **Technology** | nom, catégorie, années d'usage, libellé_durée_fr/en, arme (optionnelle : foudre, egide, trident, fil, caducee, casque, harpe, arc, marteau), ordre |
 | **Skill** | libellé_fr/en, description_fr/en, ordre |
 | **SocialLink** | plateforme, url, ordre |
 | **Testimonial** | citation_fr/en, auteur, rôle_fr/en, entreprise, anonymisé, ordre, publié |
@@ -246,7 +247,7 @@ Champs `*_fr` / `*_en` = texte bilingue saisi manuellement.
 
 Aucune.
 
-Résolues (v1.1) : bascule clair/sombre ✔ · double compétence AMOA présentée (atout secondaire depuis v1.3) ✔ · accord Bocasay obtenu ✔ · aucun test automatisé ✔ · V1 sur `*.vercel.app`, migration vers un domaine personnalisé envisagée plus tard (prévoir une URL de base configurable par variable d'environnement pour la faciliter) ✔
+Résolues (v1.1) : bascule clair/sombre ✔ · double compétence AMOA mise en avant ✔ · accord Bocasay obtenu ✔ · aucun test automatisé ✔ · V1 sur `*.vercel.app`, migration vers un domaine personnalisé envisagée plus tard (prévoir une URL de base configurable par variable d'environnement pour la faciliter) ✔
 
 ---
 

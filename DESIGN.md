@@ -1,158 +1,133 @@
-# DESIGN.md — Portfolio Andry · « L'Odyssée »
+# DESIGN.md — Portfolio Andry · « L'Odyssée, la traversée du Styx »
 
-> Étape 4 du workflow · v1.0 · 2026-10-15
-> Source de vérité visuelle. Lue par Impeccable avant tout travail UI. Toute exception doit être justifiée ici.
+> Étape 4 du workflow · v2.0 · 2026-10-16
+> Source de vérité visuelle. Lue par Impeccable avant tout travail UI.
+> **Référence visuelle exécutable : `docs/prototype/odyssee-prototype.html`** (ouvrir dans un navigateur). En cas de doute, le prototype fait foi pour le rendu et le mouvement ; ce document fait foi pour les règles.
 
 ---
 
 ## 1. Direction artistique
 
-**Une Odyssée racontée sur un vase grec, avec le sourire.**
+**La page est le cours du Styx.** Une barque, menée par Charon (le passeur, narrateur) et transportant Andry (le héros), descend la rivière au rythme du scroll. Chaque section est une **rive** où la barque fait escale. Chaque rive est un **objet de l'univers** (plaque, tesson, assiette, parchemin, carte postale), jamais une « card » de site web.
 
-- **Inspiration** : la céramique grecque à figures noires et à figures rouges. Silhouettes, frises, aplats. Pas de marbre, pas de colonnes, pas de bustes.
-- **Récit** : le site est un voyage en chants. Madagascar est Ithaque ; chaque section est une étape.
-- **Ton** : luxueux par la retenue (beaucoup d'espace, peu de couleurs, typographie soignée), drôle par les détails (micro-textes, micro-interactions, easter eggs). L'humour ne gêne jamais la lecture.
-- **Mots-clés** : luxueux · audacieux · drôle (discret) · créatif · narratif · authentique.
+- **Inspiration** : céramique grecque à figures noires (silhouettes noires sur terre cuite), frises de méandres. Pas de marbre, pas de colonnes, pas de bustes.
+- **Ton** : luxueux par la retenue, narratif, drôle par les détails (répliques de Charon, easter eggs). L'humour ne gêne jamais la lecture.
+- **Équilibre** : un vrai site (navigation, CV, contact, contenu lisible sans animation) porté par un récit. Pas de plein écran, pas de son.
 
 ## 2. Couleurs
 
-Une couleur principale : **le beige « parchemin »**. Une seule couleur d'accent : **la terre cuite**. L'or reste un ornement (traits fins), jamais une surface.
+Une couleur principale : **le beige parchemin**. Un seul accent d'interface : **la terre cuite**. Les objets de l'univers ont leurs propres couleurs, **constantes dans les deux modes** (ce sont des objets peints).
 
-### Mode clair « Hélios » (figures noires)
+### Tokens d'interface (s'inversent entre les modes)
 
-| Token | Valeur | Usage |
+| Token | Hélios (clair) | Nyx (sombre) | Usage |
+|---|---|---|---|
+| `--parchemin` | `#EFE4CF` | `#16120F` | Fond de page |
+| `--parchemin-2` | `#E4D3B4` | `#241D17` | Surfaces secondaires |
+| `--encre` | `#1B1612` | `#EFE4CF` | Texte, silhouettes de la barque et de la forge |
+| `--encre-2` | `#4A4036` | `#C2B49B` | Texte secondaire |
+| `--terre` | `#9A4320` | `#D9784A` | Accent : boutons, liens, états actifs |
+| `--or` | `#9C7A33` | `#C9A55A` | Filets, soulignés, ornements fins |
+| `--lueur` | `#E2B655` | `#F2C76A` | Lanterne, yeux de Charon, métal rougi |
+| `--eau` | `#1B1612` | `#C4643A` | Rivière (lit à 9 % d'opacité, tracé d'encre 3 px) |
+| `--bois` | `#6B4A2E` | `#8A6644` | Corde du pinax |
+
+### Couleurs d'objets (constantes)
+
+| Nom | Valeur | Usage |
 |---|---|---|
-| `--parchemin` | `#EFE4CF` | Fond principal |
-| `--parchemin-2` | `#E6D7BB` | Surfaces secondaires, cartes, encarts |
-| `--encre` | `#1B1612` | Texte, silhouettes, frises |
-| `--encre-2` | `#4A4036` | Texte secondaire |
-| `--terre` | `#9A4320` | Accent : CTA, liens, états actifs (texte et fonds) |
-| `--terre-deco` | `#B4532A` | Accent décoratif uniquement (≥ 24 px ou non textuel) |
-| `--or` | `#B8913F` | Filets, frise, ornements fins. Jamais pour du texte courant |
+| Terre cuite d'objet | `#C9703F` | Pinax, tessons, assiettes, timbres |
+| Figure noire | `#1B1612` | Figures et méandres peints sur la terre cuite |
+| Parchemin d'objet | `#E8D2A2` / encre `#2A1A0C` / méandre `#5A3A1E` | Cadres à méandres (ΤΕΧΝΑΙ, lettre, modale) |
+| Carte postale | fond `#F2E6CC`, encre `#2A2018`, filet `#CDB78F` | Escales |
+| Cire rouge | `#7E2416` | Sceaux « Scellé par Hadès », bouton d'envoi |
+| Olive | `#4E5A2E` | Sceau « Disponible » |
 
-### Mode sombre « Nyx » (figures rouges)
-
-| Token | Valeur | Usage |
-|---|---|---|
-| `--parchemin` | `#16120F` | Fond principal (le noir du vase) |
-| `--parchemin-2` | `#221C17` | Surfaces secondaires |
-| `--encre` | `#EFE4CF` | Texte, silhouettes |
-| `--encre-2` | `#C2B49B` | Texte secondaire |
-| `--terre` | `#D9784A` | Accent textes, liens, CTA |
-| `--terre-deco` | `#C4643A` | Figures rouges décoratives |
-| `--or` | `#C9A55A` | Ornements |
-
-### Règles
-- Contrastes vérifiés : encre/parchemin > 12:1 ; `--terre` sur parchemin ≈ 5,2:1 (clair) et ≈ 5,9:1 (sombre). `--terre-deco` et `--or` ne portent **jamais** de texte de moins de 24 px.
-- Les chapitres ne changent **pas** de teinte : seule la frise et l'ornement changent. Variation tolérée : ±3 % de luminosité du parchemin entre chants, pour le rythme.
-- Bouton principal : fond `--terre`, texte `--parchemin` (clair) / fond `--terre`, texte `#16120F` (sombre).
-- Interdits : dégradés, verre dépoli, ombres portées colorées, néons, violet.
+Règles : contrastes texte ≥ 4.5:1 vérifiés ; texte figure noire sur terre cuite uniquement sur `#C9703F` (5:1) ; aucun dégradé, aucun glassmorphism, aucune ombre portée décorative.
 
 ## 3. Typographie
 
 | Rôle | Police | Notes |
 |---|---|---|
-| Display / titres | **Fraunces** (variable, axes `opsz`, `SOFT`, `WONK`) | Serif expressive. `WONK` activé sur les grands titres pour la touche ludique. |
-| Texte courant | **Instrument Sans** | Lisible, sobre, ne concurrence pas Fraunces. |
-| Code, navigation, métadonnées | **JetBrains Mono** | Navigation en commentaires de code (`// travaux`), coordonnées, dates. |
+| Display, narration, titres, boutons | **Fraunces** (variable, `SOFT`, `WONK`) | Narrateur en italique 320 |
+| Texte courant | **Instrument Sans** | |
+| Métadonnées, chapitres, navigation, inscriptions | **JetBrains Mono** | |
 
-Chargement via `next/font` (auto-hébergé, `display: swap`, sous-ensembles `latin` + `latin-ext`).
+Échelle (fluide) : nom 60 → 176 px (17vw sous 900 px) · narrateur 26 → 40 px · titre de rive 34 → 58 px · corps 18 px (interligne 1.6) · mono 11–13 px. `next/font`, `display: swap`.
 
-### Échelle (fluide, `clamp`)
-| Token | Mobile → Desktop | Usage |
+## 4. Mise en page : la rivière et les rives
+
+- Conteneur max 1280 px. Les rives alternent **gauche / droite** automatiquement selon leur ordre (`index % 2`).
+- Rive : largeur `min(46%, 540px)`, marge basse `22vh` (16vh mobile).
+- **La rivière se calcule depuis le DOM** : pour chaque rive, deux points (haut et bas de la rive) côté opposé (`74 %` ou `26 %` de la largeur), reliés par des courbes de Bézier verticales. Elle longe chaque rive sur toute sa hauteur et **ne traverse que dans les espaces vides**. Ajouter une rive (projet, section) redessine la rivière : aucune coordonnée en dur.
+- Mobile (< 900 px) : rivière droite à 30 px du bord, lit 36 px, contenu décalé de 78 px, barque 74 px.
+
+## 5. La barque, Charon et Andry
+
+- **SVG en ligne** (voir prototype) : Charon encapuchonné (yeux qui luisent, lanterne, perche), Andry (tête ronde, casque à plumet, portable lumineux), coque à œil peint.
+- Position : la barque suit la rivière au point correspondant au milieu de l'écran ; elle s'incline selon la pente et **se retourne** quand la rivière change de direction.
+- Vie : tangage continu lent, plumet / tête / perche réagissent à la vitesse du scroll, clignement aléatoire, salut de la main et bouche qui parle à chaque nouvelle réplique.
+- **Cartouche de Charon** (la narration) : cadre droit à double filet, texte Fraunces italique, en-tête « CHARON, PASSEUR » en mono. Il cherche une place libre autour de la barque (au-dessus à droite, au-dessus à gauche, à droite, à gauche) **sans jamais chevaucher une rive, la navigation, le ponton ou la barque** ; sinon il s'efface. Trait de rappel vers la barque uniquement en position au-dessus. Mobile : bandeau bas, masqué sur l'accueil, affiché 4,5 s à chaque réplique.
+
+## 6. Bibliothèque d'objets (composants de l'univers)
+
+| Objet | Où | Règles |
 |---|---|---|
-| `--fs-mega` | 56 → 144 px | Nom dans le prologue |
-| `--fs-h1` | 40 → 88 px | Titre de chant |
-| `--fs-h2` | 28 → 48 px | Sous-titres |
-| `--fs-h3` | 20 → 28 px | Titres de cartes |
-| `--fs-body` | 17 → 19 px | Texte (interligne 1,6) |
-| `--fs-small` | 14 → 15 px | Notes, légendes |
-| `--fs-mono` | 12 → 13 px | Navigation, métadonnées (majuscules interdites sauf tampons) |
+| **Pinax** (plaque votive suspendue) | Accueil (nom) | Terre cuite, bord noir 7 px, frises de méandres haut et bas, deux trous, corde vers un clou ; se balance à l'arrivée |
+| **Sceau de cire** | « Disponible » (olive), « Scellé par Hadès » (rouge) | Forme légèrement irrégulière, texte mono capitales |
+| **Ponton** | Départ de la rivière | Silhouettes noires, pancarte noire gravée « Départs pour l'Hadès · toutes les 5 minutes » côté rive |
+| **Tesson** (ostrakon) | Épreuves (projets) | Bords cassés (`clip-path`), padding ≥ 8 % pour que le texte reste dans la forme, scène de bataille + **emplacement de capture** |
+| **Assiette décorative** | Arsenal (skills) | Bord noir, anneau de méandres, centre terre cuite, petit pied ; une **arme légendaire** par techno |
+| **Cadre à méandres** (parchemin) | ΤΕΧΝΑΙ, lettre de contact, modale projet | Fond `#E8D2A2`, frises de méandres tracées à la main (filtre SVG de rugosité) en haut et en bas |
+| **Carte postale** | Escales (expériences) | Message signé à gauche, timbre illustré + tampon postal + adresse à droite ; inclinaison alternée |
+| **Carte de navigation** | Escales | Route pointillée entre ports (petites stèles numérotées), navire qui avance au scroll |
+| **Trépied de Delphes** | Oracles | Fumée qui respire, nouvelle prophétie au clic |
 
-Longueur de ligne : 60–72 caractères. Un seul `h1` par page.
+### Armes légendaires (assiettes)
 
-## 4. Espace et grille
+React → la foudre de Zeus · TypeScript → l'égide d'Athéna · Node.js → le trident de Poséidon · Git → le fil d'Ariane · Next.js → le caducée d'Hermès · Supabase → le casque d'Hadès. **Réserve pour toute techno ajoutée** : harpè de Persée, arc d'Artémis, marteau d'Héphaïstos, puis on recycle. Le champ `arme` est optionnel en base ; sans valeur, on prend la suivante de la réserve.
 
-- Unité de base 8 px. Échelle : 4, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192.
-- Grille 12 colonnes, marges latérales 16 px (mobile) → 64 px (desktop), largeur max du contenu 1280 px.
-- **Asymétrie volontaire** : aucun chant n'utilise la même composition que le précédent (voir STORYBOARD.md).
-- Rayons : 0 par défaut (esthétique céramique, aplats). Exception : pastilles et tampons ronds.
+### Scènes de bataille (tessons)
 
-## 5. Élément signature : la frise
+Labyrinthe + fil d'Ariane + Minotaure · Hydre dont une tête est tranchée puis repousse · Héraut qui sonne la trompe devant la foule · Barque construite au marteau qui prend la mer. Un projet sans scène définie reçoit la suivante dans cet ordre.
 
-- Une **frise méandre** (grecque) en SVG, trait `--encre` ou `--or`, épaisseur 1,5 px.
-- Elle se dessine au scroll (`stroke-dashoffset` lié à la progression) et **relie les chants** : départ des coordonnées 18°55′S dans le prologue, cadre des travaux, route du voyage, envol d'Hermès dans l'épilogue.
-- Sous `prefers-reduced-motion` : frise affichée entière, sans animation.
+### Timbres (cartes postales)
 
-## 6. Illustrations et iconographie
+Navire, chouette, amphore, soleil levant, en boucle.
 
-- **SVG géométriques maison**, style silhouette de vase : aplats `--encre` (clair) ou `--terre-deco` (sombre), détails par réserves (traits vides), aucune texture photo.
-- Bibliothèque limitée et cohérente : chouette (Athéna), marteau et enclume (Héphaïstos), massue (Hercule), caducée et sandale ailée (Hermès), amphore, navire, labyrinthe, éclair (Zeus).
-- Silhouettes simplifiées, épaisseur de trait unique, même angle de vue de profil — comme sur les vases.
-- Icônes d'interface : Lucide (trait 1,5 px) uniquement pour les actions utilitaires (télécharger, lien externe, menu). Jamais d'emoji.
-- **Aucune image générée par IA.**
+## 7. Boutons et contrôles
 
-## 7. Motion
+- **Bouton principal** : plaque terre cuite à **coins taillés** (`clip-path` octogonal 9 px), Fraunces 18 px, aucune rotation, survol = fond encre.
+- **Bouton secondaire / lien d'action** : texte Fraunces souligné d'or 1.5 px, survol = terre cuite.
+- **« Lire l'épreuve »** : Fraunces italique 20 px, petit méandre fléché, souligné d'or ; le méandre glisse au survol.
+- **Onglets** (Athéna / Héphaïstos) : texte souligné, actif = terre cuite italique.
+- **Navigation** : cadre droit à double filet (bordure encre + filet or intérieur), liens mono.
+- Interdits : contours « à la main », rotations, rebonds, baguettes de bois, formes bulle de BD.
 
-Principes (skills Emil `animate` et `review-animations`) :
+## 8. Motion
 
-| Token | Valeur | Usage |
-|---|---|---|
-| `--dur-micro` | 160 ms | Survol, focus, petits changements d'état |
-| `--dur-ui` | 240 ms | Ouvertures, bascules (Athéna ⇄ Héphaïstos, Hélios ⇄ Nyx) |
-| `--dur-reveal` | 600 ms | Apparition d'un élément de récit |
-| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | Entrées, réponses à l'utilisateur |
-| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Déplacements à l'écran |
-| `--ease-spring` | ressort léger, 1 rebond max | Tampon « Disponible », exploits |
-
-- **Scènes de scroll** : GSAP + ScrollTrigger, en `scrub` (liées au scroll, jamais à durée fixe). Pas de lissage du scroll natif.
-- **Interactions** : CSS d'abord ; GSAP seulement si séquencement nécessaire.
-- Animer uniquement `transform`, `opacity`, `clip-path` et `stroke-dashoffset`.
-- Chaque chant initialise ses animations quand il entre dans le viewport et les détruit en sortant.
-- **`prefers-reduced-motion`** : aucun pinning, aucun scrub, aucun parallaxe ; chaque chant s'affiche dans son état final ; les micro-interactions deviennent de simples fondus de 160 ms.
-- Interdits : fondu par le bas répété sur chaque bloc, animations à l'entrée de page de plus de 800 ms, `ease-in` sur une réponse à l'utilisateur, rebonds multiples.
-
-## 8. L'effet WebGL (un seul)
-
-- **Où** : derrière le nom, dans le prologue uniquement.
-- **Quoi** : une ondulation légère de la frise et du grain du parchemin qui suit le curseur, « la mer Égée sous le vase ».
-- **Comment** : librairie **OGL** (légère), chargée en différé après le premier rendu, `<canvas>` décoratif `aria-hidden`.
-- **Désactivé** si : `prefers-reduced-motion`, `saveData`, appareil modeste (≤ 4 cœurs), écran tactile sans survol, ou WebGL indisponible. Repli : SVG statique identique visuellement.
-- Ne doit pas dégrader le LCP : le nom (texte HTML) est l'élément LCP, le canvas arrive après.
-
-## 9. Les éléments fun (discrets)
-
-Règle d'or : **l'humour ne bloque, ne masque et n'interrompt jamais rien.**
-
-| Élément | Règle |
+| Token | Valeur |
 |---|---|
-| Curseur divin | Desktop avec souris uniquement. Le symbole du chant accompagne le curseur système (jamais caché). Désactivé sous reduced-motion. |
-| Amphore de progression | Petite (≤ 32 px), coin bas-droit, se remplit au scroll. Purement décorative (`aria-hidden`). |
-| Exploits débloqués | Un par chant maximum, toast discret 3 s, sans son, région `aria-live="polite"`. Un clic sur l'amphore les désactive (choix mémorisé). |
-| Personnages qui réagissent | Chouette qui cligne (survol de l'interrupteur), Hermès qui tapote du pied (formulaire vide 20 s). Animations ≤ 1 s, jamais en boucle infinie. |
-| Easter eggs | Code Konami → éclair de Zeus (1 fois). Message dans la console du navigateur. Invisibles pour qui ne les cherche pas. |
-| Micro-textes | Un clin d'œil par section au plus, dans les états vides, la 404, les confirmations. Jamais dans les titres principaux. |
+| `--dur-micro` | 160–250 ms (survols, onglets) |
+| `--dur-reveal` | 600–900 ms (apparitions) |
+| `--ease-out` | `cubic-bezier(.16,1,.3,1)` |
+| Boucles d'ambiance | `sine.inOut`, 1–2,5 s |
 
-## 10. Composants clés (aperçu)
+- **GSAP + ScrollTrigger** pour tout ce qui suit le scroll ; **Lenis** pour un scroll fluide (désactivé sous `prefers-reduced-motion`, `data-lenis-prevent` sur toute zone qui défile seule, comme la modale).
+- Narrateur : mots qui s'allument un à un (`scrub`).
+- Animations **sobres** : pas de rebond élastique sur le contenu, pas d'animation qui cache l'information. Scènes jouées seulement quand elles sont visibles (pause hors écran).
+- Forge : Héphaïstos lève le marteau, frappe, quelques étincelles, le four rougeoie. Assiettes : rotation douce à l'arrivée, animation propre à chaque arme au survol / focus.
+- Escales : cartes postales qui arrivent alternativement de gauche et de droite, tampon postal qui frappe.
+- `prefers-reduced-motion` : aucun scrub, aucune boucle ; tout est affiché dans son état final ; la barque reste positionnée sur la rivière.
 
-- **Navigation** : barre fine en haut, `JetBrains Mono` : `// prologue`, `// chants`, `// travaux`, `// voyage`, `// contact`. Sélecteur FR/EN et bascule Hélios ⇄ Nyx (soleil / lune en silhouette).
-- **Bouton principal** : rectangle sans arrondi, fond `--terre`, frise fine au survol.
-- **Lien** : soulignement `--or` qui se dessine au survol.
-- **Carte « travail »** : numéro en chiffres romains, titre Fraunces, résumé, technos en mono, cadre de frise. Variante « Scellé par Hadès » (confidentiel) et badge « Projet associatif ».
-- **Tampon** : cercle `--terre`, texte mono en majuscules, légère rotation.
-- **Focus** : contour 2 px `--terre` + décalage 3 px, toujours visible.
+## 9. Fun (discret)
 
-## 11. Anti-patterns interdits (garde-fous anti « vibe codé »)
+Répliques de Charon (une par rive, plus des répliques contextuelles : lecture d'un projet scellé, envoi de la lettre, oboles) · exploit Athéna/Héphaïstos · « Bien essayé » au survol d'un projet scellé · obole lancée à Charon en épilogue (compteur local) · message dans la console · 404 « labyrinthe ». Jamais de son, jamais de pop-up.
 
-- Hero centré avec badge au-dessus du titre ; « Hi, I'm Andry 👋 ».
-- Grilles de 3 ou 4 cartes identiques ; tuiles d'icônes ; cartes dans des cartes.
-- Grille de logos de technos ; barres ou cercles de niveau en %.
-- Dégradés violets ou bleus, glassmorphism, ombres larges, bordures fines grises sur cartes blanches.
-- Titres en italique serif « IA » par défaut, eyebrows en majuscules au-dessus de chaque titre, sections numérotées 01/02/03 génériques.
-- Marbre, colonnes, bustes, police Cinzel, esthétique vaporwave.
-- Textes génériques : « passionné », « solutions innovantes », « je transforme les idées en réalité », « n'hésitez pas à me contacter ».
-- Toute image générée par IA.
+## 10. Anti-patterns interdits
 
-## 12. Responsive
+Hero centré avec badge ; grilles de cartes identiques ; grilles de logos ; barres de niveau ; tuiles d'icônes ; dégradés ; glassmorphism ; ombres larges ; bordures arrondies génériques ; boutons ou bulles « cartoon » ; marbre / colonnes / Cinzel ; textes génériques (« passionné », « solutions innovantes ») ; **toute image générée par IA**.
 
-Points de contrôle : 375, 768, 1024, 1440 px. Sur mobile : pas de pinning long (scènes raccourcies ou converties en défilement vertical simple), curseur divin absent, WebGL absent, frise simplifiée.
+## 11. Responsive
+
+Points de contrôle : 375, 390, 768, 920, 1000, 1280, 1440 px. Aucun défilement horizontal. Sous 560 px : cartes postales empilées, galerie en 2 colonnes, sceau « Disponible » au-dessus de l'accroche. Sous 520 px : assiettes en 2 colonnes, ΤΕΧΝΑΙ en 1 colonne. Vérifier à chaque rive : la rivière, la barque et le cartouche ne chevauchent jamais le contenu.
