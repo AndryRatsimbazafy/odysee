@@ -26,7 +26,7 @@ const DETAIL_SELECT = `*,
 
 async function getProjectRows() {
   "use cache";
-  cacheTag(TAGS.projects);
+  cacheTag(TAGS.projects, TAGS.technologies);
   cacheLife("max");
 
   const { data, error } = await createPublicClient()
@@ -41,7 +41,7 @@ async function getProjectRows() {
 
 async function getProjectRow(slug: string) {
   "use cache";
-  cacheTag(TAGS.projects);
+  cacheTag(TAGS.projects, TAGS.technologies);
   cacheLife("max");
 
   const { data, error } = await createPublicClient()

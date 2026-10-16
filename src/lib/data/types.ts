@@ -145,3 +145,16 @@ export type Testimonial = {
   company: string;
   isAnonymized: boolean;
 };
+
+export type EngagementRole = { label: string; period: string };
+
+export type Engagement = {
+  id: string;
+  organization: string;
+  since: number | null;
+  text: string;
+  url: string | null;
+  roles: EngagementRole[];
+};
+
+export type SocialLink = { id: string; platform: string; url: string };

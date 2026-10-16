@@ -1,6 +1,6 @@
 import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { LocaleSwitch } from "@/components/ui/locale-switch";
+import { LocaleSwitch } from "./locale-switch";
 import { getResumeUrl } from "@/lib/data/resumes";
 import { Link } from "@/i18n/navigation";
 import { CharonToggle } from "./charon-toggle";

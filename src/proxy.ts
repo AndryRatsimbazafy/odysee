@@ -5,5 +5,6 @@ export const proxy = createMiddleware(routing);
 
 export const config = {
   // Public site only: admin, API, dev sheets, Next internals and files are skipped.
-  matcher: ["/((?!admin|api|dev|_next|_vercel|.*\\..*).*)"],
+  // `(?:/|$)` keeps public paths that merely start with those words (/devis).
+  matcher: ["/((?!(?:admin|api|dev)(?:/|$)|_next|_vercel|.*\\..*).*)"],
 };

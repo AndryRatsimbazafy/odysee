@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/odyssey/theme-provider";
+import { ThemeProvider } from "@/components/voyage/theme-provider";
 import { fontVariables } from "../fonts";
 import "../globals.css";
 
