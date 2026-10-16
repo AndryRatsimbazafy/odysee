@@ -20,6 +20,10 @@ const INTERFACE = [
   ["lueur", "bg-lueur"],
   ["eau", "bg-eau"],
   ["bois", "bg-bois"],
+  ["peau", "bg-peau"],
+  ["pierre", "bg-pierre"],
+  ["grave", "bg-grave"],
+  ["pierre-hl", "bg-pierre-hl"],
 ] as const;
 
 const OBJECTS = [
@@ -28,11 +32,19 @@ const OBJECTS = [
   ["obj-parchemin", "bg-obj-parchemin", "#E8D2A2"],
   ["obj-encre", "bg-obj-encre", "#2A1A0C"],
   ["obj-meandre", "bg-obj-meandre", "#5A3A1E"],
+  ["obj-surface", "bg-obj-surface", "#DEC48E"],
+  ["obj-terre", "bg-obj-terre", "#8A3A18"],
+  ["obj-or", "bg-obj-or", "#8A6A2A"],
+  ["obj-scelle", "bg-obj-scelle", "#B89A68"],
+  ["obj-placeholder", "bg-obj-placeholder", "#8A6E4E"],
   ["carte", "bg-carte", "#F2E6CC"],
   ["carte-encre", "bg-carte-encre", "#2A2018"],
   ["carte-filet", "bg-carte-filet", "#CDB78F"],
+  ["carte-mono", "bg-carte-mono", "#7A5A30"],
   ["cire", "bg-cire", "#7E2416"],
   ["olive", "bg-olive", "#4E5A2E"],
+  ["sceau-texte", "bg-sceau-texte", "#F3E8D2"],
+  ["lingot", "bg-lingot", "#FFF0C9"],
 ] as const;
 
 function Heading({ children }: { children: React.ReactNode }) {
