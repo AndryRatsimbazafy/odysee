@@ -220,6 +220,42 @@ export type Database = {
         }
         Relationships: []
       }
+      faq_items: {
+        Row: {
+          answer_en: string
+          answer_fr: string
+          created_at: string
+          id: string
+          is_published: boolean
+          question_en: string
+          question_fr: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          answer_en?: string
+          answer_fr?: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          question_en?: string
+          question_fr?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          answer_en?: string
+          answer_fr?: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          question_en?: string
+          question_fr?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profile: {
         Row: {
           athena_en: string
@@ -227,6 +263,7 @@ export type Database = {
           availability_en: string
           availability_fr: string
           availability_modes: string[]
+          available_from: string | null
           bio_en: string
           bio_fr: string
           full_name: string
@@ -241,6 +278,7 @@ export type Database = {
           photo_alt_en: string
           photo_alt_fr: string
           photo_path: string | null
+          public_email: string
           recit_en: string
           recit_fr: string
           seo_description_en: string
@@ -259,6 +297,7 @@ export type Database = {
           availability_en?: string
           availability_fr?: string
           availability_modes?: string[]
+          available_from?: string | null
           bio_en?: string
           bio_fr?: string
           full_name?: string
@@ -273,6 +312,7 @@ export type Database = {
           photo_alt_en?: string
           photo_alt_fr?: string
           photo_path?: string | null
+          public_email?: string
           recit_en?: string
           recit_fr?: string
           seo_description_en?: string
@@ -291,6 +331,7 @@ export type Database = {
           availability_en?: string
           availability_fr?: string
           availability_modes?: string[]
+          available_from?: string | null
           bio_en?: string
           bio_fr?: string
           full_name?: string
@@ -305,6 +346,7 @@ export type Database = {
           photo_alt_en?: string
           photo_alt_fr?: string
           photo_path?: string | null
+          public_email?: string
           recit_en?: string
           recit_fr?: string
           seo_description_en?: string
@@ -319,32 +361,94 @@ export type Database = {
         }
         Relationships: []
       }
+      project_decisions: {
+        Row: {
+          created_at: string
+          id: string
+          project_id: string
+          sort_order: number
+          title_en: string
+          title_fr: string
+          tradeoff_en: string
+          tradeoff_fr: string
+          why_en: string
+          why_fr: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          project_id: string
+          sort_order?: number
+          title_en?: string
+          title_fr?: string
+          tradeoff_en?: string
+          tradeoff_fr?: string
+          why_en?: string
+          why_fr?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project_id?: string
+          sort_order?: number
+          title_en?: string
+          title_fr?: string
+          tradeoff_en?: string
+          tradeoff_fr?: string
+          why_en?: string
+          why_fr?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_decisions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_images: {
         Row: {
           alt_en: string
           alt_fr: string
+          caption_en: string
+          caption_fr: string
           created_at: string
           id: string
-          path: string
+          kind_en: string
+          kind_fr: string
+          path: string | null
           project_id: string
+          ratio: string
           sort_order: number
         }
         Insert: {
           alt_en?: string
           alt_fr?: string
+          caption_en?: string
+          caption_fr?: string
           created_at?: string
           id?: string
-          path: string
+          kind_en?: string
+          kind_fr?: string
+          path?: string | null
           project_id: string
+          ratio?: string
           sort_order?: number
         }
         Update: {
           alt_en?: string
           alt_fr?: string
+          caption_en?: string
+          caption_fr?: string
           created_at?: string
           id?: string
-          path?: string
+          kind_en?: string
+          kind_fr?: string
+          path?: string | null
           project_id?: string
+          ratio?: string
           sort_order?: number
         }
         Relationships: [
@@ -357,21 +461,65 @@ export type Database = {
           },
         ]
       }
+      project_items: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          project_id: string
+          sort_order: number
+          text_en: string
+          text_fr: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          project_id: string
+          sort_order?: number
+          text_en?: string
+          text_fr?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          project_id?: string
+          sort_order?: number
+          text_en?: string
+          text_fr?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_items_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_technologies: {
         Row: {
           project_id: string
           sort_order: number
           technology_id: string
+          usage_en: string
+          usage_fr: string
         }
         Insert: {
           project_id: string
           sort_order?: number
           technology_id: string
+          usage_en?: string
+          usage_fr?: string
         }
         Update: {
           project_id?: string
           sort_order?: number
           technology_id?: string
+          usage_en?: string
+          usage_fr?: string
         }
         Relationships: [
           {
@@ -392,8 +540,6 @@ export type Database = {
       }
       projects: {
         Row: {
-          challenges_en: string
-          challenges_fr: string
           charon_line_en: string
           charon_line_fr: string
           client_name: string
@@ -404,34 +550,36 @@ export type Database = {
           cover_path: string | null
           created_at: string
           demo_url: string | null
-          fun_subtitle_en: string
-          fun_subtitle_fr: string
+          emblem: Database["public"]["Enums"]["project_emblem"] | null
           id: string
           is_associative: boolean
           is_confidential: boolean
           is_featured: boolean
-          narration_en: string
-          narration_fr: string
+          kind: string
+          kind_label_en: string
+          kind_label_fr: string
+          layout: string
           og_image_path: string | null
           period_en: string
           period_fr: string
+          problem_en: string
+          problem_fr: string
           published_at: string | null
           quest_en: string
           quest_fr: string
           repo_url: string | null
-          results_en: string
-          results_fr: string
           role_en: string
           role_fr: string
-          scene: Database["public"]["Enums"]["project_scene"] | null
+          role_label_en: string
+          role_label_fr: string
           seo_description_en: string
           seo_description_fr: string
           seo_title_en: string
           seo_title_fr: string
+          short_title_en: string
+          short_title_fr: string
           show_client: boolean
           slug: string
-          solutions_en: string
-          solutions_fr: string
           sort_order: number
           status: Database["public"]["Enums"]["project_status"]
           summary_en: string
@@ -443,8 +591,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          challenges_en?: string
-          challenges_fr?: string
           charon_line_en?: string
           charon_line_fr?: string
           client_name?: string
@@ -455,34 +601,36 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           demo_url?: string | null
-          fun_subtitle_en?: string
-          fun_subtitle_fr?: string
+          emblem?: Database["public"]["Enums"]["project_emblem"] | null
           id?: string
           is_associative?: boolean
           is_confidential?: boolean
           is_featured?: boolean
-          narration_en?: string
-          narration_fr?: string
+          kind?: string
+          kind_label_en?: string
+          kind_label_fr?: string
+          layout?: string
           og_image_path?: string | null
           period_en?: string
           period_fr?: string
+          problem_en?: string
+          problem_fr?: string
           published_at?: string | null
           quest_en?: string
           quest_fr?: string
           repo_url?: string | null
-          results_en?: string
-          results_fr?: string
           role_en?: string
           role_fr?: string
-          scene?: Database["public"]["Enums"]["project_scene"] | null
+          role_label_en?: string
+          role_label_fr?: string
           seo_description_en?: string
           seo_description_fr?: string
           seo_title_en?: string
           seo_title_fr?: string
+          short_title_en?: string
+          short_title_fr?: string
           show_client?: boolean
           slug: string
-          solutions_en?: string
-          solutions_fr?: string
           sort_order?: number
           status?: Database["public"]["Enums"]["project_status"]
           summary_en?: string
@@ -494,8 +642,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          challenges_en?: string
-          challenges_fr?: string
           charon_line_en?: string
           charon_line_fr?: string
           client_name?: string
@@ -506,34 +652,36 @@ export type Database = {
           cover_path?: string | null
           created_at?: string
           demo_url?: string | null
-          fun_subtitle_en?: string
-          fun_subtitle_fr?: string
+          emblem?: Database["public"]["Enums"]["project_emblem"] | null
           id?: string
           is_associative?: boolean
           is_confidential?: boolean
           is_featured?: boolean
-          narration_en?: string
-          narration_fr?: string
+          kind?: string
+          kind_label_en?: string
+          kind_label_fr?: string
+          layout?: string
           og_image_path?: string | null
           period_en?: string
           period_fr?: string
+          problem_en?: string
+          problem_fr?: string
           published_at?: string | null
           quest_en?: string
           quest_fr?: string
           repo_url?: string | null
-          results_en?: string
-          results_fr?: string
           role_en?: string
           role_fr?: string
-          scene?: Database["public"]["Enums"]["project_scene"] | null
+          role_label_en?: string
+          role_label_fr?: string
           seo_description_en?: string
           seo_description_fr?: string
           seo_title_en?: string
           seo_title_fr?: string
+          short_title_en?: string
+          short_title_fr?: string
           show_client?: boolean
           slug?: string
-          solutions_en?: string
-          solutions_fr?: string
           sort_order?: number
           status?: Database["public"]["Enums"]["project_status"]
           summary_en?: string
@@ -569,6 +717,7 @@ export type Database = {
           created_at: string
           description_en: string
           description_fr: string
+          domain: string
           id: string
           label_en: string
           label_fr: string
@@ -579,6 +728,7 @@ export type Database = {
           created_at?: string
           description_en?: string
           description_fr?: string
+          domain?: string
           id?: string
           label_en?: string
           label_fr?: string
@@ -589,6 +739,7 @@ export type Database = {
           created_at?: string
           description_en?: string
           description_fr?: string
+          domain?: string
           id?: string
           label_en?: string
           label_fr?: string
@@ -653,12 +804,16 @@ export type Database = {
       technologies: {
         Row: {
           category: string
+          context_en: string
+          context_fr: string
           created_at: string
           duration_label_en: string
           duration_label_fr: string
           id: string
           is_featured: boolean
           name: string
+          role_en: string
+          role_fr: string
           sort_order: number
           updated_at: string
           weapon: Database["public"]["Enums"]["weapon"] | null
@@ -666,12 +821,16 @@ export type Database = {
         }
         Insert: {
           category?: string
+          context_en?: string
+          context_fr?: string
           created_at?: string
           duration_label_en?: string
           duration_label_fr?: string
           id?: string
           is_featured?: boolean
           name: string
+          role_en?: string
+          role_fr?: string
           sort_order?: number
           updated_at?: string
           weapon?: Database["public"]["Enums"]["weapon"] | null
@@ -679,12 +838,16 @@ export type Database = {
         }
         Update: {
           category?: string
+          context_en?: string
+          context_fr?: string
           created_at?: string
           duration_label_en?: string
           duration_label_fr?: string
           id?: string
           is_featured?: boolean
           name?: string
+          role_en?: string
+          role_fr?: string
           sort_order?: number
           updated_at?: string
           weapon?: Database["public"]["Enums"]["weapon"] | null
@@ -747,7 +910,7 @@ export type Database = {
     Enums: {
       locale: "fr" | "en"
       message_status: "unread" | "read"
-      project_scene: "maze" | "hydra" | "herald" | "boat"
+      project_emblem: "maze" | "hydra" | "herald" | "boat"
       project_status: "draft" | "published"
       weapon:
         | "foudre"
@@ -759,6 +922,9 @@ export type Database = {
         | "harpe"
         | "arc"
         | "marteau"
+        | "lyre"
+        | "bouclier"
+        | "ancre"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -888,7 +1054,7 @@ export const Constants = {
     Enums: {
       locale: ["fr", "en"],
       message_status: ["unread", "read"],
-      project_scene: ["maze", "hydra", "herald", "boat"],
+      project_emblem: ["maze", "hydra", "herald", "boat"],
       project_status: ["draft", "published"],
       weapon: [
         "foudre",
@@ -900,6 +1066,9 @@ export const Constants = {
         "harpe",
         "arc",
         "marteau",
+        "lyre",
+        "bouclier",
+        "ancre",
       ],
     },
   },
