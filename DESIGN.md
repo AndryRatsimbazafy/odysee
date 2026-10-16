@@ -31,6 +31,11 @@ Une couleur principale : **le beige parchemin**. Un seul accent d'interface : **
 | `--lueur` | `#E2B655` | `#F2C76A` | Lanterne, yeux de Charon, métal rougi |
 | `--eau` | `#1B1612` | `#C4643A` | Rivière (lit à 9 % d'opacité, tracé d'encre 3 px) |
 | `--bois` | `#6B4A2E` | `#8A6644` | Corde du pinax |
+| `--on-terre` | `#EFE4CF` | `#16120F` | Texte posé sur `--terre` (bouton principal) |
+| `--peau` | `#D9A877` | `#C99467` | Visages et mains de Charon et d'Andry |
+| `--pierre` | `#D9CDB8` | `#3A322A` | Stèle, bornes de la carte |
+| `--grave` | `#3D342B` | `#E6D9C2` | Texte gravé dans la pierre |
+| `--pierre-hl` | `rgba(255,255,255,.6)` | `rgba(0,0,0,.55)` | Relief de gravure (`text-shadow` 1 px, pas une ombre portée) |
 
 ### Couleurs d'objets (constantes)
 
@@ -39,9 +44,12 @@ Une couleur principale : **le beige parchemin**. Un seul accent d'interface : **
 | Terre cuite d'objet | `#C9703F` | Pinax, tessons, assiettes, timbres |
 | Figure noire | `#1B1612` | Figures et méandres peints sur la terre cuite |
 | Parchemin d'objet | `#E8D2A2` / encre `#2A1A0C` / méandre `#5A3A1E` | Cadres à méandres (ΤΕΧΝΑΙ, lettre, modale) |
-| Carte postale | fond `#F2E6CC`, encre `#2A2018`, filet `#CDB78F` | Escales |
+| Parchemin d'objet (suite) | surface `#DEC48E`, terre `#8A3A18`, or `#8A6A2A`, image scellée `#B89A68`, placeholder `#8A6E4E` | Tokens surchargés dans les cadres (mode clair forcé), galerie, champs de la lettre |
+| Carte postale | fond `#F2E6CC`, encre `#2A2018`, filet `#CDB78F`, mono `#7A5A30` | Escales |
 | Cire rouge | `#7E2416` | Sceaux « Scellé par Hadès », bouton d'envoi |
 | Olive | `#4E5A2E` | Sceau « Disponible » |
+| Texte de sceau | `#F3E8D2` | Inscriptions sur cire rouge et olive |
+| Lingot chauffé | `#FFF0C9` → `--lueur` | Forge : départ de l'animation du métal |
 
 Règles : contrastes texte ≥ 4.5:1 vérifiés ; texte figure noire sur terre cuite uniquement sur `#C9703F` (5:1) ; aucun dégradé, aucun glassmorphism, aucune ombre portée décorative.
 
