@@ -6,6 +6,7 @@
   "voyage": {
     "skipLink": "Skip to content",
     "header": {
+      "brand": "Andry",
       "home": "Andry, back to the quay",
       "role": "Lead Front-End · React & TypeScript",
       "navLabel": "Shortcuts",
@@ -245,7 +246,7 @@
     "direct": "Directly",
     "copy": "Copy",
     "copied": "Copied",
-    "charon": "“I row, he flies. To each his own trade.”"
+    "charon": "I row, he flies. To each his own trade."
   },
   "ithaque": {
     "kicker": "Epilogue · The return to Ithaca",

@@ -6,6 +6,7 @@
   "voyage": {
     "skipLink": "Aller au contenu",
     "header": {
+      "brand": "Andry",
       "home": "Andry, retour à l'embarcadère",
       "role": "Lead Front-End · React & TypeScript",
       "navLabel": "Raccourcis",
@@ -245,7 +246,7 @@
     "direct": "Directement",
     "copy": "Copier",
     "copied": "Copié",
-    "charon": "« Moi je rame, lui il vole. Chacun son métier. »"
+    "charon": "Moi je rame, lui il vole. Chacun son métier."
   },
   "ithaque": {
     "kicker": "Épilogue · Le retour à Ithaque",

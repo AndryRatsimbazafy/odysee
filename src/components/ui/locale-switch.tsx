@@ -11,7 +11,7 @@ export function LocaleSwitch() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label={t("label")} className="font-mono uppercase">
+    <nav aria-label={t("label")} className="top-locale">
       {routing.locales.map((locale, i) => (
         <span key={locale}>
           {i > 0 && <span aria-hidden="true"> / </span>}
