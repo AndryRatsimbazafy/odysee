@@ -35,7 +35,7 @@
 
 ## Phase 2 — Données et coque
 
-- [ ] **T05** Clients Supabase, lectures en cache et seed — Lire : ARCHITECTURE §2, §4. `lib/supabase/*`, `lib/data/*` (`'use cache'` + `cacheTag`), fallback EN → FR, types de vue (Project complet avec items, décisions, planches, technos). Seed de démo **depuis luxe-4** : profil, 4 projets (dont 1 scellé), leurs planches **sans fichier** (emplacements), 3 technos, 2 escales, 5 questions de l'oracle, 6 compétences. Les `[…]` du prototype restent `[à fournir]`. **Aucun témoignage.**
+- [x] **T05** Clients Supabase, lectures en cache et seed — Lire : ARCHITECTURE §2, §4. `lib/supabase/*`, `lib/data/*` (`'use cache'` + `cacheTag`), fallback EN → FR, types de vue (Project complet avec items, décisions, planches, technos). Seed de démo **depuis luxe-4** : profil, 4 projets (dont 1 scellé), leurs planches **sans fichier** (emplacements), 3 technos, 2 escales, 5 questions de l'oracle, 6 compétences. Les `[…]` du prototype restent `[à fournir]`. **Aucun témoignage.**
 - [ ] **T06** Layout public et en-tête — Lire : DESIGN §4, §6 (point 5). Pleine largeur, `gut` avec 108 px à gauche ≥ 821 px. En-tête fixe (marque, liens, CV, FR/EN, thème, bouton « Charon » avec `aria-pressed` + mémorisation), opaque après le hero ; lien d'évitement, landmarks, pied de page ; composants `Marg`, `Gloss`, `Folio`, `roman()`.
 
 ## Phase 3 — Admin
