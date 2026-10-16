@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
+/* Nyx (dark) is driven by next-themes via [data-theme="dark"] on <html>. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ── Interface tokens (invert between modes) — DESIGN.md §2 ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Hélios */
+  --parchemin: #efe4cf;
+  --parchemin-2: #e4d3b4;
+  --encre: #1b1612;
+  --encre-2: #4a4036;
+  --terre: #9a4320;
+  --on-terre: #efe4cf;
+  --or: #9c7a33;
+  --lueur: #e2b655;
+  --eau: #1b1612;
+  --bois: #6b4a2e;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* No-JS fallback: follow the OS until next-themes sets data-theme. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --parchemin: #16120f;
+    --parchemin-2: #241d17;
+    --encre: #efe4cf;
+    --encre-2: #c2b49b;
+    --terre: #d9784a;
+    --on-terre: #16120f;
+    --or: #c9a55a;
+    --lueur: #f2c76a;
+    --eau: #c4643a;
+    --bois: #8a6644;
+    color-scheme: dark;
   }
 }
 
+:root[data-theme="dark"] {
+  /* Nyx */
+  --parchemin: #16120f;
+  --parchemin-2: #241d17;
+  --encre: #efe4cf;
+  --encre-2: #c2b49b;
+  --terre: #d9784a;
+  --on-terre: #16120f;
+  --or: #c9a55a;
+  --lueur: #f2c76a;
+  --eau: #c4643a;
+  --bois: #8a6644;
+  color-scheme: dark;
+}
+
+/* Interface tokens → Tailwind utilities (bg-parchemin, text-encre, …). */
+@theme inline {
+  --color-parchemin: var(--parchemin);
+  --color-parchemin-2: var(--parchemin-2);
+  --color-encre: var(--encre);
+  --color-encre-2: var(--encre-2);
+  --color-terre: var(--terre);
+  --color-on-terre: var(--on-terre);
+  --color-or: var(--or);
+  --color-lueur: var(--lueur);
+  --color-eau: var(--eau);
+  --color-bois: var(--bois);
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-instrument-sans), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+}
+
+/* ── Object colours (constant in both modes: painted objects) ── */
+@theme {
+  --color-tesson: #c9703f;
+  --color-figure: #1b1612;
+  --color-obj-parchemin: #e8d2a2;
+  --color-obj-encre: #2a1a0c;
+  --color-obj-meandre: #5a3a1e;
+  --color-carte: #f2e6cc;
+  --color-carte-encre: #2a2018;
+  --color-carte-filet: #cdb78f;
+  --color-cire: #7e2416;
+  --color-olive: #4e5a2e;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--parchemin);
+  color: var(--encre);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Primary button plate: octagonal cut corners (DESIGN.md §7). */
+@utility clip-taille {
+  clip-path: polygon(
+    9px 0,
+    calc(100% - 9px) 0,
+    100% 9px,
+    100% calc(100% - 9px),
+    calc(100% - 9px) 100%,
+    9px 100%,
+    0 calc(100% - 9px),
+    0 9px
+  );
 }
