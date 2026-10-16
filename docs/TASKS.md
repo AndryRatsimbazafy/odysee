@@ -22,7 +22,7 @@
 - [x] **T01** Socle projet 🧭 — Lire : ARCHITECTURE §1, §9, §11. Dépendances de la stack, arborescence, scripts `check` et `db:types`, `.env.example`, Prettier. `npm run check` vert.
 - [x] **T01b** Dépendances v2 — `npm uninstall ogl` puis `npm install lenis` (ARCHITECTURE §1 v2). `npm run check` vert.
 - [x] **T02** Tokens et thème Hélios/Nyx — Lire : DESIGN §2, §3, §7. `globals.css` (tokens d'interface + couleurs d'objets + `@theme` Tailwind), polices `next/font`, next-themes, page `/dev/tokens` temporaire.
-- [ ] **T03** i18n FR/EN 🧭 — Lire : ARCHITECTURE §3 ; CLAUDE.md « Pièges Next.js 16 ». next-intl v4, `src/proxy.ts`, `[locale]/layout.tsx`, `messages/fr.json` / `en.json` (y mettre narrations et répliques de Charon des rives fixes), sélecteur de langue.
+- [x] **T03** i18n FR/EN 🧭 — Lire : ARCHITECTURE §3 ; CLAUDE.md « Pièges Next.js 16 ». next-intl v4, `src/proxy.ts`, `[locale]/layout.tsx`, `messages/fr.json` / `en.json` (y mettre narrations et répliques de Charon des rives fixes), sélecteur de langue.
 - [ ] **T04** Base Supabase — schéma et RLS 🧭 — Lire : ARCHITECTURE §4 ; PRD §7. Migrations (toutes les tables, RLS, buckets), `supabase link`, `db push`, `db:types`. 👤 Insérer ton `user_id` dans `admins` (ou script ponctuel de création du compte admin).
 - [ ] **T05** Clients Supabase et lectures en cache — Lire : ARCHITECTURE §2. `lib/supabase/*`, `lib/data/*` (cache par tags), seed de démo : profil, 4 projets du prototype, 3 escales, 6 technos. **Aucun témoignage inventé** (PRODUCT.md : Delphes reste masquée tant qu'il n'y en a pas).
 - [ ] **T06** Layout public et navigation — Lire : DESIGN §4 (pleine largeur), §7. Aucun conteneur centré dans le layout. Navigation à double filet, FR/EN, Hélios/Nyx, lien d'évitement, landmarks, pied de page.

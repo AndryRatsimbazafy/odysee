@@ -1,0 +1,64 @@
+{
+  "Metadata": {
+    "title": "Andry · The Odyssey",
+    "description": "Portfolio of Andry, Lead Front-End Developer (React/TypeScript) and business analyst, based in Madagascar."
+  },
+  "LocaleSwitch": {
+    "label": "Language",
+    "fr": "Français",
+    "en": "English"
+  },
+  "Stops": {
+    "embarcadere": {
+      "chapter": "Pinax no. 1 · hung at 18°55′S, Ithaca by way of Antananarivo",
+      "line": "Welcome aboard. The crossing costs one obol… we'll settle up on arrival."
+    },
+    "courant": {
+      "chapter": "The current rises",
+      "narration": "He set out from a red island with a laptop under his arm and one question: how do you build what people actually need?",
+      "line": "Our traveller hails from a red island. He codes, he listens, and he doesn't get seasick. Well, almost."
+    },
+    "rive1": {
+      "chapter": "Shore I",
+      "title": "Two <em>patron</em> deities",
+      "narration": "On the first shore, two deities fought over his talent.",
+      "line": "First shore. Two deities are fighting over his talent. Pick your side, I won't tell."
+    },
+    "forge": {
+      "chapter": "Shore II · The forge",
+      "title": "<em>Hephaestus</em>'s arsenal",
+      "narration": "In the forge, every skill became a legendary weapon, painted on a workshop plate.",
+      "line": "Hephaestus's forge. Don't touch anything, it's all still hot. Hover over the plates: the weapons wake up."
+    },
+    "epreuves": {
+      "chapter": "The trials · {numeral}"
+    },
+    "escales": {
+      "chapter": "Shore III · Ports of call",
+      "title": "The <em>journey</em>",
+      "narration": "Before arriving here, he had dropped anchor in several ports.",
+      "line": "The ports where he dropped anchor. I've kept the ticket for every crossing, just in case."
+    },
+    "delphes": {
+      "chapter": "Shore IV · Delphi",
+      "title": "Words of oracles",
+      "narration": "At Delphi, the oracle was consulted about him.",
+      "line": "Delphi. The oracle only speaks to those who've read this far."
+    },
+    "hermes": {
+      "chapter": "The river mouth · Hermes",
+      "title": "Write to <em>Andry</em>",
+      "narration": "At the end of the river, a messenger was waiting, sandals already flapping.",
+      "line": "To write to him, Hermes takes over. I row, he flies. Each to his own trade."
+    },
+    "elysee": {
+      "chapter": "Epilogue · The Elysian Fields",
+      "narration": "And so the traveller found his next team. Perhaps yours.",
+      "line": "Last stop: the Elysian Fields. Right, you owe me an obol. Just kidding. Half kidding."
+    }
+  },
+  "TrialModal": {
+    "lineSealed": "You're reading a sealed scroll…",
+    "line": "Take your time, the boat will wait. The obol meter, however, is running."
+  }
+}

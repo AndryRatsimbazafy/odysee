@@ -1,0 +1,64 @@
+{
+  "Metadata": {
+    "title": "Andry · L'Odyssée",
+    "description": "Portfolio d'Andry, Lead Front-End Developer React/TypeScript et AMOA, basé à Madagascar."
+  },
+  "LocaleSwitch": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English"
+  },
+  "Stops": {
+    "embarcadere": {
+      "chapter": "Pinax n° 1 · accroché à 18°55′S, Ithaque version Antananarivo",
+      "line": "Bienvenue à bord. Le passage coûte une obole… on règlera ça à l'arrivée."
+    },
+    "courant": {
+      "chapter": "Le courant se lève",
+      "narration": "Il partit d'une île rouge avec un portable sous le bras et une question : comment construire ce que les gens attendent vraiment ?",
+      "line": "Notre voyageur vient d'une île rouge. Il code, il écoute, et il n'a pas le mal de mer. Enfin, presque."
+    },
+    "rive1": {
+      "chapter": "Rive I",
+      "title": "Deux divinités <em>tutélaires</em>",
+      "narration": "Sur la première rive, deux divinités se disputèrent son talent.",
+      "line": "Première rive. Deux divinités se disputent son talent. Choisis ton camp, je ne dirai rien."
+    },
+    "forge": {
+      "chapter": "Rive II · La forge",
+      "title": "L'arsenal d'<em>Héphaïstos</em>",
+      "narration": "Dans la forge, chaque savoir-faire devint une arme légendaire, peinte sur une assiette d'atelier.",
+      "line": "La forge d'Héphaïstos. Ne touche à rien, tout est encore chaud. Survole les assiettes : les armes se réveillent."
+    },
+    "epreuves": {
+      "chapter": "Les épreuves · {numeral}"
+    },
+    "escales": {
+      "chapter": "Rive III · Les escales",
+      "title": "Le <em>parcours</em>",
+      "narration": "Avant d'arriver ici, il avait jeté l'ancre dans plusieurs ports.",
+      "line": "Les ports où il a jeté l'ancre. J'ai les tickets de chaque traversée, si besoin."
+    },
+    "delphes": {
+      "chapter": "Rive IV · Delphes",
+      "title": "Paroles d'oracles",
+      "narration": "À Delphes, on consulta l'oracle à son sujet.",
+      "line": "Delphes. L'oracle ne parle qu'à ceux qui ont lu jusqu'ici."
+    },
+    "hermes": {
+      "chapter": "L'embouchure · Hermès",
+      "title": "Écrire à <em>Andry</em>",
+      "narration": "Au bout du fleuve, un messager attendait, les sandales déjà battantes.",
+      "line": "Pour lui écrire, Hermès prend le relais. Moi je rame, lui il vole. Chacun son métier."
+    },
+    "elysee": {
+      "chapter": "Épilogue · Les Champs Élysées",
+      "narration": "Et c'est ainsi que le voyageur trouva sa prochaine équipe. Peut-être la vôtre.",
+      "line": "Terminus : les Champs Élysées. Bon, tu me dois une obole. Je plaisante. À moitié."
+    }
+  },
+  "TrialModal": {
+    "lineSealed": "Tu lis un parchemin scellé…",
+    "line": "Prends ton temps, la barque attend. Le compteur d'oboles, lui, tourne."
+  }
+}
