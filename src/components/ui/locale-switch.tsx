@@ -6,7 +6,7 @@ import { routing } from "@/i18n/routing";
 
 /** FR / EN links that keep the current path; plain links, so they work without JS. */
 export function LocaleSwitch() {
-  const t = useTranslations("LocaleSwitch");
+  const t = useTranslations("voyage.header.locale");
   const current = useLocale();
   const pathname = usePathname();
 

@@ -1,64 +1,266 @@
 {
-  "Metadata": {
+  "metadata": {
     "title": "Andry · The Odyssey",
     "description": "Portfolio of Andry, Lead Front-End Developer (React/TypeScript) and business analyst, based in Madagascar."
   },
-  "LocaleSwitch": {
-    "label": "Language",
-    "fr": "Français",
-    "en": "English"
+  "voyage": {
+    "skipLink": "Skip to content",
+    "header": {
+      "home": "Andry, back to the quay",
+      "role": "Lead Front-End · React & TypeScript",
+      "navLabel": "Shortcuts",
+      "nav": {
+        "epreuves": "Work",
+        "escales": "Experience",
+        "hermes": "Contact"
+      },
+      "cv": "CV",
+      "cvMissing": "CV · PDF to come",
+      "cvMissingTitle": "The CV PDF hasn't been provided yet",
+      "locale": {
+        "label": "Language",
+        "fr": "Français",
+        "en": "English"
+      },
+      "theme": {
+        "label": "Theme",
+        "dark": "Night",
+        "light": "Day"
+      }
+    },
+    "loader": {
+      "label": "Loading the site",
+      "quote": "“Tell me, O Muse, of that ingenious hero who travelled far and wide…”",
+      "boarding": "Boarding · <b>Antananarivo</b>"
+    },
+    "chants": {
+      "embarcadere": { "n": "Departure", "title": "The quay" },
+      "divinites": { "n": "Book I", "title": "Two deities" },
+      "epreuves": { "n": "Book II", "title": "The trials" },
+      "arsenal": { "n": "Book III", "title": "The armoury" },
+      "escales": { "n": "Book IV", "title": "Ports of call" },
+      "oracle": { "n": "Book V", "title": "The oracle" },
+      "hermes": { "n": "Book VI", "title": "Write to Hermes" },
+      "ithaque": { "n": "Epilogue", "title": "The return to Ithaca" }
+    },
+    "folio": "Folio {n}",
+    "rose": {
+      "open": "Open the index of books",
+      "current": "Index of books. Current book: {title}"
+    },
+    "index": {
+      "label": "Index of books",
+      "close": "Close"
+    },
+    "route": {
+      "to": "To {n} · {title}"
+    },
+    "charon": {
+      "note": "Charon's note",
+      "toggle": "Charon",
+      "toggleOff": "Charon hidden",
+      "toggleTitle": "Show or hide Charon's notes",
+      "hide": "Hide Charon",
+      "show": "Show Charon"
+    },
+    "cursor": {
+      "open": "Open",
+      "zoom": "Zoom"
+    },
+    "todo": "[to come]"
   },
-  "Stops": {
-    "embarcadere": {
-      "chapter": "Pinax no. 1 · hung at 18°55′S, Ithaca by way of Antananarivo",
-      "line": "Welcome aboard. The crossing costs one obol… we'll settle up on arrival."
+  "hero": {
+    "kicker": "Portfolio · Lead Front-End Developer",
+    "fallback": {
+      "tagline": "I lead the front end of <em>React and TypeScript</em> applications.",
+      "recit": "Tech lead at Bocasay, working remotely for French clients. I also bring a business analyst's reading of the need (AMOA) before the first line of code is written."
     },
-    "courant": {
-      "chapter": "The current rises",
-      "narration": "He set out from a red island with a laptop under his arm and one question: how do you build what people actually need?",
-      "line": "Our traveller hails from a red island. He codes, he listens, and he doesn't get seasick. Well, almost."
+    "ctaWork": "See the work",
+    "ctaWrite": "Write",
+    "chart": {
+      "label": "Point of departure: Antananarivo, 18°53′ S, 47°30′ E",
+      "caption": "Fig. 1 · Where the voyage begins. Line engraving."
     },
-    "rive1": {
-      "chapter": "Shore I",
-      "title": "Two <em>patron</em> deities",
-      "narration": "On the first shore, two deities fought over his talent.",
-      "line": "First shore. Two deities are fighting over his talent. Pick your side, I won't tell."
-    },
-    "forge": {
-      "chapter": "Shore II · The forge",
-      "title": "<em>Hephaestus</em>'s arsenal",
-      "narration": "In the forge, every skill became a legendary weapon, painted on a workshop plate.",
-      "line": "Hephaestus's forge. Don't touch anything, it's all still hot. Hover over the plates: the weapons wake up."
-    },
-    "epreuves": {
-      "chapter": "The trials · {numeral}"
-    },
-    "escales": {
-      "chapter": "Shore III · Ports of call",
-      "title": "The <em>journey</em>",
-      "narration": "Before arriving here, he had dropped anchor in several ports.",
-      "line": "The ports where he dropped anchor. I've kept the ticket for every crossing, just in case."
-    },
-    "delphes": {
-      "chapter": "Shore IV · Delphi",
-      "title": "Words of oracles",
-      "narration": "At Delphi, the oracle was consulted about him.",
-      "line": "Delphi. The oracle only speaks to those who've read this far."
-    },
-    "hermes": {
-      "chapter": "The river mouth · Hermes",
-      "title": "Write to <em>Andry</em>",
-      "narration": "At the end of the river, a messenger was waiting, sandals already flapping.",
-      "line": "To write to him, Hermes takes over. I row, he flies. Each to his own trade."
-    },
-    "elysee": {
-      "chapter": "Epilogue · The Elysian Fields",
-      "narration": "And so the traveller found his next team. Perhaps yours.",
-      "line": "Last stop: the Elysian Fields. Right, you owe me an obol. Just kidding. Half kidding."
+    "identity": {
+      "label": "Identity card",
+      "role": "Role",
+      "port": "Home port",
+      "timezone": "UTC+3",
+      "availability": "Availability",
+      "available": "Available",
+      "unavailable": "Not available at the moment",
+      "availableFrom": "From {date}",
+      "dateMissing": "[date to come]",
+      "contact": "Contact",
+      "writeHermes": "Write to Hermes"
     }
   },
-  "TrialModal": {
-    "lineSealed": "You're reading a sealed scroll…",
-    "line": "Take your time, the boat will wait. The obol meter, however, is running."
-  }
+  "divinites": {
+    "epigraph": "“Tell me, O Muse, of that ingenious hero who travelled far and wide…” Homer, The Odyssey, I, trans. Samuel Butler.",
+    "lead": "Hephaestus for the craft, Athena for the counsel. The first keeps the forge; the second tells him what to forge.",
+    "hephaistos": {
+      "kicker": "Hephaestus · the craft",
+      "title": "Front-end architecture and technical leadership"
+    },
+    "athena": {
+      "kicker": "Athena · the counsel",
+      "title": "Understand before you code"
+    },
+    "agora": "Outside work"
+  },
+  "epreuves": {
+    "count": "Archives · {count, plural, =0 {no files} one {# file} other {# files}}. The map follows your reading; each file opens as a case study.",
+    "lead": "Each project is an archive file. Open it to read the case study: context, role, decisions, plates and results.",
+    "map": {
+      "label": "Chart of the crossing",
+      "title": "Chart: each point is a trial, linked from Antananarivo",
+      "port": "Antananarivo · Ithaca of departure",
+      "north": "N",
+      "hint": "Each point is a trial. The boat moves on as you read."
+    },
+    "preview": {
+      "dossier": "<b>File {n}</b> · {kind}",
+      "stamp": "Trial {n}",
+      "stack": "Main technologies",
+      "sealed": "File sealed by Hades · shown without client data",
+      "open": "Read the archives"
+    },
+    "empty": "[No trials published yet]"
+  },
+  "dossier": {
+    "crumb": "Archives · <b>File {n}</b> of {total}",
+    "close": "Back to the archives ✕",
+    "closeShort": "Archives ✕",
+    "stamp": "File {n} · {kind}",
+    "sealedSuffix": " · sealed",
+    "facts": {
+      "period": "Period",
+      "role": "Role",
+      "team": "Team",
+      "client": "Client"
+    },
+    "sealed": {
+      "title": "Sealed by Hades",
+      "message": "Some projects cannot be shown publicly for confidentiality reasons. To learn more about my role, the technical choices or the problems we faced, feel free to get in touch.",
+      "cta": "Contact me to learn more"
+    },
+    "section": "§ {n}",
+    "sections": {
+      "context": "Context and problem",
+      "contribution": "My contribution",
+      "decisions": "Decisions and trade-offs",
+      "decisionsFirst": "The choices, first",
+      "plates": "Plates",
+      "platesSealed": "What can be shown",
+      "results": "Tools and results"
+    },
+    "tradeoff": "Trade-off",
+    "resultsMissing": "[Documented results to come. Nothing is shown until it has been verified.]",
+    "contact": {
+      "text": "A question about this project, my role or a technical choice? Hermes will carry the message.",
+      "cta": "Write to me about it"
+    },
+    "nav": {
+      "label": "Other files",
+      "prev": "← File {n}",
+      "next": "File {n} →",
+      "back": "Back to the archives"
+    },
+    "plate": {
+      "fig": "Fig. {n}",
+      "zoom": "Enlarge figure {n}: {kind}",
+      "emptyLabel": "Placeholder: {kind}, image to come",
+      "empty": "Image {n} · {kind} · to come",
+      "format": "Format {ratio}"
+    }
+  },
+  "lightbox": {
+    "label": "Image viewer",
+    "close": "Close ✕",
+    "prev": "Previous image",
+    "next": "Next image",
+    "count": "Fig. {n} / {total}"
+  },
+  "arsenal": {
+    "margin": "Index of instruments: each one points to the trials where it served. Pick one to see the weapon Hephaestus forged for it.",
+    "lead": "Working tools, not badges: what they do in my projects, and since when.",
+    "indexLabel": "Index of instruments",
+    "refsLabel": "Trials",
+    "years": "{count, plural, one {# year} other {# years}}",
+    "since": "Since · {value}",
+    "instrument": "Instrument {n} · {weapon}",
+    "contextMissing": "[Usage context to come]",
+    "reserve": {
+      "harpe": "The harpe of Perseus",
+      "arc": "The bow of Artemis",
+      "marteau": "The hammer of Hephaestus",
+      "lyre": "The lyre of Apollo",
+      "bouclier": "The shield of Achilles",
+      "ancre": "The anchor of Odysseus"
+    }
+  },
+  "escales": {
+    "margin": "Ship's log, most recent first.",
+    "lead": "The ports where I dropped anchor, the position I held and what I did there.",
+    "columns": {
+      "period": "Period",
+      "port": "Port",
+      "role": "Position",
+      "entry": "Log entry"
+    },
+    "current": "current"
+  },
+  "oracle": {
+    "margin": "Odysseus consulted Tiresias. Here are the answers to the questions recruiters ask most often.",
+    "delphes": "The voice of Delphi"
+  },
+  "hermes": {
+    "margin": "Hermes carried the messages of the gods. Reply within 48 hours, time difference included.",
+    "form": {
+      "help": "All fields are required.",
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "subjects": {
+        "cdi": "Permanent role",
+        "freelance": "Freelance",
+        "other": "Other"
+      },
+      "message": "Message",
+      "honeypot": "Leave this field empty",
+      "submit": "Send the message",
+      "sending": "Hermes takes flight…",
+      "success": "Message received. Hermes has delivered it; I'll reply within 48 hours.",
+      "failure": "Sending failed. Try again in a moment or write directly to the address alongside."
+    },
+    "errors": {
+      "name": "Please enter your name.",
+      "email": "A valid email address is missing.",
+      "subject": "Please choose a subject.",
+      "message": "The message is too short: Hermes won't fly empty-handed.",
+      "tooLong": "The message is too long: Hermes has sandals, not a cart.",
+      "tooFast": "Too fast, even for Hermes. Try again in a few seconds.",
+      "rateLimit": "Too many messages sent. Try again in an hour."
+    },
+    "direct": "Directly",
+    "copy": "Copy",
+    "copied": "Copied",
+    "charon": "“I row, he flies. To each his own trade.”"
+  },
+  "ithaque": {
+    "kicker": "Epilogue · The return to Ithaca",
+    "title": "Next port of call:<br></br><em>your team.</em>",
+    "text": "Odysseus took ten years to get home. To reach me, a letter will do.",
+    "cta": "Contact me",
+    "colophon": "Andry · Lead Front-End Developer · Antananarivo",
+    "engravings": "Hand-made line engravings · {year}",
+    "copyright": "© {year} Andry",
+    "backToTop": "Back to top"
+  },
+  "notFound": {
+    "title": "Lost between Charybdis and Scylla.",
+    "home": "Back to the quay",
+    "epreuves": "See the trials"
+  },
+  "console": "A dev opening the console? You're one of us. The code is on GitHub."
 }
