@@ -176,7 +176,7 @@ Champs `*_fr` / `*_en` = texte bilingue saisi manuellement.
 | NF-01 | **Performance** : Lighthouse mobile ≥ 95 ; LCP < 2,5 s ; images optimisées (`next/image`) |
 | NF-02 | **Accessibilité** : WCAG 2.2 AA (contrastes clair et sombre, navigation clavier, focus visible, textes alternatifs) |
 | NF-03 | **SEO** : exigences détaillées en section 8 bis — objectif Lighthouse SEO = 100 |
-| NF-04 | **Responsive** : 375, 768, 1024, 1440 px |
+| NF-04 | **Responsive** : 375, 768, 1024, 1440, 1920 px ; mise en page **pleine largeur** (aucun conteneur centré) |
 | NF-05 | **Sécurité** : Row Level Security Supabase (lecture publique du contenu publié, écriture admin uniquement) ; secrets (SMTP, clé service) jamais exposés au navigateur |
 | NF-06 | **Résilience du contenu** : l'interface supporte textes longs, listes vides, champs EN manquants (fallback FR) — validé avec `break-ui` |
 | NF-07 | **Coût** : 0 € (offres gratuites Vercel + Supabase + Gmail) |

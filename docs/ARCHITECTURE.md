@@ -174,7 +174,7 @@ Tables (colonnes bilingues suffixées `_fr` / `_en`) :
 
 - `tsc --noEmit`, ESLint et `next build` doivent passer avant chaque commit de fin de session.
 - Revue visuelle : Playwright MCP, une capture desktop + une mobile par rive validée ; comparer au prototype.
-- Chevauchements : script Playwright qui fait défiler la page par pas de 60 px à 1440 / 1280 / 1000 / 920 px et vérifie que le cartouche de Charon ne touche ni rive, ni navigation, ni barque.
+- Chevauchements : script Playwright qui fait défiler la page par pas de 60 px à 1920 / 1440 / 1280 / 1000 / 920 px et vérifie que le cartouche de Charon ne touche ni rive, ni navigation, ni barque.
 - Revue design : `/impeccable critique` par rive, `/impeccable audit` en fin de projet ; hook de détection actif.
 - Animations : `review-animations` (Emil) par rive animée.
 - Robustesse : `break-ui` sur les rives alimentées par l'admin.

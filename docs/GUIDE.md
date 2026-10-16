@@ -79,7 +79,7 @@ Explique-moi en quelques lignes comment fonctionne le cache par tags.
 
 ```
 Lis CLAUDE.md puis la tâche T06 de docs/TASKS.md et DESIGN.md §7.
-Reproduis la navigation du prototype (docs/prototype/odyssee-prototype.html) : cadre à double filet, liens en mono, ✦ CV, FR/EN, Hélios/Nyx. Ajoute le lien d'évitement, les landmarks et le pied de page.
+Reproduis la navigation du prototype (docs/prototype/odyssee-prototype.html) : cadre à double filet, liens en mono, ✦ CV, FR/EN, Hélios/Nyx. Ajoute le lien d'évitement, les landmarks et le pied de page. Le layout est pleine largeur : aucun conteneur centré ni max-width sur la page (DESIGN.md §4).
 À la fin : une capture Playwright desktop (1440) et mobile (375), puis /impeccable critique.
 ```
 
@@ -153,11 +153,11 @@ C'est le cœur de l'expérience et la partie la plus délicate. À ce stade, les
 Lis CLAUDE.md puis la tâche T11 de docs/TASKS.md et DESIGN.md §4.
 Dans docs/prototype/odyssee-prototype.html, lis uniquement la fonction build et le CSS des rives.
 Passe en Plan Mode et présente-moi le plan avant de coder.
-Attendu : un composant Stop (côté gauche/droite calculé depuis l'index), des rives provisoires (titre seul) pour toute la page, un composant client River qui mesure les rives avec ResizeObserver et dessine le lit, le tracé d'encre et les rides. La rivière ne traverse qu'entre les rives. Aucune coordonnée en dur. Comportement mobile.
+Attendu : un composant Stop (côté gauche/droite calculé depuis l'index), des rives provisoires (titre seul) pour toute la page, un composant client River qui mesure les rives avec ResizeObserver et dessine le lit, le tracé d'encre et les rides. Pleine largeur : aucun conteneur centré, rives collées aux marges, rivière au milieu de l'espace libre (DESIGN.md §4). La rivière ne traverse qu'entre les rives. Aucune coordonnée en dur. Comportement mobile.
 Utilise les skills gsap-scrolltrigger et gsap-react.
 ```
 
-**À vérifier :** redimensionne la fenêtre. La rivière doit se redessiner sans jamais couper une rive.
+**À vérifier :** redimensionne la fenêtre, et en 1920 vérifie que le site va d'un bord à l'autre. La rivière doit se redessiner sans jamais couper une rive.
 
 ### S11 — T12 · La barque, Charon et Andry
 
@@ -173,7 +173,7 @@ Puis lance le skill review-animations sur ce que tu as fait.
 ```
 Lis CLAUDE.md puis la tâche T13 de docs/TASKS.md et DESIGN.md §5 et §8.
 Attendu : le cartouche de Charon cherche une place libre autour de la barque (sans toucher les rives, la nav, le ponton ni la barque) et s'efface s'il n'en trouve pas. Sur mobile, un bandeau qui s'affiche 4,5 s à chaque nouvelle réplique. Le narrateur allume la phrase mot à mot au scroll.
-Vérifie avec un script Playwright sur 4 largeurs (375, 768, 1024, 1440) qu'aucun chevauchement n'existe. Pas de captures, juste le résultat du script.
+Vérifie avec un script Playwright sur 5 largeurs (375, 768, 1024, 1440, 1920) qu'aucun chevauchement n'existe. Pas de captures, juste le résultat du script.
 ```
 
 ### R3 — Revue du moteur
@@ -271,7 +271,7 @@ Clôture : npm run check, capture Playwright 1440 + 375, /impeccable critique, r
 ```
 Lis CLAUDE.md et DESIGN.md §10 (anti-patterns).
 Lance /impeccable critique sur la page complète, en clair et en sombre, avec une seule capture desktop et une seule mobile.
-Cherche ce qui ressemble à un template, les incohérences entre rives et le texte en dur dans les composants.
+Vérifie en 1920 que le site occupe toute la largeur. Cherche ce qui ressemble à un template, les incohérences entre rives et le texte en dur dans les composants.
 Donne-moi une liste courte, classée par gravité. Ne corrige rien sans mon accord.
 ```
 

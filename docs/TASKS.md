@@ -25,7 +25,7 @@
 - [ ] **T03** i18n FR/EN 🧭 — Lire : ARCHITECTURE §3 ; CLAUDE.md « Pièges Next.js 16 ». next-intl v4, `src/proxy.ts`, `[locale]/layout.tsx`, `messages/fr.json` / `en.json` (y mettre narrations et répliques de Charon des rives fixes), sélecteur de langue.
 - [ ] **T04** Base Supabase — schéma et RLS 🧭 — Lire : ARCHITECTURE §4 ; PRD §7. Migrations (toutes les tables, RLS, buckets), `supabase link`, `db push`, `db:types`. 👤 Insérer ton `user_id` dans `admins` (ou script ponctuel de création du compte admin).
 - [ ] **T05** Clients Supabase et lectures en cache — Lire : ARCHITECTURE §2. `lib/supabase/*`, `lib/data/*` (cache par tags), seed de démo : profil, 4 projets du prototype, 3 escales, 6 technos. **Aucun témoignage inventé** (PRODUCT.md : Delphes reste masquée tant qu'il n'y en a pas).
-- [ ] **T06** Layout public et navigation — Lire : DESIGN §7. Navigation à double filet, FR/EN, Hélios/Nyx, lien d'évitement, landmarks, pied de page.
+- [ ] **T06** Layout public et navigation — Lire : DESIGN §4 (pleine largeur), §7. Aucun conteneur centré dans le layout. Navigation à double filet, FR/EN, Hélios/Nyx, lien d'évitement, landmarks, pied de page.
 
 ## Phase 2 — Admin
 
@@ -36,9 +36,9 @@
 
 ## Phase 3 — Le moteur du Styx
 
-- [ ] **T11** Rives et rivière 🧭 — Lire : DESIGN §4 ; prototype (fonction `build`). Composant `Stop` (côté calculé par l'index), composant client `River` qui mesure les rives (ResizeObserver) et dessine lit + tracé d'encre + rides ; aucune coordonnée en dur ; mobile.
+- [ ] **T11** Rives et rivière 🧭 — Lire : DESIGN §4 ; prototype (fonction `build`). Composant `Stop` (côté calculé par l'index), composant client `River` qui mesure les rives (ResizeObserver) et dessine lit + tracé d'encre + rides ; **pleine largeur** (pas de conteneur centré, rives collées aux marges, rivière au milieu de l'espace libre) ; aucune coordonnée en dur ; mobile.
 - [ ] **T12** La barque, Charon et Andry — Lire : DESIGN §5 ; prototype (SVG `#ferry`, `update`, `say`). Barque qui suit la rivière, inclinaison, retournement, tangage, réaction à la vitesse, clignement, salut ; Lenis + GSAP ticker ; reduced-motion.
-- [ ] **T13** Cartouche de Charon et narrateur — Lire : DESIGN §5, §8. Placement sans chevauchement (rives, nav, ponton, barque), fondu, bandeau mobile temporisé ; narrateur mot à mot. Vérif Playwright sur 4 largeurs (aucun chevauchement).
+- [ ] **T13** Cartouche de Charon et narrateur — Lire : DESIGN §5, §8. Placement sans chevauchement (rives, nav, ponton, barque), fondu, bandeau mobile temporisé ; narrateur mot à mot. Vérif Playwright sur 5 largeurs, dont 1920 (aucun chevauchement).
 
 ## Phase 4 — Les rives (une par session : construire → animer → `npm run check` → capture desktop + mobile → `/impeccable critique` → `review-animations`)
 

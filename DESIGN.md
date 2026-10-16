@@ -57,9 +57,9 @@ Règles : contrastes texte ≥ 4.5:1 vérifiés ; texte figure noire sur terre c
 
 ## 4. Mise en page : la rivière et les rives
 
-- Conteneur max 1280 px. Les rives alternent **gauche / droite** automatiquement selon leur ordre (`index % 2`).
-- Rive : largeur `min(46%, 540px)`, marge basse `22vh` (16vh mobile).
-- **La rivière se calcule depuis le DOM** : pour chaque rive, deux points (haut et bas de la rive) côté opposé (`74 %` ou `26 %` de la largeur), reliés par des courbes de Bézier verticales. Elle longe chaque rive sur toute sa hauteur et **ne traverse que dans les espaces vides**. Ajouter une rive (projet, section) redessine la rivière : aucune coordonnée en dur.
+- **Pleine largeur** : aucun conteneur centré ni `max-width` sur la page ; le monde occupe toute la largeur de l'écran, avec une marge latérale `clamp(16px, 5vw, 112px)`. Seuls les textes longs gardent une largeur de lecture (≈ 32–40 em) à l'intérieur de leur rive. Les rives alternent **gauche / droite** automatiquement selon leur ordre (`index % 2`).
+- Rive : largeur `clamp(320px, 42%, 760px)`, collée à la marge de son côté, marge basse `22vh` (16vh mobile).
+- **La rivière se calcule depuis le DOM** : pour chaque rive, deux points (haut et bas de la rive) côté opposé, **au milieu de l'espace libre** entre le bord de la rive et le bord de l'écran (calculé depuis `getBoundingClientRect`), reliés par des courbes de Bézier verticales. Elle longe chaque rive sur toute sa hauteur et **ne traverse que dans les espaces vides**. Ajouter une rive (projet, section) redessine la rivière : aucune coordonnée en dur.
 - Mobile (< 900 px) : rivière droite à 30 px du bord, lit 36 px, contenu décalé de 78 px, barque 74 px.
 
 ## 5. La barque, Charon et Andry
@@ -130,4 +130,4 @@ Hero centré avec badge ; grilles de cartes identiques ; grilles de logos ; barr
 
 ## 11. Responsive
 
-Points de contrôle : 375, 390, 768, 920, 1000, 1280, 1440 px. Aucun défilement horizontal. Sous 560 px : cartes postales empilées, galerie en 2 colonnes, sceau « Disponible » au-dessus de l'accroche. Sous 520 px : assiettes en 2 colonnes, ΤΕΧΝΑΙ en 1 colonne. Vérifier à chaque rive : la rivière, la barque et le cartouche ne chevauchent jamais le contenu.
+Points de contrôle : 375, 390, 768, 920, 1000, 1280, 1440, 1920 px (le site s'étire jusqu'au bord à toutes les largeurs). Aucun défilement horizontal. Sous 560 px : cartes postales empilées, galerie en 2 colonnes, sceau « Disponible » au-dessus de l'accroche. Sous 520 px : assiettes en 2 colonnes, ΤΕΧΝΑΙ en 1 colonne. Vérifier à chaque rive : la rivière, la barque et le cartouche ne chevauchent jamais le contenu.
