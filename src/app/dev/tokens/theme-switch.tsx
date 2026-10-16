@@ -4,8 +4,8 @@ import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 
 const THEMES = [
-  { value: "light", label: "Hélios" },
-  { value: "dark", label: "Nyx" },
+  { value: "dark", label: "Nuit" },
+  { value: "light", label: "Ivoire" },
   { value: "system", label: "Système" },
 ] as const;
 
@@ -25,7 +25,7 @@ export function ThemeSwitch() {
             type="button"
             aria-pressed={active}
             onClick={() => setTheme(value)}
-            className="min-h-11 border-b-2 border-or font-display text-[19px] text-encre-2 transition-colors hover:text-terre aria-pressed:border-terre aria-pressed:text-terre aria-pressed:italic"
+            className="min-h-11 border-b border-filet font-display text-[19px] text-cendre transition-colors hover:text-or-clair aria-pressed:border-or aria-pressed:text-or-clair aria-pressed:italic"
           >
             {label}
           </button>

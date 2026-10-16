@@ -1,10 +1,9 @@
-import { Fraunces, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin", "latin-ext"],
   style: ["normal", "italic"],
-  axes: ["SOFT", "WONK", "opsz"],
   display: "swap",
 });
 
@@ -21,4 +20,4 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 /** Font CSS variables, shared by every root layout. */
-export const fontVariables = `${fraunces.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`;
+export const fontVariables = `${cormorant.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`;
