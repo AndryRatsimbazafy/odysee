@@ -17,7 +17,7 @@
 - [x] **P0.4** 👤 Supabase : projet créé, inscriptions désactivées, compte admin, URL et clés notées.
 - [x] **P0.5** 👤 Gmail : validation en 2 étapes + mot de passe d'application.
 - [x] **P0.6** 👤 `.env.local` rempli (ARCHITECTURE §10), jamais commité.
-- [ ] **P0.7** 👤 Kit v3 copié : remplacer CLAUDE.md, DESIGN.md, PRODUCT.md, docs/*.md, ajouter `docs/prototype/luxe-4.html`. Puis `/impeccable init` pour relire PRODUCT.md et DESIGN.md (les garder tels quels).
+- [x] **P0.7** 👤 Kit v3 copié : remplacer CLAUDE.md, DESIGN.md, PRODUCT.md, docs/*.md, ajouter `docs/prototype/luxe-4.html`. Puis `/impeccable init` pour relire PRODUCT.md et DESIGN.md (les garder tels quels).
 
 ## Phase 1 — Fondations
 
