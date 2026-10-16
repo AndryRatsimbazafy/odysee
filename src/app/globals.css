@@ -16,6 +16,10 @@
   --lueur: #e2b655;
   --eau: #1b1612;
   --bois: #6b4a2e;
+  --peau: #d9a877;
+  --pierre: #d9cdb8;
+  --grave: #3d342b;
+  --pierre-hl: rgb(255 255 255 / 0.6);
   color-scheme: light;
 }
 
@@ -32,6 +36,10 @@
     --lueur: #f2c76a;
     --eau: #c4643a;
     --bois: #8a6644;
+    --peau: #c99467;
+    --pierre: #3a322a;
+    --grave: #e6d9c2;
+    --pierre-hl: rgb(0 0 0 / 0.55);
     color-scheme: dark;
   }
 }
@@ -48,6 +56,10 @@
   --lueur: #f2c76a;
   --eau: #c4643a;
   --bois: #8a6644;
+  --peau: #c99467;
+  --pierre: #3a322a;
+  --grave: #e6d9c2;
+  --pierre-hl: rgb(0 0 0 / 0.55);
   color-scheme: dark;
 }
 
@@ -63,6 +75,10 @@
   --color-lueur: var(--lueur);
   --color-eau: var(--eau);
   --color-bois: var(--bois);
+  --color-peau: var(--peau);
+  --color-pierre: var(--pierre);
+  --color-grave: var(--grave);
+  --color-pierre-hl: var(--pierre-hl);
 
   --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-instrument-sans), "Segoe UI", system-ui, sans-serif;
@@ -76,11 +92,19 @@
   --color-obj-parchemin: #e8d2a2;
   --color-obj-encre: #2a1a0c;
   --color-obj-meandre: #5a3a1e;
+  --color-obj-surface: #dec48e;
+  --color-obj-terre: #8a3a18;
+  --color-obj-or: #8a6a2a;
+  --color-obj-scelle: #b89a68;
+  --color-obj-placeholder: #8a6e4e;
   --color-carte: #f2e6cc;
   --color-carte-encre: #2a2018;
   --color-carte-filet: #cdb78f;
+  --color-carte-mono: #7a5a30;
   --color-cire: #7e2416;
   --color-olive: #4e5a2e;
+  --color-sceau-texte: #f3e8d2;
+  --color-lingot: #fff0c9;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
