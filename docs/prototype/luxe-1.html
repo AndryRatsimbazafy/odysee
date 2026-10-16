@@ -1,0 +1,731 @@
+<title>Odyssée luxe-1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : L'Odyssée en chants plein écran ; nuit d'encre, gravure au trait doré qui se dessine au fil du voyage */
+:root{
+  --nuit:#0C0A09; --nuit-2:#141110; --nuit-3:#1A1613; --filet:#352D22; --ivoire:#ECE3D0; --cendre:#A0937F; --or:#C9A24E; --or-2:#8C7036;
+  --display:'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --sans:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --nuit:#EFE7D6; --nuit-2:#E8DDC8; --nuit-3:#E1D4BB; --filet:#CDB991; --ivoire:#1C1712; --cendre:#6A5D4C; --or:#8A6418; --or-2:#B39256; color-scheme:light } }
+:root[data-theme="light"]{ --nuit:#EFE7D6; --nuit-2:#E8DDC8; --nuit-3:#E1D4BB; --filet:#CDB991; --ivoire:#1C1712; --cendre:#6A5D4C; --or:#8A6418; --or-2:#B39256; color-scheme:light }
+
+*{box-sizing:border-box}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--nuit);color:var(--ivoire);font-family:var(--display);font-size:20px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nuit)}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--or);outline-offset:4px}
+.gut{padding-left:max(clamp(16px,5vw,96px), env(safe-area-inset-left,0px));padding-right:max(clamp(16px,5vw,96px), env(safe-area-inset-right,0px))}
+@media (min-width:900px){.gut{padding-left:max(clamp(16px,5vw,96px), 124px, env(safe-area-inset-left,0px))}}
+.label{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--cendre)}
+.caps{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.02em;line-height:.94;text-wrap:balance;margin:0}
+.lead{font-style:italic;color:var(--cendre);font-size:clamp(19px,1.6vw,23px);max-width:34em;text-wrap:pretty}
+.cta{display:inline-flex;align-items:center;gap:14px;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--or);text-decoration:none;background:none;border:0;padding:8px 0;cursor:pointer}
+.cta::after{content:"";width:40px;height:1px;background:currentColor;transition:width .8s var(--ease)}
+.cta:hover::after,.cta:focus-visible::after{width:76px}
+.line{fill:none;stroke:var(--or);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.line .fine{stroke-width:.6}
+.line .dot{fill:var(--or);stroke:none}
+.draw [pathLength]{stroke-dasharray:1;stroke-dashoffset:0}
+
+/* En-tête */
+.top{position:fixed;z-index:50;top:env(safe-area-inset-top,0px);left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding-block:20px;transition:background .6s var(--ease)}
+.top.solid{background:var(--nuit)}
+.brand{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;text-decoration:none}
+.top-r{display:flex;align-items:center;gap:22px}
+.top-r a{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-decoration:none;color:var(--cendre);transition:color .5s}
+.top-r a:hover{color:var(--ivoire)}
+.menu-btn{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ivoire);background:none;border:0;cursor:pointer;padding:6px 0}
+.menu-btn span{color:var(--or)}
+@media (max-width:560px){.top-r a{display:none}}
+
+/* Menu plein écran */
+.menu{position:fixed;inset:0;z-index:70;background:var(--nuit);display:flex;flex-direction:column;justify-content:center;gap:28px;padding-block:96px 40px;clip-path:inset(0 0 100% 0);transition:clip-path 1s cubic-bezier(.77,0,.18,1),visibility 0s 1s;visibility:hidden}
+.menu.open{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path 1s cubic-bezier(.77,0,.18,1)}
+.menu ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.menu li a{display:flex;align-items:baseline;gap:24px;text-decoration:none;font-family:var(--display);font-weight:500;text-transform:uppercase;font-size:clamp(34px,6.4vw,86px);line-height:1.04}
+.menu li a small{font-family:var(--mono);font-size:12px;color:var(--or);letter-spacing:.1em;width:4ch}
+.menu li a span{transition:color .6s var(--ease),letter-spacing .8s var(--ease)}
+.menu li a:hover span{color:var(--or);letter-spacing:.06em}
+.menu .close{position:absolute;top:calc(env(safe-area-inset-top,0px) + 20px);right:max(clamp(16px,5vw,96px), env(safe-area-inset-right,0px))}
+.menu-foot{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+.seg{display:inline-flex;gap:2px;border:1px solid var(--filet);padding:3px}
+.seg button{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;background:none;border:0;color:var(--cendre);padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--or);color:var(--nuit)}
+
+/* Fil du Styx (progression) */
+.styx{position:fixed;z-index:40;left:max(40px, calc(env(safe-area-inset-left,0px) + 40px));top:118px;bottom:44px;width:30px;pointer-events:none}
+.styx .rail{position:absolute;left:14px;top:0;bottom:0;width:1px;background:var(--filet)}
+.styx .ink{position:absolute;left:14px;top:0;width:1px;height:100%;background:var(--or);transform-origin:top;transform:scaleY(0)}
+.styx .tick{position:absolute;left:30px;font-family:var(--mono);font-size:10px;color:var(--cendre);transform:translateY(-50%);transition:color .6s}
+.styx .tick.on{color:var(--or)}
+.styx .boat{position:absolute;left:-8px;top:0;width:46px;height:30px;transform:translateY(-50%)}
+@media (max-width:899px){.styx{display:none}}
+
+/* Ouverture */
+.hero{position:relative;min-height:min(100svh, 960px);display:flex;flex-direction:column;justify-content:flex-end;padding-block:120px 44px;overflow:hidden}
+.medal{position:absolute;right:-3vw;top:80px;width:min(46vw, 620px);aspect-ratio:1;pointer-events:none}
+.medal svg{width:100%;height:100%;display:block;overflow:visible}
+.medal text{font-family:var(--display);font-size:13px;letter-spacing:.55em;fill:var(--or);font-weight:500}
+.hero h1{position:relative;font-size:clamp(84px,16.5vw,272px);letter-spacing:-.005em;line-height:.8;margin:0 0 0 -.04em;overflow:hidden;padding-bottom:.08em}
+.hero h1 .l{display:inline-block}
+.hero .role{position:relative;margin:22px 0 0;font-size:clamp(22px,2.6vw,36px);font-weight:400}
+.hero .role em{color:var(--or)}
+.hero-foot{position:relative;margin-top:40px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px;border-top:1px solid var(--filet);padding-top:20px}
+.epoch{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--cendre);text-transform:uppercase;margin:0}
+.epoch b{color:var(--or);font-weight:400}
+.dispo{display:flex;gap:10px;flex-wrap:wrap}
+.dispo span{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--filet);padding:6px 10px}
+.dispo span:first-child{border-color:var(--or);color:var(--or)}
+@media (max-width:700px){.hero{justify-content:flex-start;padding-top:84px}.medal{position:relative;right:auto;top:auto;width:min(86vw, 400px);margin:0 auto 18px}}
+
+/* Couture entre deux chants : un trait qui se dessine au scroll */
+.seam{display:grid;justify-items:center;gap:10px;padding-block:8px}
+.seam i{display:block;width:1px;height:72px;background:var(--or);transform-origin:top}
+.seam b{font-weight:400;color:var(--or);font-size:14px;line-height:1}
+
+/* Chants */
+.chap{padding-block:clamp(48px,6vw,88px)}
+.chap-head{display:grid;justify-items:center;text-align:center;gap:18px;margin-bottom:clamp(36px,5vw,64px)}
+.chap-head h2{font-size:clamp(52px,8.4vw,124px)}
+.chap-head .lead{margin:0}
+.orn{display:flex;align-items:center;gap:14px;color:var(--or)}
+.orn::before,.orn::after{content:"";width:48px;height:1px;background:var(--filet)}
+.epi{margin:0 auto clamp(32px,4vw,48px);max-width:40em;text-align:center;font-style:italic;font-size:clamp(20px,1.8vw,26px);color:var(--ivoire)}
+.epi cite{display:block;margin-top:10px;font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cendre)}
+
+/* I. Deux divinités */
+.gods{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--filet)}
+.god{padding:clamp(28px,4vw,52px) clamp(0px,3vw,48px) 0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 32px;align-content:start}
+.god svg{grid-row:span 4;width:clamp(104px,10vw,140px);height:auto}
+.god + .god{border-left:1px solid var(--filet)}
+.god h3{font-size:clamp(34px,3.8vw,54px)}
+.god p{margin:0;max-width:30em;color:var(--cendre)}
+.god ul{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:19px}
+.god li::before{content:"✦  ";color:var(--or);font-size:11px}
+.agora{margin:clamp(36px,5vw,56px) 0 0;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:center;text-align:center;font-style:italic;color:var(--cendre)}
+.agora b{font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--or);font-weight:500}
+@media (max-width:860px){.gods{grid-template-columns:1fr}.god + .god{border-left:0;border-top:1px solid var(--filet);margin-top:36px}}
+@media (max-width:460px){.god{grid-template-columns:1fr}.god svg{grid-row:auto;width:96px}}
+
+/* II. Les épreuves : tablettes qui s'empilent */
+.deck{display:grid;gap:36px}
+.trial{position:sticky;top:calc(92px + var(--i) * 16px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);background:var(--nuit-2);border:1px solid var(--filet);transform-origin:50% 0;will-change:transform}
+.media{position:relative;margin:0;min-height:440px;height:100%;max-width:100%;background:var(--nuit-3);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.media::before{content:"";position:absolute;inset:18px;border:1px solid var(--filet)}
+.media .c{position:absolute;width:14px;height:14px;border-color:var(--or);border-style:solid;border-width:0}
+.media .c1{top:12px;left:12px;border-top-width:1px;border-left-width:1px}.media .c2{top:12px;right:12px;border-top-width:1px;border-right-width:1px}
+.media .c3{bottom:12px;left:12px;border-bottom-width:1px;border-left-width:1px}.media .c4{bottom:12px;right:12px;border-bottom-width:1px;border-right-width:1px}
+.media .wm{position:absolute;left:10%;top:12%;width:80%;height:76%;opacity:.08}
+.media .ph{position:relative;display:grid;justify-items:center;gap:12px;text-align:center}
+.media .ph svg{width:46px;height:46px}
+.media .ph span{font-family:var(--sans);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--cendre)}
+.media .ph small{font-style:italic;font-size:16px;color:var(--cendre)}
+.media .sealed{position:absolute;left:32px;top:32px;font-family:var(--sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--or);border:1px solid var(--or-2);padding:6px 10px}
+.trial .txt{position:relative;padding:clamp(28px,3.4vw,52px);display:flex;flex-direction:column;gap:18px;min-width:0}
+.trial h3{font-size:clamp(34px,3.5vw,58px)}
+.trial blockquote{margin:0;font-style:italic;color:var(--cendre);font-size:clamp(19px,1.45vw,22px);max-width:26em}
+.trial .row{display:grid;grid-template-columns:clamp(120px,11vw,168px) minmax(0,1fr);gap:22px;align-items:center;border-block:1px solid var(--filet);padding-block:14px}
+.trial .row svg{width:100%;height:auto}
+.trial .meta{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-family:var(--mono);font-size:12px;color:var(--cendre)}
+.trial .charon{margin:0;font-size:clamp(21px,1.7vw,25px);line-height:1.4;font-style:italic;color:var(--ivoire);border-left:1px solid var(--or);padding:2px 0 2px 20px}
+.trial .charon b{display:block;font-style:normal;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--or);font-weight:500;margin-bottom:6px}
+.trial .foot{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
+.trial .stack{font-family:var(--mono);font-size:12px;color:var(--cendre);margin:0}
+@media (max-width:960px){.trial{grid-template-columns:1fr;position:relative;top:auto}.media{aspect-ratio:16/10;min-height:0;height:auto}}
+
+/* III. L'arsenal */
+.arsenal{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:start}
+.arms{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.arms li{border-bottom:1px solid var(--filet)}
+.arms button{font-family:inherit;width:100%;display:grid;grid-template-columns:4ch minmax(0,1fr) auto;align-items:baseline;gap:18px;background:none;border:0;color:inherit;text-align:left;padding:16px 0;cursor:pointer}
+.arms .n{font-family:var(--mono);font-size:12px;color:var(--or)}
+.arms .nm{display:block;font-weight:500;text-transform:uppercase;font-size:clamp(30px,3.8vw,56px);line-height:1;transition:transform .9s var(--ease),color .6s}
+.arms .ep{display:block;font-size:17px;font-style:italic;color:var(--cendre);margin-top:6px}
+.arms .yr{font-family:var(--mono);font-size:12px;color:var(--cendre);white-space:nowrap}
+.arms button[aria-pressed="true"] .nm,.arms button:hover .nm{transform:translateX(10px);color:var(--or)}
+.shrine{position:sticky;top:110px;display:grid;justify-items:center;gap:14px;text-align:center}
+.shrine svg{width:min(100%,440px);height:auto;overflow:visible}
+.shrine text{font-family:var(--display);font-size:6.4px;letter-spacing:.5em;fill:var(--or);font-weight:500}
+.shrine .cap{margin:0;font-style:italic;color:var(--cendre)}
+.mini{display:none}
+@media (max-width:860px){.arsenal{grid-template-columns:1fr}.shrine{display:none}.arms button{grid-template-columns:56px minmax(0,1fr) auto}.mini{display:block;width:56px;height:56px}.arms .n{display:none}}
+
+/* IV. Les escales */
+.ports{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(24px,3vw,48px)}
+.route{position:absolute;left:0;right:0;top:-6px;width:100%;height:32px;overflow:visible}
+.port{position:relative;padding-top:48px;display:grid;gap:10px;align-content:start}
+.port::before{content:"";position:absolute;top:3px;left:0;width:13px;height:13px;border:1px solid var(--or);background:var(--nuit);transform:rotate(45deg)}
+.port.now::before{background:var(--or)}
+.port .when{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--or)}
+.port h3{font-size:clamp(30px,3vw,44px)}
+.port .role{font-family:var(--sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--cendre)}
+.port p{margin:0;color:var(--cendre);font-size:18px}
+@media (max-width:760px){.ports{grid-template-columns:1fr}.route{display:none}.ports::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:1px;background:var(--filet)}.port{padding:0 0 0 40px}.port::before{top:6px}}
+
+/* V. L'oracle */
+.faq{max-width:1100px;margin:0 auto;border-top:1px solid var(--filet)}
+.faq details{border-bottom:1px solid var(--filet)}
+.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:28px minmax(0,1fr) 28px;gap:16px;align-items:baseline;padding:22px 0;font-size:clamp(24px,2.5vw,34px);line-height:1.15;transition:color .5s}
+.faq summary:hover{color:var(--or)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"✦";color:var(--or);font-size:13px}
+.faq summary::after{content:"+";font-family:var(--sans);font-size:22px;color:var(--cendre);text-align:right;transition:transform .6s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{margin:0;padding:0 44px 26px;color:var(--cendre);max-width:46em}
+
+/* VI. Hermès */
+.letter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(32px,6vw,96px);align-items:start}
+.letter h2{font-size:clamp(52px,7.6vw,116px)}
+.letter .side{display:grid;gap:20px}
+.mail{font-family:var(--mono);font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mail button{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;background:none;border:1px solid var(--filet);color:var(--cendre);padding:5px 10px;cursor:pointer}
+form{display:grid;gap:24px}
+.field{display:grid;gap:6px}
+.field label{font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cendre)}
+.field input,.field textarea{font:inherit;font-size:22px;color:var(--ivoire);background:none;border:0;border-bottom:1px solid var(--filet);padding:8px 0;border-radius:0;transition:border-color .6s}
+.field textarea{min-height:130px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--or)}
+.err{font-family:var(--sans);font-size:13px;color:#E07A5F;min-height:1em}
+.send{justify-self:start;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--or);background:none;border:1px solid var(--or);padding:16px 28px;cursor:pointer;transition:background .6s var(--ease),color .6s}
+.send:hover{background:var(--or);color:var(--nuit)}
+.sent{font-style:italic;color:var(--or);margin:0}
+@media (max-width:820px){.letter{grid-template-columns:1fr}}
+
+/* Épilogue */
+.end{padding-block:clamp(64px,8vw,112px) 40px;text-align:center;border-top:1px solid var(--filet)}
+.end .caps{font-size:clamp(40px,8vw,132px)}
+.end .lead{margin:22px auto 0}
+.end-foot{margin-top:56px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+
+/* Modale */
+dialog{border:1px solid var(--filet);background:var(--nuit-2);color:var(--ivoire);padding:0;width:min(1000px, calc(100vw - 32px));max-height:calc(100svh - 48px);overflow:hidden}
+dialog::backdrop{background:rgba(5,4,3,.84)}
+dialog[open]{display:flex;flex-direction:column;animation:unroll .9s var(--ease)}
+@keyframes unroll{from{clip-path:inset(50% 0 50% 0);opacity:.3}to{clip-path:inset(0 0 0 0);opacity:1}}
+.d-head{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 24px;border-bottom:1px solid var(--filet)}
+.d-body{overflow:auto;min-height:0;padding:clamp(20px,4vw,48px);display:grid;gap:26px}
+.d-body h3{font-size:clamp(40px,5vw,72px)}
+.d-meta{display:flex;flex-wrap:wrap;gap:8px}
+.d-meta span{font-family:var(--mono);font-size:12px;border:1px solid var(--filet);padding:5px 9px;color:var(--cendre)}
+.d-parts{display:grid;gap:16px}
+.d-parts section{display:grid;grid-template-columns:180px minmax(0,1fr);gap:18px;border-top:1px solid var(--filet);padding-top:16px}
+.d-parts h4{margin:0;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--or);font-weight:500}
+.d-parts p{margin:0}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gallery figure{position:relative;margin:0;aspect-ratio:16/10;background:var(--nuit-3);display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--cendre);border:1px solid var(--filet)}
+@media (max-width:560px){.d-parts section{grid-template-columns:1fr;gap:6px}.gallery{grid-template-columns:1fr 1fr}}
+
+@media (prefers-reduced-motion: reduce){.menu,.menu.open{transition:none}dialog[open]{animation:none}.cta::after,.arms .nm,.menu li a span{transition:none}}
+</style>
+
+<header class="top gut" id="top">
+  <a class="brand" href="#embarcadere">Andry</a>
+  <div class="top-r">
+    <a href="#epreuves">Épreuves</a>
+    <a href="#hermes">Écrire</a>
+    <button class="menu-btn" id="menu-open" aria-expanded="false" aria-controls="menu"><span>✦</span> Menu <span>✦</span></button>
+  </div>
+</header>
+
+<nav class="menu gut" id="menu" aria-label="Chants" data-lenis-prevent>
+  <button class="menu-btn close" id="menu-close">Refermer ✕</button>
+  <p class="label">Le voyage, chant par chant</p>
+  <ol>
+    <li><a href="#embarcadere"><small>—</small><span>L'embarcadère</span></a></li>
+    <li><a href="#divinites"><small>I</small><span>Deux divinités</span></a></li>
+    <li><a href="#epreuves"><small>II</small><span>Les épreuves</span></a></li>
+    <li><a href="#arsenal"><small>III</small><span>L'arsenal</span></a></li>
+    <li><a href="#escales"><small>IV</small><span>Les escales</span></a></li>
+    <li><a href="#oracle"><small>V</small><span>L'oracle</span></a></li>
+    <li><a href="#hermes"><small>VI</small><span>Écrire à Hermès</span></a></li>
+  </ol>
+  <div class="menu-foot">
+    <div class="seg" role="group" aria-label="Langue"><button aria-pressed="true">FR</button><button aria-pressed="false" title="Version anglaise dans le vrai site">EN</button></div>
+    <div class="seg" role="group" aria-label="Thème"><button id="th-nyx">Nyx</button><button id="th-helios">Hélios</button></div>
+    <a class="cta" href="#">Dérouler le CV</a>
+  </div>
+</nav>
+
+<div class="styx" aria-hidden="true">
+  <div class="rail"></div><div class="ink" id="styx-ink"></div>
+  <svg class="boat" id="styx-boat" viewBox="0 0 46 30"><g class="line" style="stroke-width:1.3"><path d="M3 18 Q23 27 43 16"/><path d="M5 19 Q23 24 41 17"/><path d="M3 18 Q0 13 4 11"/><path d="M43 16 L46 17"/><path d="M23 19 V3"/><path d="M15 5 L31 5 L30 15 L16 15 Z"/><path d="M19 5 V15 M23 5 V15 M27 5 V15" class="fine"/></g></svg>
+</div>
+
+<main>
+<section class="hero gut" id="embarcadere" data-ch="—">
+  <div class="medal" aria-hidden="true">
+    <svg viewBox="0 0 400 400" id="medal">
+      <defs>
+        <path id="ring-path" d="M200 200 m-168 0 a168 168 0 1 1 336 0 a168 168 0 1 1 -336 0"/>
+        <clipPath id="inner"><circle cx="200" cy="200" r="142"/></clipPath>
+      </defs>
+      <g class="line draw" id="medal-lines">
+        <circle cx="200" cy="200" r="196" pathLength="1"/>
+        <circle cx="200" cy="200" r="190" pathLength="1" class="fine"/>
+        <circle cx="200" cy="200" r="150" pathLength="1" class="fine"/>
+        <circle cx="200" cy="200" r="144" pathLength="1"/>
+        <g clip-path="url(#inner)">
+          <g id="m-sky">
+            <path pathLength="1" class="fine" d="M136 104 L168 90 L200 100 L232 86 L266 104"/>
+            <path pathLength="1" d="M286 96 a18 18 0 1 0 14 30 a14 14 0 1 1 -14 -30"/>
+          </g>
+          <g id="m-ship">
+            <path pathLength="1" d="M108 252 C150 284 252 284 296 250"/>
+            <path pathLength="1" d="M114 248 C160 270 248 270 290 246"/>
+            <path pathLength="1" d="M108 252 C92 238 94 214 112 212 C124 212 124 226 114 228"/>
+            <path pathLength="1" d="M296 250 L320 256 L300 242"/>
+            <circle pathLength="1" cx="284" cy="254" r="3"/>
+            <path pathLength="1" d="M202 248 V124"/>
+            <path pathLength="1" d="M146 136 Q202 126 258 136"/>
+            <path pathLength="1" d="M150 138 L156 224 Q202 234 248 224 L254 138"/>
+            <path pathLength="1" class="fine" d="M168 136 V228 M185 134 V230 M219 134 V230 M236 136 V228"/>
+            <path pathLength="1" class="fine" d="M202 124 L116 214 M202 124 L292 238"/>
+            <path pathLength="1" class="fine" d="M132 258 L120 288 M152 264 L142 294 M172 268 L164 298 M192 270 L186 300 M212 270 L208 300 M232 268 L230 298 M252 264 L252 294 M272 258 L274 288"/>
+          </g>
+          <g id="m-sea">
+            <path pathLength="1" d="M40 300 c8 -10 18 -10 26 0 s18 10 26 0 s18 -10 26 0 s18 10 26 0 s18 -10 26 0 s18 10 26 0 s18 -10 26 0 s18 10 26 0 s18 -10 26 0 s18 10 26 0 s18 -10 26 0 s18 10 26 0 s18 -10 26 0"/>
+            <path pathLength="1" class="fine" d="M30 316 c8 -8 18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0"/>
+            <path pathLength="1" class="fine" d="M40 332 c8 -8 18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0 s18 -8 26 0 s18 8 26 0"/>
+          </g>
+        </g>
+      </g>
+      <g id="m-stars" class="line">
+        <path class="dot" d="M136 98 l1.4 4.6 l4.6 1.4 l-4.6 1.4 l-1.4 4.6 l-1.4 -4.6 l-4.6 -1.4 l4.6 -1.4 Z" transform="translate(0 -4)"/>
+        <path class="dot" d="M168 84 l1.2 4 l4 1.2 l-4 1.2 l-1.2 4 l-1.2 -4 l-4 -1.2 l4 -1.2 Z" transform="translate(0 0)"/>
+        <path class="dot" d="M200 94 l1.6 5 l5 1.6 l-5 1.6 l-1.6 5 l-1.6 -5 l-5 -1.6 l5 -1.6 Z"/>
+        <path class="dot" d="M232 80 l1.2 4 l4 1.2 l-4 1.2 l-1.2 4 l-1.2 -4 l-4 -1.2 l4 -1.2 Z"/>
+        <path class="dot" d="M266 98 l1.4 4.6 l4.6 1.4 l-4.6 1.4 l-1.4 4.6 l-1.4 -4.6 l-4.6 -1.4 l4.6 -1.4 Z" transform="translate(0 -1)"/>
+      </g>
+      <g id="m-text"><text><textPath href="#ring-path">ΟΔΥΣΣΕΙΑ · ΑΝΔΡΥ · ΙΘΑΚΗ · MMXXVI · ΟΔΥΣΣΕΙΑ · ΑΝΔΡΥ · ΙΘΑΚΗ · MMXXVI ·</textPath></text></g>
+    </svg>
+  </div>
+  <p class="label" style="position:relative">Ithaque, version Antananarivo · 18°55′ S</p>
+  <h1 class="caps" id="name" aria-label="Andry"><span class="l">A</span><span class="l">n</span><span class="l">d</span><span class="l">r</span><span class="l">y</span></h1>
+  <p class="role">Lead Front-End Developer, <em>React &amp; TypeScript</em></p>
+  <div class="hero-foot">
+    <div style="display:grid;gap:14px">
+      <p class="epoch">Époque <b>MMXXVI</b> ✦ Antananarivo <b id="clock">--:--:--</b> UTC+3</p>
+      <div class="dispo"><span>Disponible</span><span>CDI</span><span>Freelance</span><span>Remote</span></div>
+    </div>
+    <a class="cta" href="#divinites">Embarquer</a>
+  </div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="divinites" data-ch="I">
+  <blockquote class="epi">« Dis-moi, Muse, cet homme subtil qui erra si longtemps… »<cite>Homère, L'Odyssée, chant I · trad. Leconte de Lisle</cite></blockquote>
+  <div class="chap-head">
+    <p class="orn label">Chant I</p>
+    <h2 class="caps">Deux divinités</h2>
+    <p class="lead">Athéna veillait sur Ulysse ; Héphaïstos forgeait les armes des héros. Notre voyageur vient d'une île rouge, et les deux se disputent son talent.</p>
+  </div>
+  <div class="gods">
+    <article class="god">
+      <svg viewBox="0 0 120 120" class="line draw" aria-hidden="true">
+        <circle cx="60" cy="60" r="57" pathLength="1"/><circle cx="60" cy="60" r="53" pathLength="1" class="fine"/>
+        <path pathLength="1" d="M34 90 L76 48"/><path pathLength="1" d="M70 32 L92 54 L84 62 L62 40 Z"/><path pathLength="1" class="fine" d="M66 36 L88 58"/>
+        <path pathLength="1" d="M88 90 L50 52 M92 86 L54 48"/><path pathLength="1" d="M50 52 C44 46 44 40 48 36 M54 48 C48 42 42 42 38 46"/>
+        <path pathLength="1" d="M28 96 H92"/><path pathLength="1" class="fine" d="M34 100 H86"/>
+        <path class="dot" d="M44 26 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 Z"/><path class="dot" d="M58 18 l.8 2.4 l2.4 .8 l-2.4 .8 l-.8 2.4 l-.8 -2.4 l-2.4 -.8 l2.4 -.8 Z"/><path class="dot" d="M32 38 l.8 2.4 l2.4 .8 l-2.4 .8 l-.8 2.4 l-.8 -2.4 l-2.4 -.8 l2.4 -.8 Z"/>
+      </svg>
+      <p class="label">Héphaïstos · le métier</p>
+      <h3 class="caps">La forge</h3>
+      <p>Lead front-end React et TypeScript : l'architecture des interfaces, la qualité du code et l'équipe qui le tient.</p>
+      <ul><li>Lead technique d'une équipe front</li><li>Architecture React / TypeScript</li><li>Revue de code et mentorat</li></ul>
+    </article>
+    <article class="god">
+      <svg viewBox="0 0 120 120" class="line draw" aria-hidden="true">
+        <circle cx="60" cy="60" r="57" pathLength="1"/><circle cx="60" cy="60" r="53" pathLength="1" class="fine"/>
+        <path pathLength="1" d="M30 94 C46 78 66 56 90 26"/>
+        <path pathLength="1" d="M40 82 C34 74 28 72 22 72 C28 78 34 82 40 82 Z"/>
+        <path pathLength="1" d="M46 76 C48 66 46 60 42 56 C42 64 42 70 46 76 Z"/>
+        <path pathLength="1" d="M56 64 C50 58 44 56 38 58 C44 62 50 64 56 64 Z"/>
+        <path pathLength="1" d="M62 58 C66 50 66 44 62 38 C60 46 60 52 62 58 Z"/>
+        <path pathLength="1" d="M72 46 C66 40 60 40 54 42 C60 46 66 46 72 46 Z"/>
+        <path pathLength="1" d="M78 40 C84 34 86 28 84 22 C80 28 78 34 78 40 Z"/>
+        <path pathLength="1" d="M84 34 C80 26 76 24 70 24 C74 30 78 32 84 34 Z"/>
+        <circle pathLength="1" cx="54" cy="72" r="3.4"/><circle pathLength="1" cx="70" cy="56" r="3"/>
+      </svg>
+      <p class="label">Athéna · le conseil</p>
+      <h3 class="caps">L'agora</h3>
+      <p>Des missions d'AMOA chez Bocasay : comprendre le besoin métier d'un client français et le traduire en interface.</p>
+      <ul><li>Recueil du besoin et ateliers</li><li>Spécifications fonctionnelles</li><li>Pont entre le métier et l'équipe</li></ul>
+    </article>
+  </div>
+  <p class="agora"><b>Le soir, à l'agora</b> Membre du Rotaract Club d'Ivandry : un site et un outil de gestion faits bénévolement.</p>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="epreuves" data-ch="II">
+  <div class="chap-head">
+    <p class="orn label">Chant II</p>
+    <h2 class="caps">Les épreuves</h2>
+    <p class="lead">Comme Ulysse, il a eu ses épreuves. Les tablettes s'empilent à mesure que la barque avance ; ouvre celle qui t'intéresse.</p>
+  </div>
+  <div class="deck" id="deck"></div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="arsenal" data-ch="III">
+  <div class="chap-head">
+    <p class="orn label">Chant III</p>
+    <h2 class="caps">L'arsenal</h2>
+    <p class="lead">Les outils du métier. Chacun a reçu une arme légendaire ; survole un nom pour la voir se graver.</p>
+  </div>
+  <div class="arsenal">
+    <ul class="arms" id="arms"></ul>
+    <div class="shrine" aria-live="polite"><svg viewBox="-64 -64 128 128" id="shrine-svg" aria-hidden="true"></svg><p class="cap" id="shrine-cap"></p></div>
+  </div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="escales" data-ch="IV">
+  <div class="chap-head">
+    <p class="orn label">Chant IV</p>
+    <h2 class="caps">Les escales</h2>
+    <p class="lead">Les ports où il a jeté l'ancre, du premier au dernier. Ulysse en a compté douze ; lui, trois pour l'instant.</p>
+  </div>
+  <div class="ports" id="ports"></div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="oracle" data-ch="V">
+  <div class="chap-head">
+    <p class="orn label">Chant V</p>
+    <h2 class="caps">Questions à l'oracle</h2>
+    <p class="lead">Ulysse a consulté Tirésias aux Enfers. Ici, l'oracle répond aux questions des recruteurs, sans énigme pour une fois.</p>
+  </div>
+  <div class="faq">
+    <details open><summary>Es-tu disponible, et pour quoi ?</summary><p class="a">Oui : en CDI ou en mission freelance, en remote. [Date de disponibilité à préciser.]</p></details>
+    <details><summary>Travailles-tu déjà en remote avec la France ?</summary><p class="a">Oui, c'est mon quotidien chez Bocasay : des projets pour des clients français, depuis Madagascar. Le décalage horaire est d'une à deux heures selon la saison.</p></details>
+    <details><summary>Quelle est ta stack principale ?</summary><p class="a">React et TypeScript au quotidien, avec Node.js côté outillage. Ce site est fait en Next.js et Supabase.</p></details>
+    <details><summary>À quoi sert l'AMOA dans un profil front ?</summary><p class="a">À comprendre le besoin avant de coder : je peux mener un atelier avec le métier, écrire la spécification, puis la traduire en interface avec l'équipe.</p></details>
+    <details><summary>Peut-on voir du code ?</summary><p class="a">Les projets clients sont scellés. Le code de ce portfolio est public sur GitHub. [Lien à ajouter.]</p></details>
+  </div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><b>✦</b></div>
+
+<section class="chap gut" id="hermes" data-ch="VI">
+  <div class="letter">
+    <div class="side">
+      <p class="label">Chant VI</p>
+      <h2 class="caps">Écrire à Hermès</h2>
+      <p class="lead" style="margin:0">Hermès portait les messages des dieux jusqu'à Ulysse. Il porte aussi le tien ; réponse sous 48 heures, décalage horaire compris.</p>
+      <div class="mail"><span id="mail">andry@[domaine].dev</span><button type="button" id="copy">Copier</button></div>
+    </div>
+    <form id="form" novalidate>
+      <div class="field"><label for="f-name">Ton nom</label><input id="f-name" name="name" autocomplete="name"></div>
+      <div class="field"><label for="f-mail">Ton email</label><input id="f-mail" name="email" type="email" autocomplete="email"><span class="err" id="e-mail"></span></div>
+      <div class="field"><label for="f-msg">Ton message</label><textarea id="f-msg" name="message"></textarea><span class="err" id="e-msg"></span></div>
+      <button class="send" type="submit">Confier à Hermès</button>
+      <p class="sent" id="sent" hidden>Lettre confiée à Hermès. (Prototype : rien n'est réellement envoyé.)</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="end gut">
+  <p class="label">Épilogue · Le retour à Ithaque</p>
+  <p class="caps" style="margin-top:18px">Toute fin est<br>un embarquement</p>
+  <p class="lead">Ulysse finit par rentrer à Ithaque. Notre voyageur, lui, cherche sa prochaine équipe. Peut-être la vôtre.</p>
+  <div class="end-foot"><span class="epoch">Andry · MMXXVI</span><a class="cta" href="#embarcadere">Remonter le Styx</a></div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="d-title">
+  <div class="d-head"><span class="label" id="d-num"></span><button class="menu-btn" id="d-close">Refermer ✕</button></div>
+  <div class="d-body" data-lenis-prevent>
+    <h3 class="caps" id="d-title"></h3>
+    <p class="lead" id="d-quest" style="margin:0"></p>
+    <div class="d-meta" id="d-meta"></div>
+    <div class="gallery" id="d-gal"></div>
+    <div class="d-parts" id="d-parts"></div>
+    <p id="d-stack" style="font-family:var(--mono);font-size:13px;color:var(--cendre);margin:0"></p>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var SKILLS = [ ['React', 6, '6 ans'], ['TypeScript', 5, '5 ans'], ['Node.js', 4, '4 ans'], ['Git', 6, 'toujours'], ['Next.js', 1, 'forgé ici'], ['Supabase', 1, 'forgé ici'] ];
+  /* Chaque savoir-faire reçoit une arme légendaire ; une techno ajoutée prend la suivante de la réserve */
+  var WEAPON_FOR = { 'React':'foudre', 'TypeScript':'egide', 'Node.js':'trident', 'Git':'fil', 'Next.js':'caducee', 'Supabase':'casque' };
+  var WEAPON_POOL = ['harpe', 'arc', 'marteau', 'foudre', 'trident', 'egide', 'caducee', 'casque', 'fil'];
+  var K = '#1B1612', T = '#C9703F';
+  var WEAPONS = {
+    foudre:{ name:'La foudre de Zeus', svg:'<path d="M-6 -44 L8 -14 L-2 -12 L12 18 L2 20 L10 44 L-14 8 L-4 6 L-16 -22 L-6 -24 Z" fill="'+K+'"/><g class="rays" stroke="'+K+'" stroke-width="2.5" stroke-linecap="round"><path d="M-24 -30 l-8 -4"/><path d="M22 -6 l9 -2"/><path d="M-22 26 l-8 5"/></g>' },
+    egide:{ name:'L’égide d’Athéna', svg:'<circle r="34" fill="'+K+'"/><circle r="26" fill="none" stroke="'+T+'" stroke-width="2"/><circle r="10" fill="'+T+'"/><g stroke="'+T+'" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M-10 -8 q-8 -6 -4 -14"/><path d="M10 -8 q8 -6 4 -14"/><path d="M-10 8 q-8 6 -4 14"/><path d="M10 8 q8 6 4 14"/></g><circle cx="-3.5" cy="-2" r="1.6" fill="'+K+'"/><circle cx="3.5" cy="-2" r="1.6" fill="'+K+'"/><path d="M-4 4 q4 3 8 0" stroke="'+K+'" stroke-width="1.5" fill="none"/>' },
+    trident:{ name:'Le trident de Poséidon', svg:'<rect x="-3" y="-20" width="6" height="64" rx="2" fill="'+K+'"/><path d="M-22 -24 L-22 -42 L-16 -32 V-22 H16 V-32 L22 -42 L22 -24 Q22 -14 0 -14 Q-22 -14 -22 -24 Z" fill="'+K+'"/><path d="M-4 -22 L0 -46 L4 -22 Z" fill="'+K+'"/>' },
+    caducee:{ name:'Le caducée d’Hermès', svg:'<rect x="-2.5" y="-34" width="5" height="78" rx="2" fill="'+K+'"/><circle cy="-38" r="5" fill="'+K+'"/><g class="wings" fill="'+K+'"><path d="M-4 -32 Q-28 -44 -36 -28 Q-22 -30 -4 -26 Z"/><path d="M4 -32 Q28 -44 36 -28 Q22 -30 4 -26 Z"/></g><g stroke="'+K+'" stroke-width="5" fill="none" stroke-linecap="round"><path d="M0 -20 C18 -12 18 0 0 6 C-18 12 -18 24 0 32"/><path d="M0 -20 C-18 -12 -18 0 0 6 C18 12 18 24 0 32"/></g>' },
+    casque:{ name:'Le casque d’Hadès', svg:'<g class="helm"><path d="M-26 22 Q-30 -28 0 -32 Q30 -28 26 22 L14 22 L12 4 Q8 -2 4 4 L4 28 L-4 28 L-4 4 Q-8 -2 -12 4 L-14 22 Z" fill="'+K+'"/><path d="M-22 -26 Q0 -56 22 -26 Q0 -36 -22 -26 Z" fill="'+K+'"/></g>' },
+    fil:{ name:'Le fil d’Ariane', svg:'<circle cx="-6" cy="-6" r="24" fill="'+K+'"/><g stroke="'+T+'" stroke-width="2" fill="none"><path d="M-26 -12 Q-6 -24 14 -12"/><path d="M-28 0 Q-6 -10 16 0"/><path d="M-22 10 Q-6 4 10 12"/></g><path class="thread" d="M16 8 Q34 24 18 34 T 38 42" stroke="'+K+'" stroke-width="2.5" fill="none" stroke-dasharray="4 4" stroke-linecap="round"/>' },
+    harpe:{ name:'La harpè de Persée', svg:'<rect x="-3" y="-6" width="6" height="50" rx="2" fill="'+K+'"/><path d="M-3 -4 L-3 -30 Q-2 -46 18 -44 Q4 -38 6 -22 L3 -4 Z" fill="'+K+'"/><rect x="-11" y="-8" width="22" height="5" rx="2" fill="'+K+'"/>' },
+    arc:{ name:'L’arc d’Artémis', svg:'<path d="M-10 -40 Q30 0 -10 40" stroke="'+K+'" stroke-width="6" fill="none" stroke-linecap="round"/><path class="string" d="M-10 -40 L-10 40" stroke="'+K+'" stroke-width="1.5"/><g class="arrow"><path d="M-30 0 H24" stroke="'+K+'" stroke-width="3"/><path d="M24 0 L14 -6 L14 6 Z" fill="'+K+'"/></g>' },
+    marteau:{ name:'Le marteau d’Héphaïstos', svg:'<rect x="-3" y="-10" width="6" height="54" rx="2" fill="'+K+'"/><rect x="-20" y="-28" width="40" height="20" rx="3" fill="'+K+'"/>' }
+  };
+  var PROJECTS = [
+    { scene:'maze', sealed:true, title:'Plateforme multi-espaces', quest:'Sortir du labyrinthe des espaces métier sans perdre le fil.',
+      narr:'Chaque projet fut une épreuve. La première, il n’a pas le droit d’en parler.', line:'Voici ses épreuves. La première est scellée par mon patron, Hadès. Je n’ai rien vu.',
+      stack:'React · TypeScript · Node.js', meta:['[PÉRIODE]','Lead front + AMOA','Équipe de [N]','Client : ███████'],
+      parts:[['Contexte','Plusieurs espaces métier pour un client du secteur ███████. [Le problème, en deux phrases.]'],['Mon rôle','Lead front-end et AMOA : recueil du besoin, spécifications, architecture des espaces, revue de code.'],['Défis','[Deux ou trois défis techniques.]'],['Solutions','[Ce que tu as mis en place.]'],['Résultats','[Impact, chiffré si possible.]']], links:'Code et démo : scellés par Hadès' },
+    { scene:'hydra', badge:'ASSOCIATIF', title:'Gestion du club Rotaract', quest:'Terrasser l’hydre du fichier Excel des membres.',
+      narr:'Puis vint l’hydre du fichier Excel.', line:'Une hydre en tableur. Chaque fois qu’on corrigeait une cellule, deux autres repoussaient.',
+      stack:'[STACK]', meta:['[PÉRIODE]','[Ton rôle]','Bénévole'],
+      parts:[['Contexte','[Le club gérait ses membres dans un fichier Excel partagé…]'],['Mon rôle','[…]'],['Défis','[…]'],['Solutions','[…]'],['Résultats','[…]']], links:'[Démo] · [Code]' },
+    { scene:'herald', badge:'ASSOCIATIF', title:'Site du Rotaract Club d’Ivandry', quest:'Publier les actions du club sans attendre le dev de service.',
+      narr:'Il donna une voix à son club, pour qu’il publie ses actions sans attendre personne.', line:'Un site pour son club, fait bénévolement. Comme moi, sauf que moi je suis payé en oboles.',
+      stack:'[STACK]', meta:['[PÉRIODE]','[Ton rôle]','Bénévole'],
+      parts:[['Contexte','[…]'],['Mon rôle','[…]'],['Défis','[…]'],['Solutions','Site public et admin pour que les membres publient eux-mêmes.'],['Résultats','[…]']], links:'[Site] · [Code]' },
+    { scene:'boat', badge:'CE SITE', title:'L’Odyssée, ce portfolio', quest:'Faire naviguer une barque sur le Styx en Next.js.',
+      narr:'Enfin, il construisit la barque sur laquelle vous voguez.', line:'Et cette barque, c’est lui qui l’a construite. Pas de fuite pour l’instant. Je touche du bois.',
+      stack:'Next.js · Supabase · GSAP', meta:['2026','Conception et développement','Seul, avec Claude Code'],
+      parts:[['Contexte','Un portfolio qui raconte une histoire au lieu d’aligner des cartes.'],['Mon rôle','Conception, direction artistique, développement.'],['Défis','Narration au scroll fluide, bilingue, contenu éditable, Lighthouse ≥ 95.'],['Solutions','Next.js App Router, Supabase, GSAP ScrollTrigger, illustrations SVG.'],['Résultats','[À compléter après la mise en ligne.]']], links:'[Code sur GitHub]' }
+  ];
+  var PORTS = [
+    { when:'[ANNÉES]', where:'Antananarivo', name:'[Premier port]', role:'[Poste]', text:'[Deux lignes sur ce que tu y as fait.]' },
+    { when:'[ANNÉES]', where:'Remote', name:'[Deuxième port]', role:'[Poste]', text:'[Deux lignes.]' },
+    { when:'[DEPUIS]', where:'Remote vers la France', name:'Bocasay', role:'Lead Front-End Developer', text:'Lead technique front, et AMOA ponctuelle pour des clients français.' }
+  ];
+  var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+  /* ===== Scènes de bataille (SVG figure noire) ===== */
+  var HERO = '<g class="hero"><circle cx="34" cy="62" r="9" fill="var(--figure)"/><path d="M26 54 Q34 40 44 52 L48 46 Q48 58 40 56 Z" fill="var(--figure)"/><path d="M26 74 H42 L46 110 H22 Z" fill="var(--figure)"/><path d="M24 108 H32 L30 136 H22 Z" fill="var(--figure)"/><path d="M36 108 H44 L48 136 H40 Z" fill="var(--figure)"/><g class="sword"><path d="M40 80 L58 70" stroke="var(--figure)" stroke-width="6" stroke-linecap="round"/><path d="M56 66 L92 46 L95 50 L60 74 Z" fill="var(--figure)"/><path d="M52 62 L62 78" stroke="var(--figure)" stroke-width="4" stroke-linecap="round"/></g><path d="M14 78 Q8 96 16 112 L28 108 L26 80 Z" fill="var(--figure)"/></g>';
+  var HIT = '<path class="hit" d="M0 -14 L4 -4 L14 -4 L6 3 L9 13 L0 7 L-9 13 L-6 3 L-14 -4 L-4 -4 Z" fill="var(--lueur)" stroke="var(--figure)" stroke-width="1.5" opacity="0"/>';
+  var SCENES = {
+    maze:'<svg class="vig" viewBox="0 0 320 150" role="img" aria-label="Un héros cherche la sortie du labyrinthe en suivant le fil d’Ariane"><g transform="translate(160 8)"><g fill="none" stroke="var(--figure)" stroke-width="7"><path d="M8 8 H128 V128 H8 V30"/><path d="M28 30 V108 H108 V28 H48 V88 H88 V48 H68"/></g><path class="thread" d="M8 18 H18 V118 H118 V18 H38 V98 H98 V38 H58 V78 H78 V58" fill="none" stroke="var(--lueur)" stroke-width="2.5" stroke-dasharray="6 8"/></g><g transform="translate(40 4) scale(.95)">' + HERO + '</g><g class="minos" transform="translate(268 112)"><path d="M-10 -6 Q-18 -22 -10 -26 M10 -6 Q18 -22 10 -26" stroke="var(--figure)" stroke-width="4" fill="none"/><circle r="10" fill="var(--figure)"/></g></svg>',
+    hydra:'<svg class="vig" viewBox="0 0 320 150" role="img" aria-label="Le héros affronte une hydre dont les têtes repoussent"><g transform="translate(70 8) scale(.95)">' + HERO + '</g><g transform="translate(150 20)"><path d="M30 122 Q30 90 60 86 Q92 84 104 106 Q112 122 96 122 Z" fill="var(--figure)"/><g fill="none" stroke="var(--figure)" stroke-width="7" stroke-linecap="round"><path class="neck" d="M56 90 Q36 64 18 58"/><path d="M64 88 Q58 50 50 32"/><path d="M74 88 Q82 52 94 36"/><path d="M84 92 Q104 68 122 64"/></g><g fill="var(--figure)"><circle class="cut-head" cx="14" cy="56" r="9"/><circle cx="48" cy="28" r="9"/><circle cx="97" cy="32" r="9"/><circle cx="126" cy="62" r="9"/></g><g transform="translate(14 56)">' + HIT + '</g></g></svg>',
+    herald:'<svg class="vig" viewBox="0 0 320 150" role="img" aria-label="Un héraut annonce les actions du club à la foule"><g transform="translate(40 10)"><circle cx="40" cy="24" r="12" fill="var(--figure)"/><path d="M28 40 H52 L56 96 H24 Z" fill="var(--figure)"/><path d="M28 96 H38 L36 130 H26 Z" fill="var(--figure)"/><path d="M42 96 H52 L56 130 H46 Z" fill="var(--figure)"/><path d="M50 40 L118 18 L122 44 L54 52 Z" fill="var(--figure)"/><g class="waves" fill="none" stroke="var(--figure)" stroke-width="3" stroke-linecap="round"><path d="M132 14 Q142 30 132 48"/><path d="M144 6 Q160 30 144 56"/><path d="M156 -2 Q178 30 156 64"/></g></g><g class="crowd" fill="var(--figure)"><g><circle cx="236" cy="96" r="9"/><path d="M224 140 Q226 108 236 108 Q246 108 248 140 Z"/></g><g><circle cx="262" cy="90" r="9"/><path d="M250 140 Q252 102 262 102 Q272 102 274 140 Z"/></g><g><circle cx="288" cy="98" r="9"/><path d="M276 140 Q278 110 288 110 Q298 110 300 140 Z"/></g></g></svg>',
+    boat:'<svg class="vig" viewBox="0 0 320 150" role="img" aria-label="Une barque construite à la main prend la mer"><g class="build-boat" transform="translate(70 30)"><path d="M6 66 Q90 112 174 64 L168 56 Q178 48 182 54 Q180 72 168 82 Q90 118 12 84 Z" fill="var(--figure)"/><path d="M80 66 V4" stroke="var(--figure)" stroke-width="4"/><path class="sail" d="M82 8 Q118 30 112 58 L82 58 Z" fill="var(--figure)"/></g><g class="sea" fill="none" stroke="var(--figure)" stroke-width="3" stroke-linecap="round"><path d="M20 128 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0"/><path d="M0 140 q16 -8 32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0 t32 0"/></g><g class="hammer-s" transform="translate(262 40)"><rect x="-4" y="0" width="8" height="40" rx="3" fill="var(--figure)"/><rect x="-14" y="-6" width="28" height="12" rx="3" fill="var(--figure)"/></g></svg>'
+  };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var G = !!window.gsap && !RM;
+  if (G) gsap.registerPlugin(ScrollTrigger);
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function P(d, cls){ return '<path pathLength="1"' + (cls ? ' class="' + cls + '"' : '') + ' d="' + d + '"/>'; }
+
+  /* Armes gravées au trait (remplacent les armes en aplats) */
+  var LW = {
+    foudre: P('M0 -12 C-7 -20 -6 -30 0 -42 C6 -30 7 -20 0 -12') + P('M0 12 C-7 20 -6 30 0 42 C6 30 7 20 0 12') + '<ellipse pathLength="1" cx="0" cy="0" rx="5" ry="12"/>' + P('M-5 -4 L-18 -14 L-12 -18 L-28 -32 M5 -4 L18 -14 L12 -18 L28 -32 M-5 4 L-18 14 L-12 18 L-28 32 M5 4 L18 14 L12 18 L28 32', 'fine'),
+    egide: '<circle pathLength="1" r="32"/><circle pathLength="1" r="26" class="fine"/><circle pathLength="1" r="9"/>' + [0,45,90,135,180,225,270,315].map(function(a){ return '<path pathLength="1" class="fine" transform="rotate(' + a + ')" d="M9 0 C14 -5 18 4 23 0"/>'; }).join(''),
+    trident: P('M0 -12 V46') + P('M-20 -42 V-24 Q-20 -12 0 -12 Q20 -12 20 -24 V-42') + P('M0 -12 V-48') + P('M-20 -42 l-4 7 M-20 -42 l4 7 M20 -42 l-4 7 M20 -42 l4 7 M0 -48 l-4 7 M0 -48 l4 7', 'fine') + P('M-4 2 H4 M-4 6 H4', 'fine'),
+    caducee: P('M0 -36 V46') + '<circle pathLength="1" cx="0" cy="-41" r="4"/>' + P('M-2 -32 C-14 -44 -30 -40 -36 -28 C-24 -31 -12 -29 -2 -26 M2 -32 C14 -44 30 -40 36 -28 C24 -31 12 -29 2 -26') + P('M0 -22 C14 -16 14 -4 0 2 C-14 8 -14 20 0 26 C9 30 9 36 2 38', 'fine') + P('M0 -22 C-14 -16 -14 -4 0 2 C14 8 14 20 0 26 C-9 30 -9 36 -2 38', 'fine'),
+    casque: P('M-24 28 C-30 -10 -22 -34 0 -36 C22 -34 30 -10 24 28 L12 28 L10 2 C8 -4 4 -4 2 2 L2 32 L-2 32 L-2 2 C-4 -4 -8 -4 -10 2 L-12 28 Z') + P('M-20 -30 C-10 -56 10 -56 20 -30', 'fine') + P('M-16 -34 C-8 -48 8 -48 16 -34', 'fine'),
+    fil: '<circle pathLength="1" cx="-8" cy="-8" r="22"/>' + P('M-28 -14 Q-8 -26 12 -14 M-30 -4 Q-8 -14 14 -4 M-26 6 Q-8 -2 10 6 M-18 -28 Q-2 -10 -6 14', 'fine') + P('M10 6 C24 16 32 28 20 36 C10 42 24 50 40 44'),
+    harpe: P('M2 -6 V44') + P('M-10 -6 H14') + P('M0 -6 V-28 C0 -46 20 -48 26 -38 C16 -40 8 -34 8 -24 L6 -6'),
+    arc: P('M-12 -42 C28 -22 28 22 -12 42') + P('M-12 -42 V42', 'fine') + P('M-32 0 H32 M32 0 l-8 -5 M32 0 l-8 5 M-32 0 l5 -4 M-32 0 l5 4'),
+    marteau: P('M0 -10 V46') + P('M-24 -30 H24 V-10 H-24 Z') + P('M-18 -30 V-10 M18 -30 V-10', 'fine')
+  };
+  function medallion(k, label, big){
+    var id = 'tp-' + k + (big ? 'b' : '');
+    return '<g class="line draw"><circle pathLength="1" r="62"/><circle pathLength="1" r="58" class="fine"/><circle r="50" class="fine" style="stroke-dasharray:0 3.2;stroke-width:1.1"/><g class="weapon">' + LW[k] + '</g></g>' +
+      (big ? '<defs><path id="' + id + '" d="M0 0 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"/></defs><text><textPath href="#' + id + '">' + esc(label) + '</textPath></text>' : '');
+  }
+
+  /* Emblèmes des épreuves, au trait */
+  var EMB = {
+    maze: P('M14 8 H146 V92 H14 V20 H134 V80 H26 V32 H122 V68 H38 V44 H110 V56 H52') + '<path class="thread" d="M20 14 V86 H140 V14 H32 V74 H116 V38 H44 V62 H104 V50" style="stroke-dasharray:2 5;stroke-width:.8"/>',
+    hydra: P('M44 94 C44 74 68 68 80 68 C92 68 116 74 116 94') + '<g class="necks">' + P('M80 68 C70 52 52 46 38 32') + P('M80 68 C76 46 70 32 64 14') + P('M80 68 C84 46 90 32 96 12') + P('M80 68 C92 52 110 46 124 32') + '</g>' + '<g class="heads">' + ['38 32 -40','64 14 -70','96 12 -110','124 32 -140'].map(function(t){ var a = t.split(' '); return '<ellipse pathLength="1" cx="' + a[0] + '" cy="' + a[1] + '" rx="5" ry="2.6" transform="rotate(' + a[2] + ' ' + a[0] + ' ' + a[1] + ')"/>'; }).join('') + '</g>',
+    herald: P('M18 58 L108 46 M18 64 L108 54') + P('M108 46 C120 40 130 36 138 30 L138 70 C130 64 120 60 108 54') + P('M18 58 C12 58 12 64 18 64') + '<g class="arcs">' + P('M146 38 C152 46 152 54 146 62', 'fine') + P('M152 30 C162 42 162 58 152 70', 'fine') + P('M158 22 C172 38 172 62 158 78', 'fine') + '</g>',
+    boat: '<g class="hull">' + P('M24 62 C50 80 112 80 138 60') + P('M24 62 C14 54 16 40 26 40 C32 40 32 48 28 50') + P('M138 60 L150 64 L140 56') + P('M80 64 V12') + P('M54 20 Q80 14 106 20 M56 22 L60 58 Q80 62 100 58 L104 22') + P('M68 20 V60 M92 20 V60', 'fine') + '</g>' + '<g class="sea">' + P('M0 88 c6 -6 12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0', 'fine') + '</g>'
+  };
+
+  /* Anneau, horloge, thème */
+  function tick(){ try { $('clock').textContent = new Date().toLocaleTimeString('fr-FR', { timeZone:'Indian/Antananarivo', hour12:false }); } catch(e){} }
+  tick(); setInterval(tick, 1000);
+  function setTheme(t){ document.documentElement.setAttribute('data-theme', t); $('th-nyx').setAttribute('aria-pressed', t === 'dark'); $('th-helios').setAttribute('aria-pressed', t === 'light'); try { localStorage.setItem('odyssee-theme', t); } catch(e){} }
+  var saved = null; try { saved = localStorage.getItem('odyssee-theme'); } catch(e){}
+  if (saved) setTheme(saved); else { var dk = !matchMedia('(prefers-color-scheme: light)').matches; $('th-nyx').setAttribute('aria-pressed', dk); $('th-helios').setAttribute('aria-pressed', !dk); }
+  $('th-nyx').onclick = function(){ setTheme('dark'); }; $('th-helios').onclick = function(){ setTheme('light'); };
+
+  /* Épreuves */
+  function media(p){
+    var corners = '<span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span><svg class="wm line" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + EMB[p.scene] + '</svg>';
+    if (p.sealed) return '<figure class="media">' + corners + '<span class="sealed">Scellé par Hadès</span><div class="ph"><svg viewBox="0 0 46 46" class="line"><circle cx="23" cy="23" r="21"/><circle cx="23" cy="23" r="16" class="fine"/><path d="M15 29 L23 14 L31 29 Z"/></svg><span>Logo de l’entreprise</span><small>Le client reste anonyme ; l’employeur signe l’épreuve.</small></div></figure>';
+    return '<figure class="media">' + corners + '<div class="ph"><svg viewBox="0 0 46 46" class="line"><rect x="3" y="8" width="40" height="30"/><circle cx="15" cy="18" r="4"/><path d="M5 36 L18 25 L26 31 L33 23 L41 31"/></svg><span>Capture du projet</span><small>Visuel saisi dans l’admin</small></div></figure>';
+  }
+  $('deck').innerHTML = PROJECTS.map(function(p, i){
+    return '<article class="trial" style="--i:' + i + '" data-scene="' + p.scene + '">' + media(p) +
+      '<div class="txt">' +
+      '<p class="label" style="margin:0">Épreuve ' + ROMAN[i] + (p.badge ? ' · ' + esc(p.badge) : '') + '</p>' +
+      '<h3 class="caps">' + esc(p.title) + '</h3>' +
+      '<blockquote>« ' + esc(p.quest) + ' »</blockquote>' +
+      '<div class="row"><svg viewBox="0 0 160 100" class="line draw emb" aria-hidden="true">' + EMB[p.scene] + '</svg><ul class="meta">' + p.meta.slice(0, 3).map(function(m){ return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>' +
+      '<p class="charon"><b>Charon, passeur</b>« ' + esc(p.line) + ' »</p>' +
+      '<div class="foot"><p class="stack">' + esc(p.stack) + '</p><button class="cta" data-open="' + i + '">Lire l’épreuve</button></div></div></article>';
+  }).join('');
+
+  /* Modale */
+  var dlg = $('dlg'), opener = null, lenis = null;
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-open]'); if (!b) return;
+    var i = +b.dataset.open, p = PROJECTS[i]; opener = b;
+    $('d-num').textContent = 'Épreuve ' + ROMAN[i] + (p.sealed ? ' · scellée par Hadès' : p.badge ? ' · ' + p.badge : '');
+    $('d-title').textContent = p.title; $('d-quest').textContent = '« ' + p.quest + ' »';
+    $('d-meta').innerHTML = p.meta.map(function(m){ return '<span>' + esc(m) + '</span>'; }).join('');
+    $('d-gal').innerHTML = [1,2,3].map(function(n){ return '<figure>' + (p.sealed ? 'Capture floutée ' + n : 'Image ' + n) + '</figure>'; }).join('');
+    $('d-parts').innerHTML = p.parts.map(function(x){ return '<section><h4>' + esc(x[0]) + '</h4><p>' + esc(x[1]) + '</p></section>'; }).join('');
+    $('d-stack').textContent = p.stack + ' · ' + p.links;
+    if (lenis) lenis.stop(); dlg.showModal(); dlg.querySelector('.d-body').scrollTop = 0;
+  });
+  $('d-close').onclick = function(){ dlg.close(); };
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', function(){ if (lenis) lenis.start(); if (opener) opener.focus(); });
+
+  /* Menu */
+  var menu = $('menu');
+  function openMenu(o){ menu.classList.toggle('open', o); $('menu-open').setAttribute('aria-expanded', o); if (lenis) o ? lenis.stop() : lenis.start(); if (o) menu.querySelector('a').focus(); else $('menu-open').focus(); }
+  $('menu-open').onclick = function(){ openMenu(true); }; $('menu-close').onclick = function(){ openMenu(false); };
+  addEventListener('keydown', function(e){ if (e.key === 'Escape' && menu.classList.contains('open')) openMenu(false); });
+
+  /* Arsenal */
+  var arms = SKILLS.map(function(s, i){ var k = WEAPON_FOR[s[0]] || WEAPON_POOL[i % WEAPON_POOL.length]; return { name:s[0], years:s[2], key:k, title:WEAPONS[k].name }; });
+  $('arms').innerHTML = arms.map(function(a, i){
+    return '<li><button aria-pressed="' + (i === 0) + '" data-arm="' + i + '"><span class="n">' + ROMAN[i] + '</span><svg class="mini" viewBox="-64 -64 128 128" aria-hidden="true">' + medallion(a.key) + '</svg><span><span class="nm">' + esc(a.name) + '</span><span class="ep">' + esc(a.title) + '</span></span><span class="yr">' + esc(a.years) + '</span></button></li>';
+  }).join('');
+  var shrineTl = null;
+  function showArm(i){
+    var a = arms[i];
+    document.querySelectorAll('[data-arm]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.arm === i); });
+    $('shrine-svg').innerHTML = medallion(a.key, a.title.toUpperCase() + ' · ' + a.name.toUpperCase() + ' · ' + a.title.toUpperCase() + ' · ', true);
+    $('shrine-cap').textContent = a.title + ', forgée pour ' + a.name;
+    if (G){
+      if (shrineTl) shrineTl.kill();
+      var w = $('shrine-svg').querySelectorAll('.weapon [pathLength], .weapon ellipse, .weapon circle');
+      shrineTl = gsap.timeline()
+        .fromTo(w, { strokeDashoffset:1 }, { strokeDashoffset:0, duration:1.4, ease:'power2.inOut', stagger:.05 })
+        .fromTo($('shrine-svg').querySelector('text'), { opacity:0 }, { opacity:1, duration:1.2, ease:'power1.out' }, .2);
+    }
+  }
+  document.querySelectorAll('[data-arm]').forEach(function(b){
+    var i = +b.dataset.arm, t;
+    b.addEventListener('mouseenter', function(){ clearTimeout(t); t = setTimeout(function(){ showArm(i); }, 90); });
+    b.addEventListener('focus', function(){ showArm(i); }); b.addEventListener('click', function(){ showArm(i); });
+  });
+  showArm(0);
+
+  /* Escales : une route au trait relie les ports */
+  $('ports').style.setProperty('--n', PORTS.length);
+  $('ports').innerHTML = '<svg class="route line" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true"><path id="route" pathLength="1" vector-effect="non-scaling-stroke" d="M6 16 C120 -4 220 36 340 16 S560 -4 680 16 S880 36 994 16" style="stroke-width:1"/></svg>' + PORTS.map(function(p, i){
+    return '<article class="port' + (i === PORTS.length - 1 ? ' now' : '') + '"><span class="when">' + esc(p.when) + ' · ' + esc(p.where) + '</span><h3 class="caps">' + esc(p.name) + '</h3><span class="role">' + esc(p.role) + '</span><p>' + esc(p.text) + '</p></article>';
+  }).join('');
+
+  /* Contact */
+  $('copy').onclick = function(){ var t = $('mail').textContent, b = this; function sel(){ var r = document.createRange(); r.selectNodeContents($('mail')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } try { navigator.clipboard.writeText(t).then(function(){ b.textContent = 'Copié'; }, sel); } catch(e){ sel(); } };
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault(); var ok = true;
+    var m = $('f-mail').value.trim(), msg = $('f-msg').value.trim();
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) $('e-mail').textContent = ''; else { ok = false; $('e-mail').textContent = 'Il manque une adresse email valide.'; }
+    if (msg) $('e-msg').textContent = ''; else { ok = false; $('e-msg').textContent = 'Le message est vide : Hermès refuse de voler à vide.'; }
+    $('sent').hidden = !ok; if (ok) this.reset();
+  });
+
+  /* Fil du Styx, en-tête, chant courant */
+  var chaps = Array.prototype.slice.call(document.querySelectorAll('[data-ch]')), styx = document.querySelector('.styx'), ticks = [];
+  function marks(){
+    ticks.forEach(function(n){ n.remove(); }); ticks = [];
+    var H = document.documentElement.scrollHeight - innerHeight;
+    chaps.forEach(function(c){ var s = document.createElement('span'); s.className = 'tick'; s.textContent = c.dataset.ch; s.style.top = (Math.min(1, c.offsetTop / H) * 100) + '%'; styx.appendChild(s); ticks.push(s); });
+  }
+  function onScroll(){
+    var y = lenis ? lenis.scroll : scrollY, H = document.documentElement.scrollHeight - innerHeight, p = H > 0 ? Math.min(1, y / H) : 0;
+    $('styx-ink').style.transform = 'scaleY(' + p + ')';
+    $('styx-boat').style.top = (p * 100) + '%';
+    $('top').classList.toggle('solid', y > innerHeight * .6);
+    var cur = 0; chaps.forEach(function(c, i){ if (c.offsetTop - innerHeight * .5 <= y) cur = i; });
+    ticks.forEach(function(t, i){ t.classList.toggle('on', i === cur); });
+  }
+  addEventListener('resize', function(){ marks(); onScroll(); });
+  marks(); if (document.fonts) document.fonts.ready.then(marks);
+
+  if (!G){ addEventListener('scroll', onScroll, { passive:true }); onScroll(); return; }
+
+  /* Défilement fluide (Lenis) relié au ticker GSAP */
+  if (window.Lenis){
+    lenis = new Lenis({ lerp:.08, wheelMultiplier:.9 });
+    lenis.on('scroll', function(){ ScrollTrigger.update(); onScroll(); });
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); }); gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){ var id = a.getAttribute('href'); if (id.length < 2) return; var el = document.querySelector(id); if (!el) return; e.preventDefault(); if (menu.classList.contains('open')) openMenu(false); lenis.scrollTo(el, { offset:-40, duration:1.8, easing:function(t){ return 1 - Math.pow(1 - t, 4); } }); });
+    });
+  } else addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  var E = 'expo.out';
+  /* Ouverture : la gravure se dessine, le nom se lève */
+  var ml = document.querySelectorAll('#medal-lines [pathLength]');
+  gsap.timeline()
+    .fromTo(ml, { strokeDashoffset:1 }, { strokeDashoffset:0, duration:2.6, ease:'power2.inOut', stagger:.035 }, 0)
+    .from('#m-stars path', { opacity:0, scale:0, transformOrigin:'center', duration:1.2, ease:E, stagger:.12 }, 1.4)
+    .from('#m-text', { opacity:0, duration:2 }, 1.2)
+    .from('#name .l', { yPercent:105, duration:1.7, ease:E, stagger:.06 }, .2)
+    .from('.hero .label, .hero .role, .hero-foot', { y:16, opacity:0, duration:1.4, ease:E, stagger:.12 }, .8);
+  gsap.to('#m-text', { rotation:360, svgOrigin:'200 200', duration:240, ease:'none', repeat:-1 });
+  gsap.to('#m-ship', { y:-2, rotation:.6, svgOrigin:'202 260', duration:5, ease:'sine.inOut', yoyo:true, repeat:-1 });
+  gsap.to('#m-sea', { x:-52, duration:14, ease:'none', repeat:-1 });
+  gsap.to('#m-stars path', { opacity:.35, duration:2.4, ease:'sine.inOut', stagger:{ each:.6, yoyo:true, repeat:-1 } });
+  gsap.to('.medal', { yPercent:-14, rotation:-6, ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:1.4 } });
+  gsap.to('.hero h1', { yPercent:-10, ease:'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:1.4 } });
+
+  /* Coutures : le trait descend vers le chant suivant */
+  gsap.utils.toArray('.seam').forEach(function(s){
+    gsap.fromTo(s.querySelector('i'), { scaleY:0 }, { scaleY:1, ease:'none', scrollTrigger:{ trigger:s, start:'top 95%', end:'bottom 60%', scrub:1 } });
+    gsap.fromTo(s.querySelector('b'), { opacity:0, rotation:-90 }, { opacity:1, rotation:0, ease:'none', scrollTrigger:{ trigger:s, start:'top 80%', end:'bottom 60%', scrub:1 } });
+  });
+
+  /* Têtes de chant : masque, puis fondu ; léger décalage de profondeur */
+  gsap.utils.toArray('.chap-head, .letter .side, .end').forEach(function(h){
+    var t = h.querySelector('.caps');
+    var tl = gsap.timeline({ defaults:{ ease:E }, scrollTrigger:{ trigger:h, start:'top 84%', once:true } });
+    if (t) tl.from(t, { clipPath:'inset(0 0 100% 0)', yPercent:24, duration:1.6 });
+    tl.from(h.querySelectorAll('.label, .lead'), { opacity:0, y:12, duration:1.3, stagger:.1 }, .3);
+    gsap.to(h, { yPercent:-8, ease:'none', scrollTrigger:{ trigger:h, start:'top bottom', end:'bottom top', scrub:1.6 } });
+  });
+  gsap.from('.epi', { opacity:0, y:20, duration:1.6, ease:E, scrollTrigger:{ trigger:'.epi', start:'top 88%', once:true } });
+  gsap.utils.toArray('.gods, .arms, .ports, .faq, .letter form').forEach(function(g){
+    gsap.from(g.children, { opacity:0, y:22, duration:1.4, ease:E, stagger:.1, scrollTrigger:{ trigger:g, start:'top 86%', once:true } });
+  });
+  /* Gravures des dieux */
+  gsap.utils.toArray('.god svg').forEach(function(s){
+    gsap.fromTo(s.querySelectorAll('[pathLength]'), { strokeDashoffset:1 }, { strokeDashoffset:0, duration:2.2, ease:'power2.inOut', stagger:.06, scrollTrigger:{ trigger:s, start:'top 85%', once:true } });
+    gsap.from(s.querySelectorAll('.dot'), { opacity:0, duration:1, stagger:.2, delay:1.6, scrollTrigger:{ trigger:s, start:'top 85%', once:true } });
+  });
+  /* Route des escales */
+  gsap.fromTo('#route', { strokeDashoffset:1 }, { strokeDashoffset:0, ease:'none', scrollTrigger:{ trigger:'#ports', start:'top 85%', end:'top 40%', scrub:1.2 } });
+
+  /* Épreuves : l'emblème se grave à l'arrivée, puis vit lentement ; la tablette recouverte recule */
+  var trials = Array.prototype.slice.call(document.querySelectorAll('.trial'));
+  trials.forEach(function(t, i){
+    var svg = t.querySelector('.emb'), q = gsap.utils.selector(svg), sc = t.dataset.scene;
+    var loop = gsap.timeline({ paused:true, repeat:-1, yoyo:true, defaults:{ ease:'sine.inOut' } });
+    if (sc === 'maze') loop.fromTo(q('.thread'), { strokeDashoffset:0 }, { strokeDashoffset:-70, duration:8, ease:'none' });
+    else if (sc === 'hydra') loop.to(q('.necks path, .heads ellipse'), { rotation:3, svgOrigin:'80 68', duration:3.2, stagger:.2 });
+    else if (sc === 'herald') loop.fromTo(q('.arcs path'), { opacity:.15 }, { opacity:1, duration:1.6, stagger:.4 });
+    else loop.to(q('.hull'), { y:-2, rotation:1, svgOrigin:'80 64', duration:3.6 }).to(q('.sea'), { x:-18, duration:3.6, ease:'none' }, 0);
+    gsap.timeline({ scrollTrigger:{ trigger:t, start:'top 75%', once:true }, onComplete:function(){ loop.play(); } })
+      .fromTo(svg.querySelectorAll('[pathLength]'), { strokeDashoffset:1 }, { strokeDashoffset:0, duration:2, ease:'power2.inOut', stagger:.08 })
+      .from(t.querySelectorAll('.txt > *'), { opacity:0, y:14, duration:1.2, ease:E, stagger:.08 }, 0)
+      .from(t.querySelector('.ph'), { opacity:0, scale:.96, duration:1.6, ease:E }, 0);
+    ScrollTrigger.create({ trigger:t, start:'top bottom', end:'bottom top', onToggle:function(s){ s.isActive ? loop.resume() : loop.pause(); } });
+    var next = trials[i + 1];
+    if (next && innerWidth > 960) gsap.fromTo(t, { scale:1, filter:'brightness(1)' }, { scale:.97, filter:'brightness(.62)', ease:'none', scrollTrigger:{ trigger:next, start:'top 55%', end:'top ' + (92 + (i + 1) * 16) + 'px', scrub:1 } });
+  });
+})();
+</script>

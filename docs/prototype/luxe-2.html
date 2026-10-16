@@ -1,0 +1,927 @@
+<title>Odyssée luxe-2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : le portulan. Un atlas relié en planches ; chaque chant a sa marge annotée (cols 1-3) et sa composition propre (cols 4-12) sur une grille de 12 */
+:root{
+  --nuit:#101723; --nuit-2:#151E2C; --nuit-3:#1B2534; --filet:#2B3647; --ardoise:#5D6878;
+  --ivoire:#EAE2D2; --cendre:#A3ABB6; --or:#B79A65; --or-clair:#D2B985; --todo:#C99872;
+  --display:'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --sans:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --gap:clamp(16px,2vw,32px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --nuit:#EAE2D2; --nuit-2:#E2D8C5; --nuit-3:#D9CDB6; --filet:#C3B497; --ardoise:#5D6878; --ivoire:#131A26; --cendre:#4C5666; --or:#7A5F2E; --or-clair:#6A5226; --todo:#8E4F2A; color-scheme:light } }
+:root[data-theme="light"]{ --nuit:#EAE2D2; --nuit-2:#E2D8C5; --nuit-3:#D9CDB6; --filet:#C3B497; --ardoise:#5D6878; --ivoire:#131A26; --cendre:#4C5666; --or:#7A5F2E; --or-clair:#6A5226; --todo:#8E4F2A; color-scheme:light }
+
+*{box-sizing:border-box}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--nuit);color:var(--ivoire);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nuit)}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--or-clair);outline-offset:4px}
+::selection{background:var(--or);color:var(--nuit)}
+.gut{padding-left:max(clamp(16px,5vw,88px), env(safe-area-inset-left,0px));padding-right:max(clamp(16px,5vw,88px), env(safe-area-inset-right,0px))}
+@media (min-width:821px){.gut{padding-left:max(clamp(16px,5vw,88px), 108px, env(safe-area-inset-left,0px))}}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--cendre)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--or)}
+.display{font-family:var(--display);font-weight:500;line-height:.95;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.it{font-family:var(--display);font-style:italic;font-weight:400}
+.todo{color:var(--todo);font-family:var(--mono);font-size:.82em;letter-spacing:.02em}
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--nuit);background:var(--or);border:1px solid var(--or);padding:14px 22px;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease)}
+.btn:hover{background:transparent;color:var(--or-clair)}
+.btn.ghost{background:transparent;color:var(--ivoire);border-color:var(--filet)}
+.btn.ghost:hover{border-color:var(--or);color:var(--or-clair)}
+.btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.line{fill:none;stroke:var(--or);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.line .fine{stroke-width:.6}
+.line .dot{fill:var(--or);stroke:none}
+.line .soft{stroke:var(--ardoise)}
+.draw [pathLength]{stroke-dasharray:1;stroke-dashoffset:0}
+.marg{grid-column:1 / span 3;display:grid;gap:10px;align-content:start;padding-top:8px}
+.marg .folio{font-family:var(--display);font-style:italic;font-size:15px;color:var(--cendre)}
+.marg .note{border-top:1px solid var(--filet);padding-top:10px;margin:0;max-width:22ch}
+
+/* En-tête */
+.top{position:fixed;z-index:50;top:env(safe-area-inset-top,0px);left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;transition:background .6s var(--ease),border-color .6s;border-bottom:1px solid transparent}
+.top.solid{background:var(--nuit);border-bottom-color:var(--filet)}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.brand b{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.02em}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--cendre);text-transform:uppercase}
+.top nav{display:flex;align-items:center;gap:24px}
+.top nav a{font-size:14px;text-decoration:none;color:var(--cendre);transition:color .4s}
+.top nav a:hover{color:var(--ivoire)}
+.cv-off{font-family:var(--mono);font-size:11px;color:var(--cendre);border:1px dashed var(--filet);padding:4px 8px}
+@media (max-width:820px){.top nav a,.cv-off{display:none}.brand span{display:none}}
+
+/* Rose des vents : repère de progression + accès à l'index */
+.rose{position:fixed;z-index:45;left:max(22px, calc(env(safe-area-inset-left,0px) + 22px));bottom:max(22px, calc(env(safe-area-inset-bottom,0px) + 22px));display:flex;flex-direction:column-reverse;align-items:center;gap:14px;background:none;border:0;padding:0;color:var(--ivoire);cursor:pointer;text-align:left}
+.rose svg{width:64px;height:64px;flex:0 0 auto;background:var(--nuit);border-radius:50%}
+.rose .needle{transition:transform 1s var(--ease);transform-origin:50px 50px}
+.rose .lbl{display:flex;gap:10px;align-items:baseline;writing-mode:vertical-rl;transform:rotate(180deg)}
+.rose .lbl b{font-family:var(--display);font-weight:500;font-size:18px;line-height:1}
+.rose .lbl span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--or)}
+
+.rose:hover .ring{stroke:var(--or-clair)}
+@media (max-width:820px){.rose{z-index:55;left:auto;bottom:auto;right:max(14px, calc(env(safe-area-inset-right,0px) + 14px));top:calc(env(safe-area-inset-top,0px) + 10px)}.rose svg{width:42px;height:42px}.rose .lbl{display:none}}
+
+/* Index des chants */
+.index{position:fixed;inset:0;z-index:70;background:var(--nuit);display:grid;align-content:center;gap:24px;padding-block:72px 32px;overflow:auto;clip-path:circle(0% at 54px calc(100% - 54px));visibility:hidden;transition:clip-path 1s cubic-bezier(.77,0,.18,1),visibility 0s 1s}
+.index.open{clip-path:circle(150% at 54px calc(100% - 54px));visibility:visible;transition:clip-path 1s cubic-bezier(.77,0,.18,1)}
+.index ol{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--filet)}
+.index li a{display:grid;grid-template-columns:10ch minmax(0,1fr) auto;align-items:baseline;gap:20px;text-decoration:none;padding:12px 0;border-bottom:1px solid var(--filet)}
+.index li a .n{font-family:var(--mono);font-size:12px;color:var(--or);white-space:nowrap}
+.index li a .t{font-family:var(--display);font-weight:500;font-size:clamp(26px,3.6vw,46px);line-height:1.05;transition:color .5s,transform .8s var(--ease)}
+.index li a .s{font-family:var(--mono);font-size:11px;color:var(--cendre)}
+.index li a:hover .t,.index li a[aria-current="true"] .t{color:var(--or-clair);transform:translateX(8px)}
+.index-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.index-foot{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+.close{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:none;border:1px solid var(--filet);color:var(--ivoire);padding:10px 16px;cursor:pointer}
+.seg{display:inline-flex;gap:2px;border:1px solid var(--filet);padding:3px}
+.seg button{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:none;border:0;color:var(--cendre);padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--or);color:var(--nuit)}
+
+/* Route entre deux chants */
+.route{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;padding-block:clamp(28px,4vw,48px)}
+.route .track{position:relative;min-width:0}
+.route svg{display:block;width:100%;height:24px;overflow:visible}
+.route .rb{position:absolute;top:50%;left:0;width:34px;height:22px;margin-top:-17px}
+.route.rtl .rb{left:auto;right:0;transform:scaleX(-1)}
+.route .from,.route .to{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cendre);white-space:nowrap}
+.route .to{color:var(--or)}
+@media (max-width:600px){.route{grid-template-columns:minmax(0,1fr) auto}.route .from{display:none}.route .to{white-space:normal;max-width:16ch;text-align:right;line-height:1.4}}
+
+/* Embarcadère */
+.hero{position:relative;padding-block:clamp(110px,14vh,150px) 40px;min-height:min(100svh, 920px);display:grid;align-content:end}
+.hero .grid{row-gap:28px;align-items:end}
+.hero-id{grid-column:1 / span 7;position:relative;z-index:2}
+.hero-id .kicker{display:block;margin-bottom:22px}
+.hero h1{font-size:clamp(96px,17vw,268px);line-height:.78;letter-spacing:-.02em;margin-left:-.05em;overflow:hidden;padding-bottom:.06em}
+.hero h1 .l{display:inline-block}
+.hero .role{font-family:var(--display);font-size:clamp(26px,2.8vw,40px);line-height:1.15;margin:20px 0 0;max-width:22ch}
+.hero .role em{color:var(--or-clair)}
+.hero .pitch{margin:20px 0 0;max-width:44ch;color:var(--cendre);font-size:18px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.chart{grid-column:8 / span 5;align-self:stretch;display:grid;align-content:end;gap:14px}
+.chart svg{width:100%;height:auto;overflow:visible}
+.chart text{font-family:var(--mono);font-size:8.5px;fill:var(--cendre);letter-spacing:.04em}
+.chart .city{fill:var(--or-clair)}
+.hero-band{grid-column:1 / -1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;border-top:1px solid var(--filet);padding-top:16px;margin-top:12px}
+.hero-band b{color:var(--or-clair);font-weight:400}
+.dispo{display:inline-flex;align-items:center;gap:8px}
+.dispo::before{content:"";width:7px;height:7px;border-radius:50%;background:#8FA66B}
+@media (max-width:980px){.hero-id{grid-column:1 / -1}.chart{grid-column:1 / -1;max-width:440px;order:-1}}
+
+/* Chants : base commune, compositions propres */
+.chant{padding-block:clamp(40px,6vw,80px)}
+.chant .head{grid-column:4 / -1;display:grid;gap:14px;margin-bottom:clamp(28px,4vw,48px)}
+.chant h2{font-size:clamp(50px,7.4vw,112px)}
+.chant .lead{font-family:var(--display);font-style:italic;font-size:clamp(20px,1.8vw,26px);line-height:1.4;color:var(--cendre);max-width:36em;margin:0}
+.chant .body{grid-column:4 / -1;min-width:0}
+@media (max-width:980px){.marg{grid-column:1 / -1;grid-auto-flow:column;justify-content:start;gap:18px;align-items:baseline;padding-top:0;margin-bottom:10px}.marg .note{display:none}.chant .head,.chant .body{grid-column:1 / -1}}
+
+/* I. Deux divinités : Héphaïstos large, Athéna en contrepoint */
+.duo{display:grid;grid-template-columns:minmax(0,1.5fr) 1px minmax(0,1fr);gap:clamp(24px,4vw,64px)}
+.duo .rule{background:var(--filet);position:relative}
+.duo .rule::after{content:"&";position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);font-family:var(--display);font-style:italic;font-size:34px;color:var(--or);background:var(--nuit);padding:6px 0}
+.god{display:grid;gap:14px;align-content:start}
+.god .emb{width:84px;height:84px}
+.god h3{font-size:clamp(36px,4vw,60px)}
+.god.minor h3{font-size:clamp(30px,3vw,42px)}
+.god p{margin:0;max-width:52ch}
+.god dl{margin:8px 0 0;display:grid;gap:0;border-top:1px solid var(--filet)}
+.god dl div{display:grid;grid-template-columns:minmax(120px,30%) minmax(0,1fr);gap:16px;padding:10px 0;border-bottom:1px solid var(--filet)}
+.god dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--or);padding-top:3px}
+.god dd{margin:0}
+.god.minor{color:var(--cendre)}
+.god.minor dd{color:var(--ivoire)}
+.agora{margin:clamp(28px,4vw,44px) 0 0;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;border-top:1px solid var(--filet);padding-top:16px}
+.agora .it{font-size:21px}
+@media (max-width:860px){.duo{grid-template-columns:1fr}.duo .rule{height:1px}.duo .rule::after{top:50%}}
+
+/* II. Les épreuves : aperçus éditoriaux, compositions alternées */
+.previews{display:grid;gap:clamp(56px,8vw,112px)}
+.pv{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));column-gap:var(--gap);row-gap:22px;align-items:end}
+.pv .vis{grid-column:1 / span 5;cursor:pointer}
+.pv .txt{grid-column:6 / span 4;display:grid;gap:14px;align-content:end;padding-bottom:6px}
+.pv.alt .vis{grid-column:5 / span 5;grid-row:1}
+.pv.alt .txt{grid-column:1 / span 4;grid-row:1}
+.pv h3{font-size:clamp(34px,3.4vw,54px)}
+.pv .sum{margin:0;color:var(--cendre);max-width:46ch}
+.pv .stk{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0;padding:0;list-style:none;font-family:var(--mono);font-size:12px;color:var(--cendre)}
+.pv .stk li::before{content:"— ";color:var(--or)}
+.pv .seal{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--or);border-top:1px solid var(--filet);padding-top:10px}
+.pv .vis .ph-img{transition:transform 1.2s var(--ease)}
+.pv:hover .vis .ph-img{transform:scale(1.012)}
+@media (max-width:900px){.pv{grid-template-columns:1fr}.pv .vis,.pv .txt,.pv.alt .vis,.pv.alt .txt{grid-column:1 / -1;grid-row:auto}}
+
+/* Emplacement d'image : vraie image si fournie, sinon planche clairement identifiée */
+.ph-img{position:relative;margin:0;width:100%;max-width:100%;background:var(--nuit-2);display:grid;place-items:center;overflow:hidden}
+.ph-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph-img.empty::before{content:"";position:absolute;inset:12px;border:1px solid var(--filet)}
+.ph-img .wm{position:absolute;inset:18% 14%;width:72%;height:64%;opacity:.1}
+.ph-img .lab{position:relative;display:grid;justify-items:center;gap:6px;text-align:center;padding:14px}
+.ph-img .lab span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--todo)}
+.ph-img .lab small{font-family:var(--mono);font-size:11px;color:var(--cendre)}
+.ph-cap{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--cendre)}
+.ph-cap b{color:var(--or);font-weight:400}
+
+/* Dossier : étude de cas plein écran */
+.dossier{position:fixed;inset:0;z-index:80;background:var(--nuit);overflow-y:auto;overscroll-behavior:contain}
+.dossier[hidden]{display:none}
+.d-bar{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px;padding-top:calc(env(safe-area-inset-top,0px) + 14px);background:var(--nuit);border-bottom:1px solid var(--filet)}
+.d-bar .crumbs{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre)}
+.d-bar .crumbs b{color:var(--or);font-weight:400}
+.d-open{padding-block:clamp(40px,6vw,80px) 0}
+.d-open h2{grid-column:1 / span 10;font-size:clamp(54px,8.6vw,148px);line-height:.9;margin-top:16px}
+.d-open .kicker{grid-column:1 / -1}
+.d-open .intro{grid-column:1 / span 7;margin:26px 0 0;font-family:var(--display);font-style:italic;font-size:clamp(22px,2.1vw,30px);line-height:1.35;color:var(--cendre)}
+.d-open .facts{grid-column:9 / span 4;align-self:end;margin:26px 0 0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;font-size:15px}
+.d-open .facts dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cendre);padding-top:3px}
+.d-open .facts dd{margin:0}
+.d-hero{grid-column:1 / -1;margin:clamp(32px,4vw,56px) 0 0}
+#d-title:focus{outline:none}
+@media (max-width:600px){.ph-cap{flex-direction:column;gap:4px}.hide-sm{display:none}}
+.d-sec{padding-block:clamp(48px,6vw,88px);border-top:1px solid var(--filet)}
+.d-sec .lbl{grid-column:1 / span 3;display:grid;gap:6px;align-content:start}
+.d-sec .lbl .n{font-family:var(--mono);font-size:11px;color:var(--or);letter-spacing:.1em}
+.d-sec .lbl h3{font-family:var(--display);font-weight:500;font-size:clamp(26px,2.4vw,34px);margin:0;line-height:1.1}
+.d-sec .ct{grid-column:4 / -1;min-width:0}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,64px)}
+.two h4,.res h4{margin:0 0 8px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--or)}
+.two p{margin:0}
+.pull{margin:0;font-family:var(--display);font-style:italic;font-size:clamp(24px,2.4vw,34px);line-height:1.3;border-left:1px solid var(--or);padding-left:22px}
+.role{margin:0 0 20px;font-family:var(--display);font-size:clamp(24px,2.2vw,32px);line-height:1.3;max-width:30em}
+.rul{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.rul li{padding:12px 0;border-bottom:1px solid var(--filet);display:grid;grid-template-columns:2ch minmax(0,1fr);gap:14px}
+.rul li::before{content:"✦";color:var(--or);font-size:11px;padding-top:4px}
+.dec{margin:0;display:grid;border-top:1px solid var(--filet)}
+.dec div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;padding:16px 0;border-bottom:1px solid var(--filet)}
+.dec dt{font-family:var(--display);font-weight:500;font-size:22px;line-height:1.25}
+.dec dd{margin:0;color:var(--cendre)}
+/* Galerie en planches : proportions et placements propres à chaque rang */
+.gal{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:clamp(40px,5vw,72px);align-items:start}
+.gal figure{margin:0;min-width:0}
+.gal .g0{grid-column:1 / span 8}
+.gal .g1{grid-column:9 / span 4;align-self:end}
+.gal .g2{grid-column:2 / span 5}
+.gal .g3{grid-column:7 / span 6;margin-top:clamp(40px,8vw,120px)}
+.gal .g4{grid-column:1 / -1}
+.gal .open-img{all:unset;display:block;width:100%;cursor:zoom-in;box-sizing:border-box}
+.gal .open-img:focus-visible{outline:1px solid var(--or-clair);outline-offset:4px}
+.gal .open-img .ph-img{transition:transform 1.2s var(--ease)}
+.gal .open-img:hover .ph-img{transform:scale(1.01)}
+.gal figcaption{margin-top:10px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;font-size:14px;color:var(--cendre)}
+.gal figcaption b{font-family:var(--mono);font-size:11px;color:var(--or);font-weight:400;padding-top:2px}
+.stackx{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.stackx li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:20px;padding:12px 0;border-bottom:1px solid var(--filet)}
+.stackx b{font-family:var(--display);font-weight:500;font-size:22px}
+.stackx span{color:var(--cendre)}
+.res ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.secret{margin-top:clamp(28px,4vw,48px);display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start;border-top:1px solid var(--or);padding-top:20px}
+.secret svg{width:44px;height:44px}
+.secret p{margin:0 0 16px;font-family:var(--display);font-style:italic;font-size:clamp(20px,1.7vw,24px);line-height:1.4;max-width:38em}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.d-nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center;padding-block:28px 48px;border-top:1px solid var(--ivoire)}
+.d-nav button:not(.btn){all:unset;cursor:pointer;display:grid;gap:4px;box-sizing:border-box}
+.d-nav button:focus-visible{outline:1px solid var(--or-clair);outline-offset:4px}
+.d-nav .nx{justify-self:end;text-align:right}
+.d-nav small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre)}
+.d-nav b{font-family:var(--display);font-weight:500;font-size:clamp(20px,2vw,28px);transition:color .4s}
+.d-nav button:hover b{color:var(--or-clair)}
+@media (max-width:980px){.d-open h2,.d-open .intro,.d-open .facts,.d-sec .lbl,.d-sec .ct{grid-column:1 / -1}.d-sec .lbl{margin-bottom:22px}.two{grid-template-columns:1fr}}
+@media (max-width:760px){.gal{grid-template-columns:1fr;row-gap:36px}.gal figure{grid-column:1 / -1!important;margin-top:0!important}.dec div,.stackx li{grid-template-columns:1fr;gap:4px}.d-nav{grid-template-columns:1fr 1fr}.d-nav .bk{grid-column:1 / -1;grid-row:2;justify-self:center}}
+
+/* Visionneuse */
+.lb{position:fixed;inset:0;z-index:90;background:var(--nuit);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding-block:calc(env(safe-area-inset-top,0px) + 14px) calc(env(safe-area-inset-bottom,0px) + 18px);touch-action:pan-y}
+.lb[hidden]{display:none}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.lb-stage{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;min-height:0}
+.lb-fig{margin:0;min-height:0;height:100%;display:grid;place-items:center}
+.lb-fig .ph-img{width:min(100%, 1400px, calc((100svh - 240px) * var(--r)));height:auto}
+.lb-arrow{width:48px;height:48px;border:1px solid var(--filet);background:none;color:var(--ivoire);cursor:pointer;display:grid;place-items:center;font-size:18px;transition:border-color .4s,color .4s}
+.lb-arrow:hover{border-color:var(--or);color:var(--or-clair)}
+.lb-cap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:15px;color:var(--cendre);border-top:1px solid var(--filet);padding-top:12px}
+.lb-cap b{font-family:var(--mono);font-size:11px;color:var(--or);font-weight:400}
+@media (max-width:640px){.lb-stage{grid-template-columns:1fr}.lb-arrow{position:absolute;bottom:-4px;z-index:2;background:var(--nuit)}.lb-prev{left:0}.lb-next{right:0}}
+
+/* III. L'arsenal : tableau d'instruments + planche gravée */
+.arsenal{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(24px,4vw,64px);align-items:start}
+.tools ul{list-style:none;margin:0;padding:0}
+.tools li{border-bottom:1px solid var(--filet)}
+.tools .head{font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--ivoire)}
+.tools button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) 8ch;gap:12px;width:100%;padding:16px 0;cursor:pointer;align-items:baseline}
+.tools button:focus-visible{outline:1px solid var(--or-clair);outline-offset:2px}
+.tools .nm{font-family:var(--display);font-weight:500;font-size:clamp(24px,2.4vw,34px);line-height:1.1;transition:color .5s}
+.tools .rl{color:var(--cendre);font-size:15px}
+.tools .yr{font-family:var(--mono);font-size:12px;color:var(--cendre);text-align:right}
+.tools button[aria-pressed="true"] .nm,.tools button:hover .nm{color:var(--or-clair)}
+.tools .head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) 8ch;gap:12px}
+.tools .head span:last-child{text-align:right}
+.shrine{position:sticky;top:96px;display:grid;gap:14px;border-top:1px solid var(--ivoire);padding-top:16px}
+.shrine svg{width:100%;max-width:280px;height:auto;justify-self:center;overflow:visible}
+.shrine h3{font-family:var(--display);font-weight:500;font-size:28px;margin:0;line-height:1.1}
+.shrine p{margin:0;font-size:15px}
+.shrine .ctx{color:var(--cendre)}
+@media (max-width:900px){.arsenal{grid-template-columns:1fr}.shrine{position:relative;top:auto}.tools button{grid-template-columns:minmax(0,1fr) 7ch}.tools .rl{display:none}.tools .head{grid-template-columns:minmax(0,1fr) 7ch}.tools .head span:nth-child(2){display:none}}
+
+/* IV. Les escales : journal de bord */
+.log{width:100%;border-collapse:collapse}
+.log th{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre);text-align:left;padding:0 18px 10px 0;border-bottom:1px solid var(--ivoire)}
+.log td{padding:20px 18px 20px 0;border-bottom:1px solid var(--filet);vertical-align:top}
+.log .d{font-family:var(--mono);font-size:12px;color:var(--or);white-space:nowrap}
+.log .p{font-family:var(--display);font-weight:500;font-size:clamp(26px,2.6vw,36px);line-height:1.1}
+.log .p small{display:block;font-family:var(--mono);font-size:11px;color:var(--cendre);margin-top:6px;letter-spacing:.06em}
+.log .r{font-weight:500}
+.log .e{color:var(--cendre);max-width:46ch}
+.log .p .todo{font-size:.62em}
+.log tr.now .d::before{content:"● ";color:#8FA66B}
+@media (max-width:760px){.log thead{display:none}.log,.log tbody,.log tr,.log td{display:block}.log tr{border-bottom:1px solid var(--filet);padding:16px 0}.log td{border:0;padding:4px 0}}
+
+/* V. L'oracle : questions et réponses en deux colonnes */
+.qa{border-top:1px solid var(--ivoire)}
+.qa details{border-bottom:1px solid var(--filet)}
+.qa summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:16px;align-items:baseline;padding:18px 0;font-family:var(--display);font-weight:500;font-size:clamp(22px,2.2vw,30px);line-height:1.2;transition:color .4s}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{content:"";justify-self:end;width:11px;height:11px;border-right:1px solid var(--or);border-bottom:1px solid var(--or);margin-right:6px;transform:rotate(45deg) translateY(-4px);transition:transform .7s var(--ease)}
+.qa details[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+.qa summary:hover{color:var(--or-clair)}
+.qa .a{margin:0;padding:0 46px 20px 0;max-width:60ch;color:var(--cendre)}
+
+/* VI. Hermès */
+.letter{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(24px,4vw,64px);align-items:start}
+form{display:grid;gap:22px}
+.field{display:grid;gap:6px}
+.field label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre)}
+.field input,.field textarea{font:inherit;font-size:19px;color:var(--ivoire);background:var(--nuit-2);border:1px solid var(--filet);padding:12px 14px;border-radius:0;transition:border-color .5s}
+.field textarea{min-height:150px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--or)}
+.field [aria-invalid="true"]{border-color:var(--todo)}
+.err{font-size:14px;color:var(--todo);min-height:1.2em}
+.notice{margin:0;border-left:1px solid var(--todo);padding:6px 0 6px 14px;font-size:15px}
+.contact-side{display:grid;gap:16px;border-top:1px solid var(--ivoire);padding-top:16px}
+.contact-side p{margin:0}
+.addr{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.addr code{font-family:var(--mono);font-size:14px}
+.copy{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--filet);color:var(--cendre);padding:5px 10px;cursor:pointer}
+@media (max-width:900px){.letter{grid-template-columns:1fr}}
+
+/* Retour à Ithaque */
+.ithaque{position:relative;padding-block:clamp(56px,8vw,112px) 32px;border-top:1px solid var(--filet);overflow:hidden}
+.ithaque .coast{display:block;width:100%;height:auto;margin-bottom:clamp(20px,3vw,40px)}
+.ithaque h2{grid-column:1 / span 10;font-size:clamp(52px,8.2vw,140px);line-height:.92}
+.ithaque h2 em{font-style:italic;color:var(--or-clair);font-weight:400}
+.ithaque .act{grid-column:1 / span 7;display:grid;gap:22px;margin-top:28px}
+.ithaque .act p{margin:0;font-family:var(--display);font-style:italic;font-size:clamp(20px,1.8vw,26px);color:var(--cendre);max-width:34em}
+.ithaque .act div{display:flex;flex-wrap:wrap;gap:12px}
+.colophon{grid-column:1 / -1;margin-top:clamp(48px,6vw,80px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;border-top:1px solid var(--filet);padding-top:16px;padding-bottom:84px}
+@media (max-width:860px){.ithaque h2,.ithaque .act{grid-column:1 / -1}}
+
+@media (prefers-reduced-motion: reduce){.index,.index.open{transition:none}.rose .needle,.pv .vis .ph-img,.gal .open-img .ph-img,.btn,.index li a .t{transition:none}}
+</style>
+
+<header class="top gut" id="top">
+  <a class="brand" href="#embarcadere"><b>Andry</b><span>Lead Front-End · React & TypeScript</span></a>
+  <nav aria-label="Raccourcis">
+    <a href="#epreuves">Réalisations</a>
+    <a href="#escales">Parcours</a>
+    <a href="#hermes">Contact</a>
+    <span class="cv-off" title="Le PDF du CV n'est pas encore fourni">CV · PDF à fournir</span>
+  </nav>
+</header>
+
+<button class="rose" id="rose" aria-controls="index" aria-expanded="false">
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <g class="line">
+      <circle class="ring" cx="50" cy="50" r="47"/>
+      <circle cx="50" cy="50" r="42" class="fine"/>
+      <g id="rose-ticks" class="fine"></g>
+      <g class="needle" id="needle">
+        <path d="M50 12 L55 50 L50 56 L45 50 Z" style="fill:var(--or);stroke:none"/>
+        <path d="M50 88 L55 50 L50 44 L45 50 Z" class="soft" style="stroke-width:1"/>
+      </g>
+      <circle cx="50" cy="50" r="2.4" class="dot"/>
+    </g>
+  </svg>
+  <span class="lbl"><span id="rose-n">Départ</span><b id="rose-t">L'embarcadère</b></span>
+  <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Ouvrir l'index des chants</span>
+</button>
+
+<nav class="index gut" id="index" aria-label="Index des chants" data-lenis-prevent>
+  <div class="index-head"><span class="kicker">Index des chants</span><button class="close" id="index-close">Fermer</button></div>
+  <ol id="index-list"></ol>
+  <div class="index-foot">
+    <div class="seg" role="group" aria-label="Thème"><button id="th-nyx">Nuit</button><button id="th-helios">Jour</button></div>
+    <span class="mono">Version anglaise : prévue dans le site final.</span>
+  </div>
+</nav>
+
+<main>
+<!-- Embarcadère -->
+<section class="hero gut" id="embarcadere" data-chant="Départ" data-title="L'embarcadère">
+  <div class="grid">
+    <div class="hero-id">
+      <span class="kicker">Portfolio · Lead Front-End Developer</span>
+      <h1 class="display" id="name" aria-label="Andry"><span class="l">A</span><span class="l">n</span><span class="l">d</span><span class="l">r</span><span class="l">y</span></h1>
+      <p class="role">Je dirige le front-end d'applications <em>React et TypeScript</em>.</p>
+      <p class="pitch">Lead technique chez Bocasay, en remote pour des clients français. J'apporte aussi la lecture du besoin métier (AMOA) avant d'écrire la première ligne.</p>
+      <div class="ctas"><a class="btn" href="#epreuves">Voir les réalisations</a><a class="btn ghost" href="#hermes">Écrire</a></div>
+    </div>
+    <figure class="chart" aria-label="Point de départ : Antananarivo, 18°53′ S, 47°30′ E">
+      <svg viewBox="0 0 300 300" id="chart">
+        <g class="line draw" id="chart-lines">
+          <circle cx="150" cy="150" r="144" pathLength="1"/>
+          <circle cx="150" cy="150" r="138" pathLength="1" class="fine"/>
+          <path pathLength="1" class="fine soft" d="M12 90 H288 M8 150 H292 M12 210 H288 M90 12 V288 M150 8 V292 M210 12 V288"/>
+          <g id="ship" transform="translate(0 6)">
+            <path pathLength="1" d="M78 170 C104 190 196 190 222 168"/>
+            <path pathLength="1" d="M82 167 C112 181 190 181 218 165"/>
+            <path pathLength="1" d="M78 170 C66 160 68 144 80 143 C88 143 88 152 82 153"/>
+            <path pathLength="1" d="M222 168 L238 172 L224 162"/>
+            <path pathLength="1" d="M150 166 V82"/>
+            <path pathLength="1" d="M112 92 Q150 86 188 92"/>
+            <path pathLength="1" d="M114 94 L118 152 Q150 158 182 152 L186 94"/>
+            <path pathLength="1" class="fine" d="M131 92 V155 M150 90 V157 M169 92 V155"/>
+            <path pathLength="1" class="fine" d="M150 82 L86 146 M150 82 L216 160"/>
+            <path pathLength="1" class="fine" d="M100 176 L92 196 M118 180 L112 200 M136 182 L132 202 M164 182 L164 202 M182 180 L184 200 M200 176 L204 196"/>
+          </g>
+          <path pathLength="1" class="fine" d="M40 214 c8 -7 16 -7 24 0 s16 7 24 0 s16 -7 24 0 s16 7 24 0 s16 -7 24 0 s16 7 24 0 s16 -7 24 0 s16 7 24 0 s16 -7 24 0"/>
+        </g>
+        <g id="city">
+          <circle cx="210" cy="232" r="9" class="line fine"/>
+          <circle cx="210" cy="232" r="3.2" style="fill:var(--or-clair)"/>
+          <text x="196" y="229" class="city" text-anchor="end">ANTANANARIVO</text>
+          <text x="196" y="241" text-anchor="end">18°53′ S · 47°30′ E</text>
+          <text x="154" y="18">0°</text><text x="94" y="86">18° S</text><text x="94" y="206">19° S</text>
+        </g>
+      </svg>
+      <figcaption class="mono">Fig. 1 · Point de départ du voyage. Gravure au trait.</figcaption>
+    </figure>
+    <div class="hero-band mono">
+      <span class="dispo">Disponible · CDI ou freelance · remote</span>
+      <span>Heure à Antananarivo <b id="clock">--:--</b> (UTC+3)</span>
+      <span>Folio 1 · Départ</span>
+    </div>
+  </div>
+</section>
+
+<div class="route gut" data-from="L'embarcadère" data-to="Chant I · Deux divinités"></div>
+
+<!-- I. Deux divinités -->
+<section class="chant gut" id="divinites" data-chant="Chant I" data-title="Deux divinités">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant I</span><span class="folio">Folio 2</span><p class="note mono">« Dis-moi, Muse, cet homme subtil qui erra si longtemps… » Homère, L'Odyssée, I, trad. Leconte de Lisle.</p></aside>
+    <div class="head"><h2 class="display">Deux divinités</h2><p class="lead">Héphaïstos pour le métier, Athéna pour le conseil. Le premier tient la forge ; la seconde lui dit quoi forger.</p></div>
+    <div class="body">
+      <div class="duo">
+        <article class="god">
+          <svg viewBox="0 0 120 120" class="emb line draw" aria-hidden="true"><circle cx="60" cy="60" r="57" pathLength="1"/><circle cx="60" cy="60" r="53" pathLength="1" class="fine"/><path pathLength="1" d="M34 90 L76 48"/><path pathLength="1" d="M70 32 L92 54 L84 62 L62 40 Z"/><path pathLength="1" class="fine" d="M66 36 L88 58"/><path pathLength="1" d="M28 96 H92"/><path pathLength="1" class="fine" d="M34 100 H86"/></svg>
+          <span class="kicker">Héphaïstos · le métier</span>
+          <h3 class="display">Architecture front-end et lead technique</h3>
+          <p>Mon métier principal. Je conçois et je fais tenir des interfaces React et TypeScript dans la durée, avec l'équipe qui les écrit.</p>
+          <dl>
+            <div><dt>Architecture</dt><dd>Découpage des composants, gestion de l'état, conventions de projet.</dd></div>
+            <div><dt>Qualité</dt><dd>Typage strict, revue de code, dette technique suivie.</dd></div>
+            <div><dt>Équipe</dt><dd>Lead d'une équipe front, mentorat des développeurs.</dd></div>
+          </dl>
+        </article>
+        <div class="rule" aria-hidden="true"></div>
+        <article class="god minor">
+          <svg viewBox="0 0 120 120" class="emb line draw" aria-hidden="true"><circle cx="60" cy="60" r="57" pathLength="1"/><circle cx="60" cy="60" r="53" pathLength="1" class="fine"/><path pathLength="1" d="M30 94 C46 78 66 56 90 26"/><path pathLength="1" d="M40 82 C34 74 28 72 22 72 C28 78 34 82 40 82 Z"/><path pathLength="1" d="M46 76 C48 66 46 60 42 56 C42 64 42 70 46 76 Z"/><path pathLength="1" d="M56 64 C50 58 44 56 38 58 C44 62 50 64 56 64 Z"/><path pathLength="1" d="M62 58 C66 50 66 44 62 38 C60 46 60 52 62 58 Z"/><path pathLength="1" d="M72 46 C66 40 60 40 54 42 C60 46 66 46 72 46 Z"/><path pathLength="1" d="M78 40 C84 34 86 28 84 22 C80 28 78 34 78 40 Z"/></svg>
+          <span class="kicker">Athéna · le conseil</span>
+          <h3 class="display">Comprendre avant de coder</h3>
+          <p>Des missions d'AMOA chez Bocasay : je traduis le besoin d'un client en spécifications, puis en interface.</p>
+          <dl>
+            <div><dt>Écoute</dt><dd>Recueil du besoin, ateliers avec le métier.</dd></div>
+            <div><dt>Écrit</dt><dd>Spécifications fonctionnelles.</dd></div>
+            <div><dt>Lien</dt><dd>Pont entre le client et l'équipe.</dd></div>
+          </dl>
+        </article>
+      </div>
+      <p class="agora"><span class="kicker">Hors du travail</span><span class="it">Membre du Rotaract Club d'Ivandry, pour lequel j'ai réalisé deux projets bénévoles.</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="route gut" data-from="Deux divinités" data-to="Chant II · Les épreuves"></div>
+
+<!-- II. Les épreuves -->
+<section class="chant gut" id="epreuves" data-chant="Chant II" data-title="Les épreuves">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant II</span><span class="folio">Folio 3</span><p class="note mono" id="arch-count">Archives · 4 dossiers. Ouvre une fiche pour lire le récit complet.</p></aside>
+    <div class="head"><h2 class="display">Les épreuves</h2><p class="lead">Chaque réalisation est un dossier d'archive. Ouvre-le pour lire l'étude de cas : contexte, rôle, décisions, planches et résultats.</p></div>
+    <div class="body"><div class="archive" id="archive"></div></div>
+  </div>
+</section>
+
+<div class="route gut" data-from="Les épreuves" data-to="Chant III · L'arsenal"></div>
+
+<!-- III. L'arsenal -->
+<section class="chant gut" id="arsenal" data-chant="Chant III" data-title="L'arsenal">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant III</span><span class="folio">Folio 4</span><p class="note mono">Chaque outil a reçu une arme de la mythologie. Choisis une ligne pour voir comment je l'utilise.</p></aside>
+    <div class="head"><h2 class="display">L'arsenal</h2><p class="lead">Des instruments de travail, pas des badges : à quoi ils servent dans mes projets, et depuis quand.</p></div>
+    <div class="body">
+      <div class="arsenal">
+        <div class="tools">
+          <div class="head mono" aria-hidden="true"><span>Instrument</span><span>Rôle dans mon travail</span><span>Depuis</span></div>
+          <ul id="tools"></ul>
+        </div>
+        <aside class="shrine" aria-live="polite" id="shrine"></aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="route gut" data-from="L'arsenal" data-to="Chant IV · Les escales"></div>
+
+<!-- IV. Les escales -->
+<section class="chant gut" id="escales" data-chant="Chant IV" data-title="Les escales">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant IV</span><span class="folio">Folio 5</span><p class="note mono">Journal de bord, de la plus récente à la plus ancienne.</p></aside>
+    <div class="head"><h2 class="display">Les escales</h2><p class="lead">Les ports où j'ai jeté l'ancre, avec le poste occupé et ce que j'y ai fait.</p></div>
+    <div class="body" style="overflow-x:auto">
+      <table class="log">
+        <thead><tr><th>Période</th><th>Port</th><th>Poste</th><th>Entrée du journal</th></tr></thead>
+        <tbody id="log"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="route gut" data-from="Les escales" data-to="Chant V · L'oracle"></div>
+
+<!-- V. L'oracle -->
+<section class="chant gut" id="oracle" data-chant="Chant V" data-title="L'oracle">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant V</span><span class="folio">Folio 6</span><p class="note mono">Ulysse a consulté Tirésias. Ici, les réponses aux questions que posent le plus souvent les recruteurs.</p></aside>
+    <div class="head"><h2 class="display">L'oracle</h2></div>
+    <div class="body">
+      <div class="qa">
+        <details open><summary>Es-tu disponible ?</summary><p class="a">Oui, pour un CDI ou une mission freelance, en remote. <span class="todo">[Date de disponibilité à fournir]</span></p></details>
+        <details><summary>Travailles-tu déjà à distance avec la France ?</summary><p class="a">Oui, c'est mon quotidien chez Bocasay : des projets pour des clients français, depuis Madagascar. Le décalage est d'une à deux heures selon la saison.</p></details>
+        <details><summary>Quelle est ton expertise technique ?</summary><p class="a">React et TypeScript au quotidien, l'architecture front-end et le lead d'équipe. Node.js pour l'outillage. Ce site est construit avec Next.js et Supabase.</p></details>
+        <details><summary>Comment travailles-tu avec une équipe ?</summary><p class="a">Revue de code systématique, conventions écrites, et un pont direct avec le métier grâce à l'AMOA : l'équipe sait pourquoi elle construit ce qu'elle construit.</p></details>
+        <details><summary>Peut-on voir du code ?</summary><p class="a">Les projets clients sont sous confidentialité. Le code de ce portfolio sera public sur GitHub. <span class="todo">[Lien GitHub à fournir]</span></p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="route gut" data-from="L'oracle" data-to="Chant VI · Écrire à Hermès"></div>
+
+<!-- VI. Hermès -->
+<section class="chant gut" id="hermes" data-chant="Chant VI" data-title="Écrire à Hermès">
+  <div class="grid">
+    <aside class="marg"><span class="kicker">Chant VI</span><span class="folio">Folio 7</span><p class="note mono">Hermès portait les messages des dieux. Réponse sous 48 h, décalage horaire compris.</p></aside>
+    <div class="head"><h2 class="display">Écrire à Hermès</h2></div>
+    <div class="body">
+      <div class="letter">
+        <form id="form" novalidate aria-describedby="form-help">
+          <p id="form-help" class="mono" style="margin:0">Tous les champs sont obligatoires.</p>
+          <div class="field"><label for="f-name">Nom</label><input id="f-name" name="name" autocomplete="name" aria-describedby="e-name"><span class="err" id="e-name" aria-live="polite"></span></div>
+          <div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" autocomplete="email" aria-describedby="e-mail"><span class="err" id="e-mail" aria-live="polite"></span></div>
+          <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" aria-describedby="e-msg"></textarea><span class="err" id="e-msg" aria-live="polite"></span></div>
+          <div><button class="btn" type="submit">Envoyer le message</button></div>
+          <p class="notice" id="notice" role="status" hidden>Ton message est prêt, mais l'envoi n'est pas encore branché dans ce prototype : rien n'a été transmis. Écris directement à l'adresse ci-contre.</p>
+        </form>
+        <aside class="contact-side">
+          <span class="kicker">Directement</span>
+          <div class="addr"><code id="mail">[email à fournir]</code><button class="copy" type="button" id="copy">Copier</button></div>
+          <p class="mono">LinkedIn · <span class="todo">[à fournir]</span><br>GitHub · <span class="todo">[à fournir]</span></p>
+          <p class="it" style="font-size:20px;color:var(--cendre)">Moi je rame, lui il vole. Chacun son métier. <span class="mono" style="display:block;margin-top:4px">Charon</span></p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Retour à Ithaque -->
+<footer class="ithaque gut" id="ithaque" data-chant="Épilogue" data-title="Le retour à Ithaque">
+  <svg class="coast line draw" id="coast" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <path pathLength="1" class="fine soft" d="M0 104 H1200"/>
+    <path pathLength="1" d="M760 104 C800 98 820 70 860 64 C890 60 900 40 940 36 C980 32 1000 58 1040 60 C1080 62 1110 80 1150 88 C1170 92 1190 100 1200 104"/>
+    <path pathLength="1" class="fine" d="M820 104 C860 96 900 84 960 82 C1010 80 1060 92 1100 104"/>
+    <g id="arrive"><path pathLength="1" d="M300 100 C320 110 372 110 392 98"/><path pathLength="1" d="M346 100 V58"/><path pathLength="1" d="M326 62 L330 92 Q346 95 362 92 L366 62 Z"/></g>
+    <path pathLength="1" class="fine" d="M120 112 c8 -5 16 -5 24 0 s16 5 24 0 s16 -5 24 0 s16 5 24 0 s16 -5 24 0 s16 5 24 0 s16 -5 24 0 s16 5 24 0"/>
+  </svg>
+  <div class="grid">
+    <span class="kicker" style="grid-column:1 / -1;margin-bottom:16px">Épilogue · Le retour à Ithaque</span>
+    <h2 class="display">Prochaine escale&nbsp;:<br><em>votre équipe.</em></h2>
+    <div class="act">
+      <p>Ulysse a mis dix ans à rentrer. Pour me joindre, une lettre suffit.</p>
+      <div><a class="btn" href="#hermes">Me contacter</a><span class="btn ghost" aria-disabled="true" title="Le PDF du CV n'est pas encore fourni">CV · PDF à fournir</span></div>
+    </div>
+    <div class="colophon mono"><span>Andry · Lead Front-End Developer · Antananarivo</span><span>Gravures au trait faites main · MMXXVI</span></div>
+  </div>
+</footer>
+
+<div class="dossier" id="dossier" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden data-lenis-prevent>
+  <div class="d-bar gut"><span class="crumbs" id="d-crumb"></span><button class="close" id="d-x" type="button"><span class="hide-sm">Retour aux </span>archives ✕</button></div>
+  <div id="d-body"></div>
+</div>
+<div class="lb gut" id="lb" role="dialog" aria-modal="true" aria-label="Visionneuse d'images" hidden>
+  <div class="lb-top"><span class="mono" id="lb-count"></span><button class="close" id="lb-close" type="button">Fermer ✕</button></div>
+  <div class="lb-stage"><button class="lb-arrow lb-prev" id="lb-prev" type="button" aria-label="Image précédente">←</button><figure class="lb-fig" id="lb-fig"></figure><button class="lb-arrow lb-next" id="lb-next" type="button" aria-label="Image suivante">→</button></div>
+  <div class="lb-cap" id="lb-cap" aria-live="polite"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var G = !!window.gsap && !RM;
+  if (G) gsap.registerPlugin(ScrollTrigger);
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  /* Les crochets [ … ] signalent un contenu à fournir ; ils sont rendus comme tels */
+  function txt(s){ return esc(s).replace(/\[([^\]]+)\]/g, '<span class="todo">[$1]</span>'); }
+  function P(d, cls){ return '<path pathLength="1"' + (cls ? ' class="' + cls + '"' : '') + ' d="' + d + '"/>'; }
+
+  /* ===== Données (dans le site : Supabase, éditables dans /admin) ===== */
+  /* Chaque projet porte son récit, ses technologies et 4 à 5 images.
+     image : { src, alt, caption, kind, ratio } ; src vide = emplacement à remplacer par la vraie ressource.
+     links : seulement ce qui est public ET autorisé ; liste vide = rien n'est affiché. */
+  function slots(list){ return list.map(function(x){ return { src:'', alt:'', kind:x[0], caption:x[1], ratio:x[2] }; }); }
+  var PROJECTS = [
+    { slug:'plateforme-multi-espaces', title:'Plateforme multi-espaces', type:'Mission client · Bocasay', sealed:true, emb:'maze',
+      summary:'Une plateforme où plusieurs espaces métier cohabitent, pour un client sous confidentialité. Lead front-end et AMOA.',
+      period:'[Période]', role:'Lead front-end et AMOA', team:'[Taille de l’équipe]', client:'Sous confidentialité',
+      quest:'Sortir du labyrinthe des espaces métier sans perdre le fil.', line:'La première est scellée par mon patron, Hadès. Je n’ai rien vu.',
+      context:'Plusieurs espaces métier pour un client du secteur [secteur].', problem:'[Le problème à résoudre, en deux phrases.]',
+      roleText:'J’ai tenu le rôle de lead front-end, avec une mission d’AMOA en amont.',
+      contribution:['Recueil du besoin et spécifications avec le client.','Architecture des espaces côté front-end.','Revue de code de l’équipe.','[Autre contribution à préciser]'],
+      decisions:[['[Décision 1]','[Pourquoi ce choix, et ce qu’il a permis.]'],['[Décision 2]','[Pourquoi ce choix, et ce qu’il a permis.]']],
+      stack:[['React','[Usage précis dans le projet]'],['TypeScript','[Usage précis dans le projet]'],['Node.js','[Usage précis dans le projet]']],
+      results:[], links:[],
+      images:slots([['Logo de l’entreprise','Logo Bocasay, à la place des captures du client.','16/10'],['Vue d’ensemble','Capture floutée ou maquette redessinée de l’écran principal.','16/10'],['Détail d’interface','Composant ou parcours clé, données anonymisées.','4/5'],['Architecture','Schéma de l’architecture des espaces, sans nom de client.','1/1'],['Parcours','Enchaînement de deux écrans, flouté.','16/9']]) },
+    { slug:'gestion-des-membres', title:'Gestion des membres du Rotaract', type:'Projet associatif', emb:'hydra',
+      summary:'Un outil pour remplacer le fichier Excel partagé du club. [Résumé à confirmer]',
+      period:'[Période]', role:'[Rôle]', team:'Bénévole', client:'Rotaract Club d’Ivandry',
+      quest:'Terrasser l’hydre du fichier Excel des membres.', line:'Une hydre en tableur. Chaque fois qu’on corrigeait une cellule, deux autres repoussaient.',
+      context:'[À confirmer : le club gérait ses membres dans un fichier Excel partagé.]', problem:'[Le problème à résoudre.]',
+      roleText:'[Ton rôle sur ce projet.]', contribution:['[Contribution 1]','[Contribution 2]'],
+      decisions:[['[Décision 1]','[Pourquoi.]']], stack:[['[Technologie]','[Usage]']], results:[], links:[],
+      images:slots([['Écran principal','Liste des membres.','16/10'],['Fiche membre','Détail d’une fiche.','4/5'],['Mobile','Vue sur téléphone.','1/1'],['Avant / après','Le fichier Excel d’origine face à l’outil.','16/9'],['Export','Liste exportée ou imprimée.','21/9']]) },
+    { slug:'site-du-rotaract', title:'Site du Rotaract Club d’Ivandry', type:'Projet associatif', emb:'herald',
+      summary:'Un site public et un espace d’administration pour que les membres publient eux-mêmes les actions du club.',
+      period:'[Période]', role:'[Rôle]', team:'Bénévole', client:'Rotaract Club d’Ivandry',
+      quest:'Publier les actions du club sans attendre le développeur de service.', line:'Un site pour son club, fait bénévolement. Comme moi, sauf que moi je suis payé en oboles.',
+      context:'[Contexte du club et de sa communication.]', problem:'[Le problème à résoudre.]',
+      roleText:'[Ton rôle sur ce projet.]', contribution:['Site public.','Espace d’administration pour que les membres publient eux-mêmes.'],
+      decisions:[['[Décision 1]','[Pourquoi.]']], stack:[['[Technologie]','[Usage]']], results:[], links:[],
+      images:slots([['Page d’accueil','Accueil du site public.','16/10'],['Page action','Une action du club publiée.','4/5'],['Administration','Formulaire de publication.','1/1'],['Mobile','Le site sur téléphone.','16/9'],['Détail','Typographie ou composant.','21/9']]) },
+    { slug:'odyssee', title:'L’Odyssée, ce portfolio', type:'Projet personnel', emb:'boat',
+      summary:'Ce site : un portfolio raconté comme un voyage, éditable sans redéploiement.',
+      period:'2026', role:'Conception et développement', team:'Seul, avec Claude Code', client:'—',
+      quest:'Raconter un parcours technique comme un voyage, sans sacrifier la lisibilité.', line:'Et cette barque, c’est lui qui l’a construite. Pas de fuite pour l’instant. Je touche du bois.',
+      context:'Un portfolio qui raconte un parcours au lieu d’aligner des cartes.', problem:'Être mémorable pour un recruteur sans le ralentir : l’information doit rester lisible en trente secondes.',
+      roleText:'Direction artistique, conception et développement.', contribution:['Direction artistique et gravures au trait faites main.','Développement Next.js et Supabase.','Interface d’administration du contenu.'],
+      decisions:[['Next.js App Router','Rendu serveur pour le SEO, contenu mis en cache et rafraîchi par tags.'],['Supabase','Contenu éditable dans l’admin, sécurisé par des règles RLS.'],['Animations sobres','Limitées à transform, opacity et au tracé SVG ; respect de prefers-reduced-motion.']],
+      stack:[['Next.js','Routage, rendu serveur, cache.'],['Supabase','Base, authentification, stockage.'],['GSAP','Tracés et transitions au scroll.']],
+      results:[], links:[],
+      images:slots([['Ouverture','Capture de l’embarcadère.','16/10'],['Archives','Une fiche de projet ouverte.','4/5'],['Arsenal','La planche des instruments.','1/1'],['Admin','L’interface d’administration.','16/9'],['Mobile','Le site sur téléphone.','21/9']]) }
+  ];
+  var TOOLS = [
+    { name:'React', since:'6 ans', w:'foudre', weapon:'La foudre de Zeus', role:'Socle de toutes mes interfaces : composants, état, performance.', ctx:'Usage quotidien chez Bocasay, sur des projets pour des clients français.' },
+    { name:'TypeScript', since:'5 ans', w:'egide', weapon:'L’égide d’Athéna', role:'Typage strict des modèles métier et des composants.', ctx:'Sur tous mes projets React depuis cinq ans. [Exemple concret à fournir]' },
+    { name:'Node.js', since:'4 ans', w:'trident', weapon:'Le trident de Poséidon', role:'Outillage, scripts et petites API.', ctx:'[Contexte d’usage à préciser]' },
+    { name:'Git', since:'Toujours', w:'fil', weapon:'Le fil d’Ariane', role:'Historique, branches et revue de code de l’équipe.', ctx:'Revue de code au quotidien en tant que lead.' },
+    { name:'Next.js', since:'2026', w:'caducee', weapon:'Le caducée d’Hermès', role:'App Router, Server Components et Server Actions.', ctx:'Appris et appliqué sur ce portfolio.' },
+    { name:'Supabase', since:'2026', w:'casque', weapon:'Le casque d’Hadès', role:'Base Postgres, authentification, stockage, règles RLS.', ctx:'Appris et appliqué sur ce portfolio.' }
+  ];
+  var PORTS = [
+    { when:'[Depuis]', name:'Bocasay', where:'Antananarivo · remote vers la France', role:'Lead Front-End Developer', text:'Lead technique front-end, et missions d’AMOA ponctuelles pour des clients français.', now:true },
+    { when:'[Années]', name:'[Deuxième port]', where:'[Lieu]', role:'[Poste]', text:'[Deux lignes sur ce que tu y as fait.]' },
+    { when:'[Années]', name:'[Premier port]', where:'Antananarivo', role:'[Poste]', text:'[Deux lignes sur ce que tu y as fait.]' }
+  ];
+  var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+  /* ===== Gravures au trait ===== */
+  var LW = {
+    foudre: P('M0 -12 C-7 -20 -6 -30 0 -42 C6 -30 7 -20 0 -12') + P('M0 12 C-7 20 -6 30 0 42 C6 30 7 20 0 12') + '<ellipse pathLength="1" cx="0" cy="0" rx="5" ry="12"/>' + P('M-5 -4 L-18 -14 L-12 -18 L-28 -32 M5 -4 L18 -14 L12 -18 L28 -32 M-5 4 L-18 14 L-12 18 L-28 32 M5 4 L18 14 L12 18 L28 32', 'fine'),
+    egide: '<circle pathLength="1" r="32"/><circle pathLength="1" r="26" class="fine"/><circle pathLength="1" r="9"/>' + [0,45,90,135,180,225,270,315].map(function(a){ return '<path pathLength="1" class="fine" transform="rotate(' + a + ')" d="M9 0 C14 -5 18 4 23 0"/>'; }).join(''),
+    trident: P('M0 -12 V46') + P('M-20 -42 V-24 Q-20 -12 0 -12 Q20 -12 20 -24 V-42') + P('M0 -12 V-48') + P('M-20 -42 l-4 7 M-20 -42 l4 7 M20 -42 l-4 7 M20 -42 l4 7 M0 -48 l-4 7 M0 -48 l4 7', 'fine'),
+    caducee: P('M0 -36 V46') + '<circle pathLength="1" cx="0" cy="-41" r="4"/>' + P('M-2 -32 C-14 -44 -30 -40 -36 -28 C-24 -31 -12 -29 -2 -26 M2 -32 C14 -44 30 -40 36 -28 C24 -31 12 -29 2 -26') + P('M0 -22 C14 -16 14 -4 0 2 C-14 8 -14 20 0 26 C9 30 9 36 2 38', 'fine') + P('M0 -22 C-14 -16 -14 -4 0 2 C14 8 14 20 0 26 C-9 30 -9 36 -2 38', 'fine'),
+    casque: P('M-24 28 C-30 -10 -22 -34 0 -36 C22 -34 30 -10 24 28 L12 28 L10 2 C8 -4 4 -4 2 2 L2 32 L-2 32 L-2 2 C-4 -4 -8 -4 -10 2 L-12 28 Z') + P('M-20 -30 C-10 -56 10 -56 20 -30', 'fine'),
+    fil: '<circle pathLength="1" cx="-8" cy="-8" r="22"/>' + P('M-28 -14 Q-8 -26 12 -14 M-30 -4 Q-8 -14 14 -4 M-26 6 Q-8 -2 10 6', 'fine') + P('M10 6 C24 16 32 28 20 36 C10 42 24 50 40 44')
+  };
+  var EMB = {
+    maze: P('M14 8 H146 V92 H14 V20 H134 V80 H26 V32 H122 V68 H38 V44 H110 V56 H52'),
+    hydra: P('M44 94 C44 74 68 68 80 68 C92 68 116 74 116 94') + P('M80 68 C70 52 52 46 38 32') + P('M80 68 C76 46 70 32 64 14') + P('M80 68 C84 46 90 32 96 12') + P('M80 68 C92 52 110 46 124 32'),
+    herald: P('M18 58 L108 46 M18 64 L108 54') + P('M108 46 C120 40 130 36 138 30 L138 70 C130 64 120 60 108 54') + P('M146 38 C152 46 152 54 146 62 M152 30 C162 42 162 58 152 70', 'fine'),
+    boat: P('M24 62 C50 80 112 80 138 60') + P('M24 62 C14 54 16 40 26 40 C32 40 32 48 28 50') + P('M80 64 V12') + P('M56 22 L60 58 Q80 62 100 58 L104 22 Z') + P('M0 88 c6 -6 12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0 s12 6 18 0 s12 -6 18 0', 'fine')
+  };
+  function medallion(k){ return '<g class="line draw"><circle pathLength="1" r="62"/><circle pathLength="1" r="58" class="fine"/><circle r="50" class="fine" style="stroke-dasharray:0 3.2;stroke-width:1.1"/><g class="weapon">' + LW[k] + '</g></g>'; }
+
+  /* ===== Thème ===== */
+  function setTheme(t){ document.documentElement.setAttribute('data-theme', t); $('th-nyx').setAttribute('aria-pressed', t === 'dark'); $('th-helios').setAttribute('aria-pressed', t === 'light'); try { localStorage.setItem('odyssee-theme', t); } catch(e){} }
+  var saved = null; try { saved = localStorage.getItem('odyssee-theme'); } catch(e){}
+  if (saved) setTheme(saved); else { var dk = !matchMedia('(prefers-color-scheme: light)').matches; $('th-nyx').setAttribute('aria-pressed', dk); $('th-helios').setAttribute('aria-pressed', !dk); }
+  $('th-nyx').onclick = function(){ setTheme('dark'); }; $('th-helios').onclick = function(){ setTheme('light'); };
+
+  /* ===== Heure d'Antananarivo ===== */
+  function tick(){ try { $('clock').textContent = new Date().toLocaleTimeString('fr-FR', { timeZone:'Indian/Antananarivo', hour:'2-digit', minute:'2-digit' }); } catch(e){} }
+  tick(); setInterval(tick, 20000);
+
+  /* ===== Routes entre les chants ===== */
+  document.querySelectorAll('.route').forEach(function(r, i){
+    var rtl = i % 2 === 1; if (rtl) r.classList.add('rtl');
+    r.innerHTML = '<span class="from">' + esc(r.dataset.from) + '</span>' +
+      '<div class="track"><svg viewBox="0 0 1000 24" preserveAspectRatio="none" aria-hidden="true"><path class="line soft" vector-effect="non-scaling-stroke" d="M0 12 H1000" style="stroke-dasharray:2 7;stroke-width:1"/><path class="line course" pathLength="1" vector-effect="non-scaling-stroke" d="' + (rtl ? 'M1000 12 H0' : 'M0 12 H1000') + '" style="stroke-width:1;stroke-dasharray:1;stroke-dashoffset:0"/></svg><svg class="rb line" viewBox="0 0 34 22" aria-hidden="true"><path d="M2 14 Q17 21 32 12" /><path d="M2 14 Q0 10 3 8"/><path d="M17 15 V2"/><path d="M11 3 L23 3 L22 11 L12 11 Z"/></svg></div>' +
+      '<span class="to">→ ' + esc(r.dataset.to) + '</span>';
+    r.setAttribute('aria-hidden', 'true');
+  });
+
+  /* ===== Emplacement d'image (vraie image si fournie) ===== */
+  function ratioNum(r){ var a = String(r).split('/'); return (+a[0] || 16) / (+a[1] || 10); }
+  function imgBox(p, im, n, opts){
+    opts = opts || {};
+    var style = 'aspect-ratio:' + im.ratio + ';--r:' + ratioNum(im.ratio).toFixed(3);
+    if (im.src) return '<div class="ph-img" style="' + style + '"><img src="' + esc(im.src) + '" alt="' + esc(im.alt) + '"' + (opts.eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' decoding="async" sizes="' + (opts.sizes || '(max-width: 900px) 100vw, 60vw') + '"></div>';
+    return '<div class="ph-img empty" style="' + style + '" role="img" aria-label="Emplacement : ' + esc(im.kind) + ', image à fournir"><svg class="wm line" viewBox="0 0 160 100" aria-hidden="true">' + EMB[p.emb] + '</svg><div class="lab"><span>Image ' + n + ' · ' + esc(im.kind) + ' · à fournir</span><small>Format ' + esc(im.ratio.replace('/', ':')) + '</small></div></div>';
+  }
+
+  /* ===== Aperçus des épreuves ===== */
+  $('archive').innerHTML = '<div class="previews">' + PROJECTS.map(function(p, i){
+    return '<article class="pv' + (i % 2 ? ' alt' : '') + '" aria-labelledby="pv' + i + '">' +
+      '<div class="vis" data-open="' + i + '">' + imgBox(p, p.images[0], 1, { sizes:'(max-width: 900px) 100vw, 45vw' }) + '<div class="ph-cap"><span><b>Dossier ' + ROMAN[i] + '</b> · ' + esc(p.images[0].kind) + '</span><span>' + txt(p.period) + '</span></div></div>' +
+      '<div class="txt"><span class="kicker">Dossier ' + ROMAN[i] + ' · ' + esc(p.type) + '</span><h3 class="display" id="pv' + i + '">' + esc(p.title) + '</h3><p class="sum">' + txt(p.summary) + '</p>' +
+      '<ul class="stk" aria-label="Technologies principales">' + p.stack.map(function(s){ return '<li>' + txt(s[0]) + '</li>'; }).join('') + '</ul>' +
+      (p.sealed ? '<p class="seal">Dossier scellé · présenté sans données client</p>' : '') +
+      '<div><button class="btn ghost" type="button" data-open="' + i + '" aria-haspopup="dialog">Lire les archives</button></div></div></article>';
+  }).join('') + '</div>';
+  $('arch-count').textContent = 'Archives · ' + PROJECTS.length + ' dossiers. Chaque dossier s’ouvre en étude de cas.';
+
+  /* ===== Dossier : étude de cas plein écran, adressable par #archive-slug ===== */
+  var dossier = $('dossier'), dBody = $('d-body'), curP = -1, pushed = false, lastOpener = null, closing = false;
+  try { history.scrollRestoration = 'manual'; } catch(e){}
+  var behind = function(){ return [document.querySelector('header.top'), $('rose'), document.querySelector('main'), document.querySelector('footer.ithaque')]; };
+  function sec(n, title, html){ return '<section class="d-sec grid"><div class="lbl"><span class="n">' + n + '</span><h3>' + title + '</h3></div><div class="ct">' + html + '</div></section>'; }
+  function renderDossier(i){
+    var p = PROJECTS[i], prev = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length], next = PROJECTS[(i + 1) % PROJECTS.length];
+    $('d-crumb').innerHTML = 'Archives · <b>Dossier ' + ROMAN[i] + '</b> sur ' + PROJECTS.length;
+    var gal = p.images.slice(1).map(function(im, k){
+      return '<figure class="g' + k + '"><button class="open-img" type="button" data-img="' + (k + 1) + '" aria-label="Agrandir : ' + esc(im.kind) + '">' + imgBox(p, im, k + 2) + '</button><figcaption><b>Fig. ' + (k + 2) + '</b><span>' + esc(im.kind) + ' — ' + txt(im.caption) + '</span></figcaption></figure>';
+    }).join('');
+    var secret = p.sealed ? '<div class="secret"><svg viewBox="0 0 44 44" class="line" aria-hidden="true"><circle cx="22" cy="22" r="20"/><circle cx="22" cy="22" r="15" class="fine"/><path d="M15 27 L22 13 L29 27 Z"/></svg><div><p>Certains projets ne peuvent être présentés publiquement pour des raisons de confidentialité. Pour en savoir davantage sur mon rôle, les choix techniques ou les problématiques rencontrées, n’hésite pas à me contacter.</p><button class="btn" type="button" data-contact>Me contacter pour en savoir plus</button></div></div>' : '';
+    var links = p.links.length ? '<div class="links">' + p.links.map(function(l){ return '<a class="btn ghost" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' ↗</a>'; }).join('') + '</div>' : '';
+    dBody.innerHTML =
+      '<header class="d-open gut"><div class="grid"><span class="kicker">Dossier ' + ROMAN[i] + ' · ' + esc(p.type) + (p.sealed ? ' · scellé' : '') + '</span>' +
+        '<h2 class="display" id="d-title" tabindex="-1">' + esc(p.title) + '</h2><p class="intro">« ' + esc(p.quest) + ' »</p>' +
+        '<dl class="facts"><dt>Période</dt><dd>' + txt(p.period) + '</dd><dt>Rôle</dt><dd>' + txt(p.role) + '</dd><dt>Équipe</dt><dd>' + txt(p.team) + '</dd><dt>Client</dt><dd>' + txt(p.client) + '</dd></dl>' +
+        '<figure class="d-hero"><button class="open-img" type="button" data-img="0" aria-label="Agrandir : ' + esc(p.images[0].kind) + '" style="all:unset;display:block;width:100%;cursor:zoom-in">' + imgBox(p, Object.assign({}, p.images[0], { ratio:'21/9' }), 1, { eager:true, sizes:'100vw' }) + '</button><div class="ph-cap"><span><b>Fig. 1</b> · ' + esc(p.images[0].kind) + ' — ' + txt(p.images[0].caption) + '</span><span>Note de Charon : « ' + esc(p.line) + ' »</span></div></figure></div></header>' +
+      '<div class="gut">' +
+        sec('§ 2', 'Contexte et problème', '<div class="two"><div><h4>Contexte</h4><p>' + txt(p.context) + '</p></div><div><h4>Le problème</h4><p class="pull">' + txt(p.problem) + '</p></div></div>') +
+        sec('§ 3', 'Mon rôle', '<p class="role">' + txt(p.roleText) + '</p><ul class="rul">' + p.contribution.map(function(c){ return '<li><span>' + txt(c) + '</span></li>'; }).join('') + '</ul>') +
+        sec('§ 4', 'Décisions', '<dl class="dec">' + p.decisions.map(function(d){ return '<div><dt>' + txt(d[0]) + '</dt><dd>' + txt(d[1]) + '</dd></div>'; }).join('') + '</dl>') +
+        sec('§ 5', 'Planches', '<div class="gal">' + gal + '</div>') +
+        sec('§ 6', 'Instruments et résultats', '<div class="two"><div><h4>Technologies</h4><ul class="stackx">' + p.stack.map(function(s){ return '<li><b>' + txt(s[0]) + '</b><span>' + txt(s[1]) + '</span></li>'; }).join('') + '</ul></div><div class="res"><h4>Résultats</h4>' + (p.results.length ? '<ul>' + p.results.map(function(r){ return '<li>' + txt(r) + '</li>'; }).join('') + '</ul>' : '<p class="todo" style="margin:0">[Résultats documentés à fournir. Rien n’est affiché tant qu’ils ne sont pas vérifiés.]</p>') + '</div></div>' + secret + links) +
+        '<nav class="d-nav" aria-label="Autres dossiers"><button type="button" data-goto="' + ((i - 1 + PROJECTS.length) % PROJECTS.length) + '"><small>← Dossier précédent</small><b>' + esc(prev.title) + '</b></button><button class="bk btn ghost" type="button" data-close>Retour aux archives</button><button class="nx" type="button" data-goto="' + ((i + 1) % PROJECTS.length) + '"><small>Dossier suivant →</small><b>' + esc(next.title) + '</b></button></nav>' +
+      '</div>';
+    curP = i;
+  }
+  function openDossier(i, how){
+    var first = dossier.hidden;
+    renderDossier(i);
+    if (first){ lastOpener = document.activeElement; dossier.hidden = false; behind().forEach(function(el){ if (el) el.inert = true; }); if (lenis) lenis.stop(); document.documentElement.style.overflow = 'hidden'; }
+    dossier.scrollTop = 0;
+    var h = '#archive-' + PROJECTS[i].slug;
+    if (how === 'push'){ history.pushState({ d:i }, '', h); pushed = true; }
+    else if (how === 'replace') history.replaceState({ d:i }, '', h);
+    if (G){
+      if (first) gsap.fromTo(dossier, { clipPath:'inset(100% 0 0 0)' }, { clipPath:'inset(0% 0 0 0)', duration:.9, ease:'expo.inOut', onComplete:function(){ gsap.set(dossier, { clearProps:'clipPath' }); } });
+      gsap.from(dBody.querySelectorAll('.d-open .kicker, .d-open h2, .d-open .intro, .d-open .facts'), { opacity:0, y:18, duration:1.1, ease:'expo.out', stagger:.07, delay: first ? .45 : 0 });
+      gsap.fromTo(dBody.querySelectorAll('.wm [pathLength]'), { strokeDashoffset:1 }, { strokeDashoffset:0, duration:1.6, ease:'power2.inOut', delay: first ? .6 : .1 });
+      dBody.querySelectorAll('.d-sec').forEach(function(s){ gsap.from(s.children, { opacity:0, y:16, duration:1, ease:'expo.out', stagger:.08, scrollTrigger:{ trigger:s, scroller:dossier, start:'top 85%', once:true } }); });
+    }
+    setTimeout(function(){ $('d-title').focus({ preventScroll:true }); }, first ? 120 : 0);
+  }
+  function closeDossier(fromHistory, then){
+    if (dossier.hidden || closing) return;
+    closing = true;
+    var finish = function(){
+      closing = false;
+      dossier.hidden = true; behind().forEach(function(el){ if (el) el.inert = false; }); document.documentElement.style.overflow = '';
+      if (lenis) lenis.start();
+      if (G) ScrollTrigger.getAll().forEach(function(t){ if (t.scroller === dossier) t.kill(); });
+      if (then) then(); else { var o = document.querySelector('[data-open="' + curP + '"].btn') || lastOpener; if (o) o.focus({ preventScroll:true }); }
+      curP = -1;
+    };
+    if (!fromHistory){ if (pushed){ pushed = false; history.back(); } else history.replaceState(null, '', location.pathname + location.search); }
+    if (G) gsap.to(dossier, { clipPath:'inset(0 0 100% 0)', duration:.6, ease:'power2.in', onComplete:function(){ gsap.set(dossier, { clearProps:'clipPath' }); finish(); } });
+    else finish();
+  }
+  function fromHash(){
+    if (closing) return;
+    var m = /^#archive-(.+)$/.exec(location.hash), i = -1;
+    if (m) PROJECTS.forEach(function(p, k){ if (p.slug === m[1]) i = k; });
+    if (i >= 0) openDossier(i); else if (!dossier.hidden){ pushed = false; closeDossier(true); }
+  }
+  addEventListener('popstate', fromHash); addEventListener('hashchange', fromHash);
+  document.addEventListener('click', function(e){
+    var o = e.target.closest('[data-open]'); if (o){ e.preventDefault(); openDossier(+o.dataset.open, 'push'); return; }
+    if (e.target.closest('[data-close]')){ closeDossier(false); return; }
+    var g = e.target.closest('[data-goto]'); if (g){ openDossier(+g.dataset.goto, 'replace'); return; }
+    if (e.target.closest('[data-contact]')){ closeDossier(false, function(){ go($('hermes')); setTimeout(function(){ $('f-name').focus({ preventScroll:true }); }, 1100); }); return; }
+    var im = e.target.closest('[data-img]'); if (im){ openLb(+im.dataset.img, im); }
+  });
+  $('d-x').onclick = function(){ closeDossier(false); };
+
+  /* ===== Visionneuse : clavier, flèches, balayage tactile ===== */
+  var lb = $('lb'), lbI = 0, lbFrom = null;
+  function showLb(k){
+    var p = PROJECTS[curP], n = p.images.length; lbI = (k + n) % n; var im = p.images[lbI];
+    $('lb-fig').innerHTML = imgBox(p, im, lbI + 1, { eager:true, sizes:'100vw' });
+    $('lb-count').textContent = 'Fig. ' + (lbI + 1) + ' / ' + n;
+    $('lb-cap').innerHTML = '<span><b>Fig. ' + (lbI + 1) + '</b> · ' + esc(im.kind) + ' — ' + txt(im.caption) + '</span><span class="mono">' + esc(p.title) + '</span>';
+    if (G) gsap.fromTo('#lb-fig .ph-img', { opacity:0, scale:.985 }, { opacity:1, scale:1, duration:.6, ease:'expo.out' });
+  }
+  function openLb(k, from){ lbFrom = from; lb.hidden = false; dossier.inert = true; showLb(k); $('lb-close').focus(); }
+  function closeLb(){ lb.hidden = true; dossier.inert = false; if (lbFrom) lbFrom.focus({ preventScroll:true }); }
+  $('lb-close').onclick = closeLb; $('lb-prev').onclick = function(){ showLb(lbI - 1); }; $('lb-next').onclick = function(){ showLb(lbI + 1); };
+  var sx = null;
+  lb.addEventListener('pointerdown', function(e){ sx = e.clientX; });
+  lb.addEventListener('pointerup', function(e){ if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) showLb(lbI + (dx < 0 ? 1 : -1)); });
+  addEventListener('keydown', function(e){
+    if (!lb.hidden){
+      if (e.key === 'Escape'){ e.preventDefault(); closeLb(); }
+      else if (e.key === 'ArrowRight') showLb(lbI + 1);
+      else if (e.key === 'ArrowLeft') showLb(lbI - 1);
+      else if (e.key === 'Tab'){ var f = [$('lb-close'), $('lb-prev'), $('lb-next')], at = f.indexOf(document.activeElement); e.preventDefault(); f[(at + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
+    } else if (!dossier.hidden && e.key === 'Escape'){ e.preventDefault(); closeDossier(false); }
+  });
+
+  setTimeout(fromHash, 0);
+  /* ===== Arsenal ===== */
+  $('tools').innerHTML = TOOLS.map(function(t, i){
+    return '<li><button aria-pressed="' + (i === 0) + '" data-tool="' + i + '" aria-controls="shrine"><span class="nm">' + esc(t.name) + '</span><span class="rl">' + esc(t.role) + '</span><span class="yr">' + esc(t.since) + '</span></button></li>';
+  }).join('');
+  var shrineTl = null;
+  function showTool(i){
+    var t = TOOLS[i];
+    document.querySelectorAll('[data-tool]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.tool === i); });
+    $('shrine').innerHTML = '<span class="kicker">Instrument ' + ROMAN[i] + ' · ' + esc(t.weapon) + '</span><svg viewBox="-64 -64 128 128" aria-hidden="true">' + medallion(t.w) + '</svg><h3>' + esc(t.name) + '</h3><p>' + esc(t.role) + '</p><p class="ctx">' + txt(t.ctx) + '</p><p class="mono">Depuis · ' + esc(t.since) + '</p>';
+    if (G){
+      if (shrineTl) shrineTl.kill();
+      shrineTl = gsap.timeline()
+        .fromTo($('shrine').querySelectorAll('.weapon [pathLength], .weapon ellipse, .weapon circle'), { strokeDashoffset:1 }, { strokeDashoffset:0, duration:1.2, ease:'power2.inOut', stagger:.04 })
+        .from($('shrine').querySelectorAll('h3, p'), { opacity:0, y:8, duration:.7, ease:'expo.out', stagger:.06 }, 0);
+    }
+  }
+  document.querySelectorAll('[data-tool]').forEach(function(b){
+    var i = +b.dataset.tool;
+    b.addEventListener('click', function(){ showTool(i); });
+    b.addEventListener('focus', function(){ showTool(i); });
+  });
+  showTool(0);
+
+  /* ===== Journal de bord ===== */
+  $('log').innerHTML = PORTS.map(function(p){
+    return '<tr' + (p.now ? ' class="now"' : '') + '><td class="d">' + txt(p.when) + '</td><td class="p">' + txt(p.name) + '<small>' + txt(p.where) + '</small></td><td class="r">' + txt(p.role) + '</td><td class="e">' + txt(p.text) + '</td></tr>';
+  }).join('');
+
+  /* ===== Contact : validation réelle, aucun envoi simulé ===== */
+  $('copy').onclick = function(){ var t = $('mail').textContent, b = this; function sel(){ var r = document.createRange(); r.selectNodeContents($('mail')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } try { navigator.clipboard.writeText(t).then(function(){ b.textContent = 'Copié'; }, sel); } catch(e){ sel(); } };
+  function check(input, errId, ok, msg){ input.setAttribute('aria-invalid', !ok); $(errId).textContent = ok ? '' : msg; return ok; }
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var a = check($('f-name'), 'e-name', $('f-name').value.trim().length > 1, 'Indique ton nom.');
+    var b = check($('f-mail'), 'e-mail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('f-mail').value.trim()), 'Il manque une adresse email valide.');
+    var c = check($('f-msg'), 'e-msg', $('f-msg').value.trim().length > 9, 'Le message est trop court : Hermès refuse de voler à vide.');
+    $('notice').hidden = !(a && b && c);
+    if (!(a && b && c)){ var f = this.querySelector('[aria-invalid="true"]'); if (f) f.focus(); }
+  });
+
+  /* ===== Rose des vents et index ===== */
+  var chants = Array.prototype.slice.call(document.querySelectorAll('[data-chant]'));
+  var ticksG = '';
+  chants.forEach(function(c, i){ var a = i * (360 / chants.length); ticksG += '<path transform="rotate(' + a + ' 50 50)" d="M50 4 V' + (i === 0 ? 13 : 10) + '"/>'; });
+  $('rose-ticks').innerHTML = ticksG;
+  $('index-list').innerHTML = chants.map(function(c, i){ return '<li><a href="#' + c.id + '" data-i="' + i + '"><span class="n">' + esc(c.dataset.chant) + '</span><span class="t">' + esc(c.dataset.title) + '</span><span class="s">Folio ' + (i + 1) + '</span></a></li>'; }).join('');
+  var index = $('index'), lenis = null, current = -1;
+  function openIndex(o){
+    index.classList.toggle('open', o); $('rose').setAttribute('aria-expanded', o);
+    if (lenis) o ? lenis.stop() : lenis.start();
+    if (o){ var cur = index.querySelector('[aria-current="true"]') || index.querySelector('a'); setTimeout(function(){ cur.focus(); }, 50); } else $('rose').focus();
+  }
+  $('rose').onclick = function(){ openIndex(true); }; $('index-close').onclick = function(){ openIndex(false); };
+  addEventListener('keydown', function(e){ if (e.key === 'Escape' && index.classList.contains('open')) openIndex(false); });
+  function setCurrent(i){
+    if (i === current) return; current = i;
+    var c = chants[i];
+    $('needle').style.transform = 'rotate(' + (i * 360 / chants.length) + 'deg)';
+    $('rose-n').textContent = c.dataset.chant; $('rose-t').textContent = c.dataset.title;
+    $('rose').setAttribute('aria-label', 'Index des chants. Chant actuel : ' + c.dataset.title);
+    index.querySelectorAll('a').forEach(function(a){ a.setAttribute('aria-current', +a.dataset.i === i); });
+  }
+  function onScroll(){
+    var y = scrollY, cur = 0;
+    chants.forEach(function(c, i){ if (c.getBoundingClientRect().top + y - innerHeight * .45 <= y) cur = i; });
+    if (y + innerHeight >= document.documentElement.scrollHeight - 4) cur = chants.length - 1;
+    setCurrent(cur);
+    $('top').classList.toggle('solid', y > 40);
+  }
+  function refresh(){ if (G) ScrollTrigger.refresh(); onScroll(); }
+  function go(el){
+    /* Défilement natif pour les sauts programmés : Lenis se resynchronise sur l'événement scroll */
+    var top = el.getBoundingClientRect().top + scrollY - 72;
+    window.scrollTo({ top: Math.max(0, top), behavior: RM ? 'auto' : 'smooth' });
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]'); if (!a) return;
+    var el = document.querySelector(a.getAttribute('href')); if (!el) return;
+    e.preventDefault(); if (index.classList.contains('open')){ index.classList.remove('open'); $('rose').setAttribute('aria-expanded', false); if (lenis) lenis.start(); }
+    go(el); el.setAttribute('tabindex', '-1'); setTimeout(function(){ el.focus({ preventScroll:true }); }, 900);
+  });
+
+  if (!G){ addEventListener('scroll', onScroll, { passive:true }); onScroll(); return; }
+
+  /* ===== Défilement amorti ===== */
+  if (window.Lenis){
+    lenis = new Lenis({ lerp:.085, wheelMultiplier:.95 });
+    lenis.on('scroll', function(){ ScrollTrigger.update(); onScroll(); });
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); }); gsap.ticker.lagSmoothing(0);
+  } else addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  var E = 'expo.out';
+  /* Ouverture : un seul mouvement */
+  gsap.timeline()
+    .fromTo('#chart-lines [pathLength]', { strokeDashoffset:1 }, { strokeDashoffset:0, duration:2.4, ease:'power2.inOut', stagger:.04 }, 0)
+    .from('#city', { opacity:0, duration:1.2 }, 1.6)
+    .from('#name .l', { yPercent:105, duration:1.6, ease:E, stagger:.06 }, .15)
+    .from('.hero .kicker, .hero .role, .hero .pitch, .hero .ctas, .hero-band', { opacity:0, y:14, duration:1.3, ease:E, stagger:.1 }, .7);
+
+  /* Routes : la course se trace au scroll, la barque n'existe qu'ici */
+  gsap.utils.toArray('.route').forEach(function(r){
+    var course = r.querySelector('.course');
+    gsap.fromTo(course, { strokeDashoffset:1 }, { strokeDashoffset:0, ease:'none', scrollTrigger:{ trigger:r, start:'top 92%', end:'top 45%', scrub:1 } });
+    var rb = r.querySelector('.rb'), tr = r.querySelector('.track'), rtl = r.classList.contains('rtl');
+    gsap.fromTo(rb, { x:0 }, { x:function(){ return (rtl ? -1 : 1) * (tr.clientWidth - 34); }, ease:'none', scrollTrigger:{ trigger:r, start:'top 92%', end:'top 45%', scrub:1, invalidateOnRefresh:true } });
+    gsap.fromTo(r.querySelector('.to'), { opacity:.25 }, { opacity:1, ease:'none', scrollTrigger:{ trigger:r, start:'top 70%', end:'top 45%', scrub:1 } });
+  });
+
+  /* Têtes de chant : le titre se lève derrière son masque */
+  gsap.utils.toArray('.chant').forEach(function(s){
+    var tl = gsap.timeline({ defaults:{ ease:E }, scrollTrigger:{ trigger:s, start:'top 80%', once:true } });
+    tl.from(s.querySelector('h2'), { clipPath:'inset(0 0 100% 0)', yPercent:20, duration:1.4 })
+      .from(s.querySelectorAll('.head .lead, .marg > *'), { opacity:0, y:10, duration:1.1, stagger:.08 }, .25);
+    var emb = s.querySelectorAll('.god .emb [pathLength]');
+    if (emb.length) tl.fromTo(emb, { strokeDashoffset:1 }, { strokeDashoffset:0, duration:1.8, ease:'power2.inOut', stagger:.05 }, .3);
+  });
+  /* Ithaque : la barque rejoint la côte */
+  gsap.timeline({ scrollTrigger:{ trigger:'#ithaque', start:'top 85%', end:'top 25%', scrub:1.2 } })
+    .fromTo('#coast [pathLength]', { strokeDashoffset:1 }, { strokeDashoffset:0, ease:'none', stagger:.05 }, 0)
+    .fromTo('#arrive', { x:-160 }, { x:300, ease:'none' }, 0);
+})();
+</script>

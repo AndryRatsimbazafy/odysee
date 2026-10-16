@@ -3,7 +3,7 @@
 # CLAUDE.md — Portfolio Andry « L'Odyssée »
 
 Portfolio bilingue FR/EN de Andry, Lead Front-End Developer React/TypeScript (+ AMOA), basé à Madagascar.
-Site narratif « L'Odyssée » (mythologie grecque, style vase grec, humour discret) + route `/admin` pour éditer tout le contenu.
+Site narratif « L'Odyssée » (direction **luxe-4** : portulan de nuit, chants de l'Odyssée, gravures au trait or, humour discret de Charon en marge) + route `/admin` pour éditer tout le contenu.
 
 ## Sources de vérité (lire la section utile, pas tout le fichier)
 
@@ -13,9 +13,10 @@ Site narratif « L'Odyssée » (mythologie grecque, style vase grec, humour disc
 | `docs/PRD.md` | Exigences (IDs F-*, SEO-*, NF-*) |
 | `DESIGN.md` | Tokens, typo, motion, anti-patterns (lu aussi par Impeccable) |
 | `PRODUCT.md` | Contexte produit pour Impeccable |
-| `docs/STORYBOARD.md` | Contenu, mise en page et animation de chaque rive |
+| `docs/STORYBOARD.md` | Contenu, mise en page et animation de chaque chant |
 | `docs/ARCHITECTURE.md` | Stack, routage, données, RLS, cache, env |
-| `docs/prototype/odyssee-prototype.html` | **Référence visuelle exécutable** (rendu, mouvement, comportements). S'en inspirer, ne pas copier tel quel |
+| `docs/prototype/luxe-4.html` | **Référence visuelle exécutable** (rendu, mouvement, comportements). S'en inspirer, ne pas copier tel quel. `odyssee-prototype.html` et `luxe-1..3` = archives, ne plus s'en servir |
+| `docs/GUIDE.md` | Prompts prêts à coller, tâche par tâche (pour Andry) |
 
 En cas de conflit : ARCHITECTURE > DESIGN > STORYBOARD > PRD. Signaler le conflit à Andry au lieu de trancher seul.
 
@@ -54,19 +55,21 @@ Claude Code écrit **tout** le code. Andry valide les plans, relit et teste.
 
 ## Design (résumé — détails dans DESIGN.md)
 
-- La page est le cours du Styx : une barque (Charon narrateur + Andry) descend la rivière ; chaque section est une rive, chaque bloc un **objet de l'univers** (pinax, tesson, assiette, parchemin à méandres, carte postale). Jamais de « card » de site, jamais de style cartoon.
-- Beige parchemin + encre + **un seul** accent d'interface terre cuite ; objets peints en figure noire sur terre cuite, couleurs d'objets constantes dans les deux modes.
-- Fraunces / Instrument Sans / JetBrains Mono. Pas de dégradés, pas d'ombres, pas de glassmorphism. Anti-patterns : DESIGN.md §10.
-- La rivière, la barque et le cartouche de Charon ne chevauchent **jamais** le contenu ; tout est calculé depuis le DOM (aucune coordonnée en dur).
+- Un **portulan de nuit** : chaque section est un **chant** (Embarcadère, I Deux divinités, II Les épreuves, III L'arsenal, IV Les escales, V L'oracle, VI Hermès, Ithaque), grille de 12 colonnes avec **marge annotée** (col. 1–3) et composition propre (col. 4–12). Pleine largeur, jamais de conteneur centré, jamais de « card » de site, jamais de style cartoon.
+- Nuit `#101723` + ivoire + **un seul** accent or ; mode clair ivoire. Tokens exacts : DESIGN §2 (contrastes déjà vérifiés, ne pas les modifier).
+- Cormorant Garamond / Instrument Sans / JetBrains Mono. Pas d'ombres, pas de glassmorphism ; dégradés seulement dans la couche de ciel. Anti-patterns : DESIGN §10.
+- Couches globales : ciel étoilé + zodiaque (fixe, décoratif), chargeur de voyage, curseur, rose des vents + index des chants, gloses de Charon masquables (DESIGN §6).
+- Projets = **carte + archives** ; « Lire les archives » ouvre le **dossier** plein écran (layouts `sealed` / `split` / `gallery` / `process`, 4–5 planches, lightbox). Tout est généré depuis les données et le DOM : aucune coordonnée en dur, ça doit tenir avec 8+ projets, 12+ outils, 7+ escales.
 - Animer seulement `transform`, `opacity`, `clip-path`, `stroke-dashoffset`. `prefers-reduced-motion` = état final sans animation.
-- Aucune image générée par IA. Illustrations = SVG silhouettes maison.
+- Aucune image générée par IA. Illustrations = gravures SVG au trait faites main (`src/components/engravings/`).
+- **Ne jamais inventer de contenu** (projets, chiffres, témoignages, captures) : afficher `[à fournir]`.
 - Les textes viennent de la base (admin) ou de `messages/*.json`. Jamais de texte en dur dans les composants.
 
 ## Skills et outils — quand les utiliser
 
 | Besoin | Outil |
 |---|---|
-| Composition, typo, critique, polish | `/impeccable` (`critique` à la fin de chaque rive) |
+| Composition, typo, critique, polish | `/impeccable` (`critique` à la fin de chaque chant) |
 | Construire / revoir une animation | `animate`, `review-animations` (Emil) |
 | Scènes de scroll GSAP en React | `gsap-scrolltrigger`, `gsap-react` |
 | Transition liste → détail | `vercel-react-view-transitions` |
@@ -81,7 +84,7 @@ Claude Code écrit **tout** le code. Andry valide les plans, relit et teste.
 
 - `/clear` entre deux tâches ; `/compact` si une tâche s'allonge.
 - Lire seulement la section utile des docs (citée dans chaque tâche).
-- Playwright : **1 capture desktop (1440) + 1 mobile (375) à la validation d’une rive**, jamais après chaque modification.
+- Playwright : **1 capture desktop (1440) + 1 mobile (375) à la validation d’un chant**, jamais après chaque modification.
 - Pas de sous-agents en parallèle. Pas de relecture de fichiers déjà en contexte.
 
 ## Commandes
@@ -96,5 +99,5 @@ npx supabase db push # applique les migrations au projet distant
 ## Conventions
 
 - Code, noms de fichiers et commits en anglais ; échanges avec Andry en français.
-- Composants : un dossier par rive dans `src/components/stops/`, objets dans `src/components/objects/`, moteur dans `src/components/odyssey/`. Server Component par défaut, `'use client'` seulement pour l'interactivité.
+- Composants : un dossier par chant dans `src/components/chants/`, couches globales dans `src/components/voyage/`, dossier d'archive dans `src/components/archives/`, gravures dans `src/components/engravings/`. Server Component par défaut, `'use client'` seulement pour l'interactivité.
 - Données : lecture dans `src/lib/data/`, écritures dans `src/lib/actions/`, schémas dans `src/lib/validation/`.

@@ -1,0 +1,721 @@
+<title>Odyssée luxe-3</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Le carnet de bord. Deux voix (récit en clair, glose en marge), une page réglée, une seule lumière à la fois.
+   Grille de 12 ; chaque feuillet a sa propre composition. */
+:root{
+  --nuit:#101723; --nuit-2:#151E2C; --nuit-3:#1B2534; --filet:#273244; --regle:#1D2737; --ardoise:#5D6878;
+  --ivoire:#EAE2D2; --cendre:#A3ABB6; --or:#B79A65; --lumiere:#D9BE86; --todo:#C99872;
+  --display:'Cormorant Garamond', 'Cormorant', Garamond, 'Times New Roman', serif;
+  --sans:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --gap:clamp(16px,2vw,32px);
+  --head:56px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --nuit:#EAE2D2; --nuit-2:#E2D8C5; --nuit-3:#D9CDB6; --filet:#C3B497; --regle:#DCD1BC; --ardoise:#5D6878; --ivoire:#131A26; --cendre:#4C5666; --or:#7A5F2E; --lumiere:#6A4F1F; --todo:#8E4F2A; color-scheme:light } }
+:root[data-theme="light"]{ --nuit:#EAE2D2; --nuit-2:#E2D8C5; --nuit-3:#D9CDB6; --filet:#C3B497; --regle:#DCD1BC; --ardoise:#5D6878; --ivoire:#131A26; --cendre:#4C5666; --or:#7A5F2E; --lumiere:#6A4F1F; --todo:#8E4F2A; color-scheme:light }
+
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--head) + 16px)}
+body{margin:0;background:var(--nuit);color:var(--ivoire);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nuit)}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--lumiere);outline-offset:4px}
+::selection{background:var(--or);color:var(--nuit)}
+.gut{padding-left:max(clamp(16px,6vw,104px), env(safe-area-inset-left,0px));padding-right:max(clamp(16px,6vw,104px), env(safe-area-inset-right,0px))}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--cendre)}
+.cap{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cendre)}
+.serif{font-family:var(--display);font-weight:500;letter-spacing:-.005em}
+.todo{color:var(--todo);font-family:var(--mono);font-size:.82em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ln{text-decoration:none;border-bottom:1px solid var(--filet);transition:border-color .5s,color .5s}
+.ln:hover{border-color:var(--lumiere);color:var(--lumiere)}
+.act{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--nuit);background:var(--or);border:1px solid var(--or);padding:13px 20px;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease)}
+.act:hover{background:transparent;color:var(--lumiere)}
+.act.quiet{background:transparent;color:var(--ivoire);border-color:var(--filet)}
+.act.quiet:hover{border-color:var(--or);color:var(--lumiere)}
+.act[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+
+/* Glose : la seconde voix. Masquable par le lecteur. */
+.gloss{font-family:var(--display);font-style:italic;font-size:17px;line-height:1.45;color:var(--or);margin:0}
+.gloss b{display:block;font-family:var(--mono);font-style:normal;font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ardoise);margin-bottom:4px}
+.no-gloss .gloss{display:none}
+
+/* Page réglée */
+.ruled{background-image:linear-gradient(var(--regle) 1px, transparent 1px);background-size:100% 28px}
+
+/* Tête courante : où l'on est dans le carnet */
+.head{position:fixed;z-index:50;top:env(safe-area-inset-top,0px);left:0;right:0;height:var(--head);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;background:var(--nuit);border-bottom:1px solid var(--filet)}
+.head .who{text-decoration:none;display:flex;gap:10px;align-items:baseline;min-width:0}
+.head .who b{font-family:var(--display);font-weight:600;font-size:19px}
+.head .who span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.head .pos{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre);white-space:nowrap}
+.head .pos b{color:var(--lumiere);font-weight:400}
+.head .tools{justify-self:end;display:flex;gap:6px;align-items:center}
+.head button,.head .write{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:1px solid transparent;color:var(--cendre);padding:7px 10px;cursor:pointer;text-decoration:none;transition:color .4s,border-color .4s}
+.head button:hover,.head .write:hover{color:var(--ivoire);border-color:var(--filet)}
+.head button[aria-pressed="false"]{text-decoration:line-through;text-decoration-color:var(--ardoise)}
+.head .write{color:var(--ivoire);border-color:var(--filet)}
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--lumiere);transform-origin:left;transform:scaleX(0)}
+@media (max-width:860px){.head{grid-template-columns:1fr auto}.head .pos{display:none}.head .who span{display:none}}
+@media (max-width:420px){#gloss-btn{display:none}}
+
+/* Sommaire */
+.toc{position:fixed;inset:0;z-index:70;background:var(--nuit);overflow:auto;padding-block:calc(var(--head) + 32px) 40px;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s .5s}
+.toc.open{opacity:1;visibility:visible;transition:opacity .5s var(--ease)}
+.toc ol{list-style:none;margin:0;padding:0;max-width:880px}
+.toc li a{display:grid;grid-template-columns:7ch minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--filet);text-decoration:none}
+.toc li a .t{font-family:var(--display);font-size:clamp(24px,3vw,36px);line-height:1.15;transition:color .4s}
+.toc li a:hover .t,.toc li a[aria-current="true"] .t{color:var(--lumiere)}
+.toc li li a{grid-template-columns:7ch minmax(0,1fr) auto;padding-left:7ch}
+.toc li li a .t{font-size:clamp(19px,2vw,24px)}
+.toc .x{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:max(clamp(16px,6vw,104px), env(safe-area-inset-right,0px));z-index:2}
+
+/* Feuillet 1 · Identité */
+.f-id{padding-block:calc(var(--head) + clamp(48px,8vh,96px)) clamp(40px,6vw,72px)}
+.f-id .main{grid-column:1 / span 7;display:grid;gap:18px;align-content:start}
+.f-id h1{margin:6px 0 0;font-family:var(--display);font-weight:500;font-size:clamp(76px,10.5vw,164px);line-height:.85;letter-spacing:-.02em}
+.f-id .role{margin:0;font-family:var(--display);font-size:clamp(26px,2.6vw,38px);line-height:1.2;max-width:22ch}
+.f-id .role em{color:var(--lumiere)}
+.f-id .pitch{margin:0;max-width:46ch;color:var(--cendre);font-size:18px}
+.f-id .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.f-id .card{grid-column:9 / span 4;align-self:start;margin-top:12px}
+.fields{margin:0;border-top:1px solid var(--ivoire)}
+.fields div{display:grid;grid-template-columns:minmax(96px,34%) minmax(0,1fr);gap:14px;padding:10px 0;border-bottom:1px solid var(--filet)}
+.fields dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cendre);padding-top:3px}
+.fields dd{margin:0;font-size:15px}
+.fields .on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#8FA66B;margin-right:8px;vertical-align:2px}
+.f-id .gloss{margin-top:18px}
+.horizon{grid-column:1 / -1;margin-top:clamp(40px,6vw,72px);width:100%;height:auto;display:block}
+@media (max-width:980px){.f-id .main,.f-id .card{grid-column:1 / -1}.f-id .card{margin-top:28px}}
+
+/* Feuillet 2 · Avant-propos : une page presque entièrement typographique */
+.f-pre{padding-block:clamp(56px,9vw,128px)}
+.f-pre .say{grid-column:3 / span 8;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(30px,3.6vw,54px);line-height:1.22;letter-spacing:-.005em;text-wrap:pretty}
+.f-pre .say a{text-decoration:none;border-bottom:1px solid var(--or);transition:color .5s}
+.f-pre .say a:hover{color:var(--lumiere)}
+.f-pre .say sup{font-family:var(--mono);font-size:.3em;letter-spacing:.06em;color:var(--or);vertical-align:1.6em;margin-left:2px}
+.f-pre .facts{grid-column:3 / span 8;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin-top:clamp(40px,5vw,64px);border-top:1px solid var(--filet);padding-top:18px}
+.f-pre .facts h3{margin:0 0 8px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--or)}
+.f-pre .facts p{margin:0;color:var(--cendre);font-size:15px}
+.f-pre .gloss{grid-column:3 / span 6;margin-top:28px}
+@media (max-width:860px){.f-pre .say,.f-pre .facts,.f-pre .gloss{grid-column:1 / -1}.f-pre .facts{grid-template-columns:1fr}}
+
+/* Feuillet 3 · Traversées : la carte reste à quai, le journal défile */
+.f-log{padding-block:clamp(48px,6vw,88px);border-top:1px solid var(--filet)}
+.f-log .intro{grid-column:1 / -1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-bottom:clamp(28px,4vw,44px)}
+.f-log h2{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(40px,4.6vw,68px);line-height:1}
+.chart{grid-column:1 / span 5;position:sticky;top:calc(var(--head) + 24px);align-self:start}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart .grat{stroke:var(--regle);stroke-width:1;fill:none}
+.chart .leg{fill:none;stroke:var(--ardoise);stroke-width:1.2;stroke-dasharray:3 5;transition:stroke .7s var(--ease)}
+.chart .leg.done{stroke:var(--or);stroke-dasharray:none}
+.chart .leg.on{stroke:var(--lumiere);stroke-dasharray:none;stroke-width:1.6}
+.chart .pt circle{fill:var(--nuit);stroke:var(--ardoise);stroke-width:1.2;transition:stroke .6s,fill .6s}
+.chart .pt.on circle{stroke:var(--lumiere);fill:var(--lumiere)}
+.chart .pt.done circle{stroke:var(--or)}
+.chart .pt text{font-family:var(--mono);font-size:11px;fill:var(--cendre);transition:fill .6s}
+.chart .pt.on text{fill:var(--lumiere)}
+.chart .port text{font-family:var(--mono);font-size:10px;fill:var(--cendre)}
+.chart .port circle{fill:var(--or)}
+.legs{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--filet)}
+.legs button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:4ch minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid var(--filet);font-size:14px;color:var(--cendre);transition:color .5s}
+.legs button:focus-visible{outline:1px solid var(--lumiere);outline-offset:2px}
+.legs button .n{font-family:var(--mono);font-size:11px;padding-top:2px}
+.legs button[aria-current="true"]{color:var(--lumiere)}
+.journal{grid-column:7 / -1;display:grid;gap:0}
+.entry{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,15em);column-gap:var(--gap);padding-block:28px clamp(64px,10vh,120px);border-top:1px solid var(--filet)}
+.entry .stamp{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;margin-bottom:14px}
+.entry .stamp b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ivoire);font-weight:400;transition:color .6s}
+.entry.on .stamp b{color:var(--lumiere)}
+.entry h3{grid-column:1;margin:0 0 18px;font-family:var(--display);font-weight:500;font-size:clamp(34px,3.2vw,50px);line-height:1.02}
+.entry .rows{grid-column:1;margin:0;display:grid}
+.entry .rows div{display:grid;grid-template-columns:minmax(92px,28%) minmax(0,1fr);gap:14px;padding:9px 0;border-bottom:1px solid var(--regle)}
+.entry .rows dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cendre);padding-top:3px}
+.entry .rows dd{margin:0}
+.entry .go{grid-column:1;margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.entry .sealed{font-family:var(--mono);font-size:11px;color:var(--or)}
+.entry .gloss{grid-column:2;grid-row:2 / span 3;align-self:start;border-left:1px solid var(--filet);padding-left:16px}
+@media (max-width:1100px){.entry{grid-template-columns:1fr}.entry .gloss{grid-column:1;grid-row:auto;margin-top:18px}}
+@media (max-width:900px){.chart{grid-column:1 / -1;position:relative;top:auto;margin-bottom:28px}.chart svg{max-height:240px}.chart .pt text,.chart .port text{display:none}.chart .pt circle{r:9}.journal{grid-column:1 / -1}}
+
+/* Feuillet 4 · Annexes : registre d'un livre */
+.f-ann{padding-block:clamp(48px,6vw,88px);border-top:1px solid var(--filet)}
+.f-ann > .grid > h2{grid-column:1 / -1;margin:0 0 clamp(28px,4vw,44px);font-family:var(--display);font-weight:500;font-size:clamp(36px,3.8vw,56px);line-height:1}
+.annex{grid-column:span 6;min-width:0}
+.annex.wide{grid-column:1 / -1;margin-top:clamp(48px,6vw,80px)}
+.annex h3{margin:0 0 14px;display:flex;gap:12px;align-items:baseline;font-family:var(--display);font-weight:500;font-size:26px}
+.annex h3 span{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--or);font-weight:400}
+.index{list-style:none;margin:0;padding:0}
+.index li{padding:9px 0;border-bottom:1px solid var(--regle)}
+.index .row{display:flex;align-items:baseline;gap:8px}
+.index .nm{font-family:var(--display);font-size:24px;font-weight:500}
+.index .dots{flex:1;border-bottom:1px dotted var(--ardoise);transform:translateY(-5px);min-width:20px}
+.index .refs{font-family:var(--mono);font-size:12px;color:var(--cendre);white-space:nowrap}
+.index .refs a{color:var(--ivoire);text-decoration:none;border-bottom:1px solid var(--filet)}
+.index .refs a:hover{color:var(--lumiere);border-color:var(--lumiere)}
+.index p{margin:2px 0 0;font-size:14px;color:var(--cendre)}
+.ports{width:100%;border-collapse:collapse}
+.ports th{text-align:left;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre);padding:0 14px 8px 0;border-bottom:1px solid var(--ivoire)}
+.ports td{padding:12px 14px 12px 0;border-bottom:1px solid var(--regle);vertical-align:top;font-size:15px}
+.ports .d{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--cendre)}
+.ports .p{font-family:var(--display);font-size:22px;font-weight:500;line-height:1.15}
+.ports tr.now .d{color:var(--lumiere)}
+.qa{margin:0;columns:2;column-gap:clamp(32px,5vw,72px)}
+.qa div{break-inside:avoid;padding:14px 0;border-top:1px solid var(--filet)}
+.qa dt{font-family:var(--display);font-weight:500;font-size:22px;line-height:1.25;margin-bottom:6px}
+.qa dd{margin:0;color:var(--cendre);font-size:15px}
+@media (max-width:860px){.annex{grid-column:1 / -1}.annex + .annex{margin-top:48px}.qa{columns:1}}
+@media (max-width:600px){.ports thead{display:none}.ports,.ports tbody,.ports tr,.ports td{display:block}.ports tr{padding:12px 0;border-bottom:1px solid var(--filet)}.ports td{border:0;padding:2px 0}}
+
+/* Feuillet 5 · Lettre */
+.f-letter{padding-block:clamp(56px,8vw,112px) 28px;border-top:1px solid var(--filet)}
+.f-letter .say{grid-column:1 / span 5;display:grid;gap:18px;align-content:start}
+.f-letter h2{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(44px,5vw,76px);line-height:.98}
+.f-letter .say p{margin:0;color:var(--cendre);max-width:40ch}
+form{grid-column:7 / -1;display:grid;gap:20px}
+.field{display:grid;gap:6px}
+.field label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cendre)}
+.field input,.field textarea{font:inherit;font-size:19px;color:var(--ivoire);background:transparent;border:0;border-bottom:1px solid var(--filet);padding:8px 0;border-radius:0;transition:border-color .5s}
+.field textarea{min-height:140px;resize:vertical}
+.ruled-input{background-image:linear-gradient(transparent 31px, var(--regle) 32px);background-size:100% 32px;line-height:32px!important}
+.field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--or)}
+.field [aria-invalid="true"]{border-bottom-color:var(--todo)}
+.err{font-size:14px;color:var(--todo);min-height:1.2em}
+.notice{margin:0;border-left:1px solid var(--todo);padding:6px 0 6px 14px;font-size:15px}
+.direct{margin-top:6px;display:grid;gap:8px}
+.direct .addr{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.copy{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--filet);color:var(--cendre);padding:5px 10px;cursor:pointer}
+.colophon{grid-column:1 / -1;margin-top:clamp(56px,7vw,96px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;border-top:1px solid var(--filet);padding-top:16px}
+@media (max-width:900px){.f-letter .say,form{grid-column:1 / -1}form{margin-top:32px}}
+
+/* Récit d'une traversée : vue dédiée, composition propre à chaque projet */
+.recit{position:fixed;inset:0;z-index:80;background:var(--nuit);overflow-y:auto;overscroll-behavior:contain;opacity:1;transition:opacity .45s var(--ease)}
+.recit[hidden]{display:none}
+.recit.closing,.recit.opening{opacity:0}
+.r-bar{position:sticky;top:0;z-index:3;height:var(--head);display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:env(safe-area-inset-top,0px);background:var(--nuit);border-bottom:1px solid var(--filet)}
+.r-bar .cap b{color:var(--lumiere);font-weight:400}
+.r-bar button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:1px solid var(--filet);color:var(--ivoire);padding:8px 12px;cursor:pointer}
+.r-open{padding-block:clamp(40px,6vw,80px) clamp(32px,4vw,56px)}
+.r-open .stamp{grid-column:1 / -1;margin-bottom:18px}
+.r-open h2{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(50px,7vw,116px);line-height:.92;letter-spacing:-.01em}
+.r-open h2:focus{outline:none}
+.r-open .q{margin:0;font-family:var(--display);font-style:italic;font-size:clamp(22px,2vw,30px);line-height:1.35;color:var(--cendre)}
+.r-open .facts{margin:0}
+.r-open .facts div{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;padding:7px 0;border-bottom:1px solid var(--regle)}
+.r-open .facts dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cendre);padding-top:3px;min-width:7ch}
+.r-open .facts dd{margin:0;font-size:15px}
+/* compositions d'ouverture */
+.o-sealed .t{grid-column:1 / span 7;display:grid;gap:22px;align-content:start}
+.o-sealed .pli{grid-column:9 / span 4;align-self:start;border:1px solid var(--or);padding:22px;display:grid;gap:16px;align-content:start}
+.o-sealed .pli p{margin:0;font-family:var(--display);font-style:italic;font-size:20px;line-height:1.4}
+.o-split .t{grid-column:1 / span 8;display:grid;gap:18px}
+.o-split .meta{grid-column:10 / span 3;align-self:end}
+.o-split .pair{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);margin-top:clamp(28px,4vw,48px)}
+.o-gallery .t{grid-column:1 / span 7;display:grid;gap:18px;align-self:end}
+.o-gallery .meta{grid-column:9 / span 4;align-self:end}
+.o-gallery .hero{grid-column:1 / -1;margin-top:clamp(28px,4vw,48px)}
+.o-process .t{grid-column:1 / span 6;display:grid;gap:18px;align-content:start}
+.o-process .first{grid-column:8 / span 5}
+.o-process .first h3{margin:0 0 10px;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--or)}
+@media (max-width:980px){.r-open .grid > *{grid-column:1 / -1!important}.o-sealed .pli,.o-split .meta,.o-gallery .meta,.o-process .first{margin-top:24px}}
+@media (max-width:640px){.o-split .pair{grid-template-columns:1fr}}
+.r-sec{padding-block:clamp(40px,5vw,72px);border-top:1px solid var(--filet)}
+.r-sec .lbl{grid-column:1 / span 3}
+.r-sec .lbl h3{margin:0;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--or)}
+.r-sec .body{grid-column:4 / span 6;min-width:0}
+.r-sec .side{grid-column:10 / span 3}
+.r-sec p{margin:0 0 12px;max-width:62ch}
+.r-sec .big{font-family:var(--display);font-size:clamp(24px,2.3vw,32px);line-height:1.3}
+.r-sec .big .todo,.ports .p .todo{font-size:.6em}
+.r-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--filet)}
+.r-list li{padding:10px 0;border-bottom:1px solid var(--regle)}
+.dec{margin:0;display:grid;border-top:1px solid var(--filet)}
+.dec div{padding:16px 0;border-bottom:1px solid var(--regle);display:grid;gap:4px}
+.dec dt{font-family:var(--display);font-weight:500;font-size:23px;line-height:1.25}
+.dec dd{margin:0;color:var(--cendre)}
+.dec .trade{font-size:14px;color:var(--cendre)}
+.dec .trade b{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ardoise);font-weight:400;margin-right:8px}
+@media (max-width:980px){.r-sec .lbl,.r-sec .body,.r-sec .side{grid-column:1 / -1}.r-sec .lbl{margin-bottom:16px}.r-sec .side{margin-top:20px}}
+/* Planches : placement propre à chaque composition */
+.plates{grid-column:1 / -1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:clamp(32px,4vw,56px);align-items:start}
+.plates figure{margin:0;min-width:0}
+.plates .p0{grid-column:1 / span 7}.plates .p1{grid-column:9 / span 4;margin-top:clamp(40px,8vw,120px)}
+.plates .p2{grid-column:2 / span 4}.plates .p3{grid-column:7 / span 6}.plates .p4{grid-column:1 / -1}
+.l-gallery .p0{grid-column:1 / span 5}.l-gallery .p1{grid-column:6 / span 7;margin-top:0}.l-gallery .p2{grid-column:1 / span 8}.l-gallery .p3{grid-column:9 / span 4;align-self:end}
+.l-sealed .p0{grid-column:1 / span 6}.l-sealed .p1{grid-column:8 / span 5;margin-top:0}.l-sealed .p2{grid-column:3 / span 8}
+.zoom{all:unset;display:block;width:100%;cursor:zoom-in;box-sizing:border-box}
+.zoom:focus-visible{outline:1px solid var(--lumiere);outline-offset:4px}
+.plates figcaption,.hero figcaption,.pair figcaption{margin-top:10px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;font-size:14px;color:var(--cendre)}
+.plates figcaption b,.hero figcaption b,.pair figcaption b{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--or);padding-top:2px}
+.pair figure,.hero{margin:0}
+@media (max-width:760px){.plates{grid-template-columns:1fr}.plates figure{grid-column:1 / -1!important;margin-top:0!important}}
+.r-close{padding-block:clamp(40px,5vw,72px) 48px;border-top:1px solid var(--ivoire)}
+.r-close .contact{grid-column:1 / span 7;display:grid;gap:14px}
+.r-close .contact p{margin:0;font-family:var(--display);font-style:italic;font-size:clamp(20px,1.8vw,24px);line-height:1.4;max-width:40em}
+.r-close nav{grid-column:1 / -1;margin-top:clamp(36px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center;border-top:1px solid var(--filet);padding-top:20px}
+.r-close nav button:not(.act){all:unset;cursor:pointer;display:grid;gap:4px;box-sizing:border-box}
+.r-close nav button:not(.act):focus-visible{outline:1px solid var(--lumiere);outline-offset:4px}
+.r-close nav .nx{justify-self:end;text-align:right}
+.r-close nav b{font-family:var(--display);font-weight:500;font-size:clamp(20px,2vw,26px);transition:color .4s}
+.r-close nav button:hover b{color:var(--lumiere)}
+@media (max-width:700px){.r-close nav{grid-template-columns:1fr 1fr}.r-close nav .act{grid-column:1 / -1;grid-row:2;justify-self:center}}
+
+/* Emplacement d'image : la vraie image si elle existe, sinon une étiquette précise */
+.ph{position:relative;width:100%;max-width:100%;background:var(--nuit-2);display:grid;place-items:center;overflow:hidden}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.empty{background-image:linear-gradient(var(--regle) 1px, transparent 1px);background-size:100% 28px}
+.ph.empty::before{content:"";position:absolute;inset:12px;border:1px solid var(--filet)}
+.ph .lab{position:relative;display:grid;justify-items:center;gap:6px;text-align:center;padding:14px;background:var(--nuit-2)}
+.ph .lab span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--todo)}
+.ph .lab small{font-family:var(--mono);font-size:11px;color:var(--cendre)}
+
+/* Visionneuse */
+.lb{position:fixed;inset:0;z-index:90;background:var(--nuit);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding-block:calc(env(safe-area-inset-top,0px) + 12px) calc(env(safe-area-inset-bottom,0px) + 16px);touch-action:pan-y}
+.lb[hidden]{display:none}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.lb-top button,.lb-arrow{font-family:var(--mono);font-size:12px;background:none;border:1px solid var(--filet);color:var(--ivoire);padding:9px 12px;cursor:pointer;transition:border-color .4s,color .4s}
+.lb-top button:hover,.lb-arrow:hover{border-color:var(--or);color:var(--lumiere)}
+.lb-stage{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;min-height:0}
+.lb-fig{margin:0;min-height:0;height:100%;display:grid;place-items:center}
+.lb-fig .ph{width:min(100%, 1400px, calc((100svh - 220px) * var(--r)));height:auto;transition:opacity .4s var(--ease)}
+.lb-arrow{width:48px;height:48px;padding:0}
+.lb-cap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:15px;color:var(--cendre);border-top:1px solid var(--filet);padding-top:12px}
+.lb-cap b{font-family:var(--mono);font-size:11px;color:var(--or);font-weight:400}
+@media (max-width:640px){.lb-stage{grid-template-columns:1fr}.lb-arrow{position:absolute;bottom:-6px;z-index:2;background:var(--nuit)}.lb-prev{left:0}.lb-next{right:0}}
+
+/* Révélation : le contenu est visible au repos ; seuls les filets s'allument */
+.reveal{transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .reveal.wait{opacity:.0001;transform:translateY(12px)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}.js .reveal.wait{opacity:1;transform:none}}
+</style>
+
+<header class="head gut" id="head">
+  <a class="who" href="#identite"><b>Andry</b><span class="mono">Lead Front-End Developer</span></a>
+  <p class="pos" id="pos" aria-live="polite" style="margin:0">Feuillet <b>1</b> · Identité</p>
+  <div class="tools">
+    <button type="button" id="toc-btn" aria-expanded="false" aria-controls="toc">Sommaire</button>
+    <button type="button" id="gloss-btn" aria-pressed="true" title="Afficher ou masquer les notes en marge">Gloses</button>
+    <a class="write" href="#lettre">Écrire</a>
+  </div>
+  <span class="progress" id="progress" aria-hidden="true"></span>
+</header>
+
+<nav class="toc gut" id="toc" aria-label="Sommaire du carnet">
+  <button type="button" class="act quiet x" id="toc-x">Fermer</button>
+  <p class="cap" style="margin:0 0 18px">Sommaire</p>
+  <ol id="toc-list"></ol>
+  <p class="mono" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center"><button type="button" class="copy" id="theme-btn">Passer en clair</button><button type="button" class="copy" id="gloss-btn-2">Masquer les gloses</button><span>Version anglaise : prévue dans le site final.</span></p>
+</nav>
+
+<main id="carnet">
+<!-- Feuillet 1 · Identité -->
+<section class="f-id gut" id="identite" data-folio="1" data-name="Identité">
+  <div class="grid">
+    <div class="main">
+      <span class="cap">Carnet de bord · tenu depuis Antananarivo</span>
+      <h1>Andry</h1>
+      <p class="role">Lead Front-End Developer, <em>React et TypeScript</em>, avec une double compétence en AMOA.</p>
+      <p class="pitch">Lead technique chez Bocasay, en remote pour des clients français. Je lis le besoin métier avant d'écrire la première ligne, puis je conçois l'interface et je fais avancer l'équipe qui la construit.</p>
+      <div class="cta"><a class="act" href="#traversees">Lire les traversées</a><a class="act quiet" href="#lettre">Écrire</a></div>
+    </div>
+    <aside class="card" aria-label="Fiche d'identité">
+      <dl class="fields">
+        <div><dt>Fonction</dt><dd>Lead Front-End Developer</dd></div>
+        <div><dt>Spécialité</dt><dd>React, TypeScript, architecture front-end</dd></div>
+        <div><dt>Double compétence</dt><dd>AMOA : besoin, ateliers, spécifications</dd></div>
+        <div><dt>Port d'attache</dt><dd>Antananarivo, Madagascar<br><span class="mono">18°53′ S · 47°30′ E · <span id="clock">--:--</span> (UTC+3)</span></dd></div>
+        <div><dt>Mode</dt><dd>Remote, clients en France</dd></div>
+        <div><dt>Disponibilité</dt><dd class="on">CDI ou freelance · <span class="todo">[date à fournir]</span></dd></div>
+        <div><dt>Contact</dt><dd><a class="ln" href="#lettre">Formulaire</a> · <span class="todo">[email]</span></dd></div>
+        <div><dt>Liens</dt><dd><span class="todo">[CV PDF]</span> · <span class="todo">[LinkedIn]</span> · <span class="todo">[GitHub]</span></dd></div>
+      </dl>
+      <p class="gloss"><b>Glose</b>Homère ouvre L'Odyssée en demandant à la Muse de raconter un homme. Ce carnet fait plus simple : il raconte des projets, et indique où écrire.</p>
+    </aside>
+    <svg class="horizon" viewBox="0 0 1200 70" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+      <path d="M0 52 H1200" style="stroke:var(--filet);stroke-width:1;fill:none"/>
+      <g style="stroke:var(--or);stroke-width:1.1;fill:none;stroke-linecap:round;stroke-linejoin:round">
+        <path d="M60 50 C78 58 118 58 136 48"/><path d="M60 50 C52 44 54 34 62 34 C67 34 67 40 64 41"/><path d="M98 52 V18"/><path d="M84 22 L86 44 Q98 46 110 44 L112 22 Z"/>
+      </g>
+      <text x="152" y="47" style="font-family:var(--mono);font-size:10px;fill:var(--cendre)">Départ · Antananarivo</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Feuillet 2 · Avant-propos -->
+<section class="f-pre gut" id="avant-propos" data-folio="2" data-name="Avant-propos">
+  <div class="grid">
+    <p class="cap" style="grid-column:3 / span 8;margin:0 0 22px">Avant-propos</p>
+    <p class="say reveal">Mon métier tient en trois gestes : <a href="#traversee-1">comprendre le besoin<sup>I</sup></a> avant de coder, <a href="#traversee-4">concevoir l'interface<sup>IV</sup></a> qui y répond, et <a href="#traversee-1">faire avancer l'équipe<sup>I</sup></a> qui la construit.</p>
+    <div class="facts reveal">
+      <div><h3>Comprendre</h3><p>Missions d'AMOA chez Bocasay : recueil du besoin, ateliers avec le métier, spécifications fonctionnelles.</p></div>
+      <div><h3>Concevoir</h3><p>Architecture React et TypeScript : découpage des composants, gestion de l'état, typage strict.</p></div>
+      <div><h3>Diriger</h3><p>Lead d'une équipe front : conventions, revue de code, mentorat des développeurs.</p></div>
+    </div>
+    <p class="gloss"><b>Glose</b>Athéna conseillait Ulysse ; Héphaïstos forgeait les armes. Le métier d'Andry tient des deux : il conseille avant de forger.</p>
+  </div>
+</section>
+
+<!-- Feuillet 3 · Traversées -->
+<section class="f-log gut" id="traversees" data-folio="3" data-name="Traversées">
+  <div class="grid">
+    <div class="intro"><h2>Traversées</h2><span class="mono" id="log-count"></span></div>
+    <div class="chart" aria-label="Carte des traversées">
+      <svg viewBox="0 0 400 470" id="chart" role="img" aria-labelledby="chart-t"><title id="chart-t">Carte : chaque point est un projet, reliés depuis Antananarivo</title></svg>
+      <ol class="legs" id="legs"></ol>
+      <p class="mono" style="margin:12px 0 0">Chaque point est un projet. La carte suit ta lecture du journal.</p>
+    </div>
+    <div class="journal" id="journal"></div>
+  </div>
+</section>
+
+<!-- Feuillet 4 · Annexes -->
+<section class="f-ann gut" id="annexes" data-folio="4" data-name="Annexes">
+  <div class="grid">
+    <h2>Annexes</h2>
+    <div class="annex" id="instruments">
+      <h3><span>A</span>Instruments</h3>
+      <p class="mono" style="margin:0 0 12px">Chaque outil renvoie aux traversées où il a servi.</p>
+      <ul class="index" id="index"></ul>
+    </div>
+    <div class="annex" id="ports">
+      <h3><span>B</span>Ports d'attache</h3>
+      <p class="mono" style="margin:0 0 12px">Du plus récent au plus ancien.</p>
+      <table class="ports"><thead><tr><th>Période</th><th>Port</th><th>Poste et entrée</th></tr></thead><tbody id="ports-b"></tbody></table>
+    </div>
+    <div class="annex wide" id="questions">
+      <h3><span>C</span>Questions fréquentes</h3>
+      <dl class="qa">
+        <div><dt>Es-tu disponible ?</dt><dd>Oui, pour un CDI ou une mission freelance, en remote. <span class="todo">[Date de disponibilité à fournir]</span></dd></div>
+        <div><dt>Travailles-tu déjà à distance avec la France ?</dt><dd>Oui, c'est mon quotidien chez Bocasay : des projets pour des clients français, depuis Madagascar. Une à deux heures de décalage selon la saison.</dd></div>
+        <div><dt>Quelle est ton expertise ?</dt><dd>React et TypeScript au quotidien, l'architecture front-end et le lead d'équipe ; Node.js pour l'outillage.</dd></div>
+        <div><dt>Comment travailles-tu avec une équipe ?</dt><dd>Revue de code systématique, conventions écrites, et un lien direct avec le métier grâce à l'AMOA.</dd></div>
+        <div><dt>Peut-on voir du code ?</dt><dd>Les projets clients sont confidentiels. Le code de ce portfolio sera public. <span class="todo">[Lien GitHub à fournir]</span></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- Feuillet 5 · Lettre -->
+<section class="f-letter gut" id="lettre" data-folio="5" data-name="Lettre">
+  <div class="grid">
+    <div class="say">
+      <span class="cap">Dernier feuillet</span>
+      <h2>Écrire</h2>
+      <p>Pour un poste, une mission ou une question sur un projet confidentiel. Réponse sous 48 heures, décalage horaire compris.</p>
+      <div class="direct">
+        <span class="cap">Directement</span>
+        <div class="addr"><code class="mono" id="mail" style="color:var(--ivoire);font-size:14px">[email à fournir]</code><button class="copy" type="button" id="copy">Copier</button></div>
+        <span class="mono"><span class="todo">[CV PDF]</span> · <span class="todo">[LinkedIn]</span> · <span class="todo">[GitHub]</span></span>
+      </div>
+      <p class="gloss"><b>Glose de Charon</b>« Moi je rame, Hermès vole. Pour ce genre de message, prends plutôt Hermès. »</p>
+    </div>
+    <form id="form" novalidate aria-describedby="form-help">
+      <p id="form-help" class="mono" style="margin:0">Tous les champs sont obligatoires.</p>
+      <div class="field"><label for="f-name">Nom</label><input id="f-name" name="name" autocomplete="name" aria-describedby="e-name"><span class="err" id="e-name" aria-live="polite"></span></div>
+      <div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" autocomplete="email" aria-describedby="e-mail"><span class="err" id="e-mail" aria-live="polite"></span></div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" class="ruled-input" aria-describedby="e-msg"></textarea><span class="err" id="e-msg" aria-live="polite"></span></div>
+      <div><button class="act" type="submit">Envoyer</button></div>
+      <p class="notice" id="notice" role="status" hidden>Le message est prêt, mais l'envoi n'est pas encore branché dans ce prototype : rien n'a été transmis. Écris à l'adresse ci-contre.</p>
+    </form>
+    <div class="colophon mono"><span>Carnet tenu par Andry · Antananarivo · MMXXVI</span><span>Composé en Cormorant Garamond, Instrument Sans et JetBrains Mono · gravures au trait faites main</span><a class="ln" href="#identite">Revenir au premier feuillet</a></div>
+  </div>
+</section>
+</main>
+
+<div class="recit" id="recit" role="dialog" aria-modal="true" aria-labelledby="r-title" hidden>
+  <div class="r-bar gut"><span class="cap" id="r-crumb"></span><button type="button" id="r-x">Fermer le récit</button></div>
+  <div id="r-body"></div>
+</div>
+<div class="lb gut" id="lb" role="dialog" aria-modal="true" aria-label="Visionneuse d'images" hidden>
+  <div class="lb-top"><span class="mono" id="lb-count"></span><button type="button" id="lb-close">Fermer</button></div>
+  <div class="lb-stage"><button class="lb-arrow lb-prev" id="lb-prev" type="button" aria-label="Image précédente">←</button><figure class="lb-fig" id="lb-fig"></figure><button class="lb-arrow lb-next" id="lb-next" type="button" aria-label="Image suivante">→</button></div>
+  <div class="lb-cap" id="lb-cap" aria-live="polite"></div>
+</div>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var $ = function(id){ return document.getElementById(id); };
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  /* [ … ] = contenu à fournir, rendu comme tel */
+  function txt(s){ return esc(s).replace(/\[([^\]]+)\]/g, '<span class="todo">[$1]</span>'); }
+
+  /* ===== Données (dans le site : Supabase, éditables dans /admin) =====
+     layout : composition du récit (sealed | split | gallery | process)
+     images : 4 à 5 { src, alt, kind, caption, ratio } ; src vide = à fournir
+     links : uniquement ce qui est public et autorisé */
+  function slots(l){ return l.map(function(x){ return { src:'', alt:'', kind:x[0], caption:x[1], ratio:x[2] }; }); }
+  var PROJECTS = [
+    { slug:'plateforme-multi-espaces', short:'Multi-espaces', title:'Plateforme multi-espaces', nature:'Mission client · Bocasay', sealed:true, layout:'sealed',
+      period:'[Période]', role:'Lead front-end et AMOA', team:'[Taille de l’équipe]', client:'Sous confidentialité',
+      quest:'Faire cohabiter plusieurs espaces métier sans perdre le fil.',
+      need:'Plusieurs espaces métier dans une même plateforme.', part:'Lead front-end, et AMOA en amont : besoin, spécifications, architecture.',
+      gloss:'Charon : « La première est scellée par mon patron, Hadès. Je n’ai rien vu. »',
+      context:'Plusieurs espaces métier pour un client du secteur [secteur].', problem:'[Le problème à résoudre, en deux phrases.]',
+      roleText:'J’ai tenu le rôle de lead front-end, avec une mission d’AMOA en amont.',
+      contribution:['Recueil du besoin et spécifications avec le client.','Architecture des espaces côté front-end.','Revue de code de l’équipe.','[Autre contribution à préciser]'],
+      decisions:[['[Décision 1]','[Pourquoi ce choix.]','[Le compromis accepté.]'],['[Décision 2]','[Pourquoi ce choix.]','[Le compromis accepté.]']],
+      stack:[['React','[Usage dans le projet]'],['TypeScript','[Usage dans le projet]'],['Node.js','[Usage dans le projet]']], results:[], links:[],
+      images:slots([['Logo de l’entreprise','Logo Bocasay, à la place des captures du client.','16/10'],['Schéma d’architecture','Les espaces et leurs liens, sans nom de client.','1/1'],['Maquette redessinée','Écran principal redessiné, sans donnée réelle.','16/10'],['Détail flouté','Composant clé, données anonymisées.','4/5']]) },
+    { slug:'gestion-des-membres', short:'Gestion des membres', title:'Gestion des membres du Rotaract', nature:'Projet associatif', layout:'split',
+      period:'[Période]', role:'[Rôle]', team:'Bénévole', client:'Rotaract Club d’Ivandry',
+      quest:'Remplacer le fichier Excel partagé des membres.',
+      need:'[À confirmer : le club gérait ses membres dans un fichier Excel partagé.]', part:'[Ton rôle sur ce projet.]',
+      gloss:'Charon : « Une hydre en tableur. Chaque fois qu’on corrigeait une cellule, deux autres repoussaient. »',
+      context:'[À confirmer : le club gérait ses membres dans un fichier Excel partagé.]', problem:'[Le problème à résoudre.]',
+      roleText:'[Ton rôle sur ce projet.]', contribution:['[Contribution 1]','[Contribution 2]'],
+      decisions:[['[Décision 1]','[Pourquoi.]','[Compromis.]']], stack:[['[Technologie]','[Usage]']], results:[], links:[],
+      images:slots([['Avant','Le fichier Excel d’origine, données masquées.','16/10'],['Après','L’écran principal de l’outil.','16/10'],['Fiche membre','Détail d’une fiche.','4/5'],['Mobile','L’outil sur téléphone.','1/1'],['Export','Liste exportée ou imprimée.','21/9']]) },
+    { slug:'site-du-rotaract', short:'Site du Rotaract', title:'Site du Rotaract Club d’Ivandry', nature:'Projet associatif', layout:'gallery',
+      period:'[Période]', role:'[Rôle]', team:'Bénévole', client:'Rotaract Club d’Ivandry',
+      quest:'Que les membres publient eux-mêmes les actions du club.',
+      need:'Publier les actions du club sans dépendre d’un développeur.', part:'Site public et espace d’administration pour les membres.',
+      gloss:'Charon : « Un site pour son club, fait bénévolement. Comme moi, sauf que moi je suis payé en oboles. »',
+      context:'[Contexte du club et de sa communication.]', problem:'[Le problème à résoudre.]',
+      roleText:'[Ton rôle sur ce projet.]', contribution:['Site public.','Espace d’administration pour que les membres publient eux-mêmes.'],
+      decisions:[['[Décision 1]','[Pourquoi.]','[Compromis.]']], stack:[['[Technologie]','[Usage]']], results:[], links:[],
+      images:slots([['Page d’accueil','Accueil du site public.','21/9'],['Page action','Une action du club publiée.','4/5'],['Administration','Formulaire de publication.','16/10'],['Mobile','Le site sur téléphone.','3/4'],['Détail','Typographie ou composant.','16/9']]) },
+    { slug:'ce-carnet', short:'Ce carnet', title:'Ce carnet', nature:'Projet personnel', layout:'process',
+      period:'2026', role:'Conception et développement', team:'Seul, avec Claude Code', client:'—',
+      quest:'Raconter un parcours technique sans ralentir le lecteur.',
+      need:'Un portfolio mémorable, lisible en trente secondes par un recruteur.', part:'Direction artistique, conception, développement.',
+      gloss:'Charon : « Et cette barque, c’est lui qui l’a construite. Pas de fuite pour l’instant. Je touche du bois. »',
+      context:'Un portfolio qui raconte un parcours au lieu d’aligner des cartes.', problem:'Être mémorable sans ralentir : l’information essentielle doit tenir sur le premier feuillet.',
+      roleText:'Direction artistique, conception et développement.', contribution:['Direction artistique et gravures au trait faites main.','Développement Next.js et Supabase.','Interface d’administration du contenu.'],
+      decisions:[['Un carnet plutôt que des sections','Les projets sont au centre ; compétences et parcours deviennent des annexes qui y renvoient.','Moins de place pour les compétences en tête de page.'],['Peu d’animation','Seuls la carte et les filets réagissent à la lecture.','Moins spectaculaire, mais rapide et accessible.'],['Next.js et Supabase','Rendu serveur pour le référencement, contenu éditable sans redéploiement.','Une base à maintenir pour un site personnel.']],
+      stack:[['Next.js','Routage, rendu serveur, cache.'],['Supabase','Base, authentification, stockage.'],['TypeScript','Typage des contenus et des composants.']], results:[], links:[],
+      images:slots([['Premier feuillet','La fiche d’identité.','16/10'],['Carte et journal','La carte qui suit la lecture.','4/5'],['Récit','Une traversée ouverte.','16/10'],['Admin','L’interface d’administration.','16/9'],['Mobile','Le carnet sur téléphone.','3/4']]) }
+  ];
+  var TOOLS = [
+    { name:'React', since:'6 ans', role:'Socle de toutes mes interfaces : composants, état, performance.', refs:[0,3] },
+    { name:'TypeScript', since:'5 ans', role:'Typage strict des modèles métier et des composants.', refs:[0,3] },
+    { name:'Node.js', since:'4 ans', role:'Outillage, scripts et petites API.', refs:[0] },
+    { name:'Git', since:'Toujours', role:'Historique, branches, revue de code de l’équipe.', refs:[] },
+    { name:'Next.js', since:'2026', role:'App Router, Server Components, Server Actions.', refs:[3] },
+    { name:'Supabase', since:'2026', role:'Postgres, authentification, stockage, règles RLS.', refs:[3] }
+  ];
+  var PORTS = [
+    { when:'[Depuis]', name:'Bocasay', where:'Antananarivo, remote vers la France', role:'Lead Front-End Developer', text:'Lead technique front-end, et missions d’AMOA ponctuelles.', now:true },
+    { when:'[Années]', name:'[Deuxième port]', where:'[Lieu]', role:'[Poste]', text:'[Deux lignes.]' },
+    { when:'[Années]', name:'[Premier port]', where:'Antananarivo', role:'[Poste]', text:'[Deux lignes.]' }
+  ];
+
+  /* ===== Préférences du lecteur ===== */
+  function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+  function setGloss(on){ document.body.classList.toggle('no-gloss', !on); $('gloss-btn').setAttribute('aria-pressed', on); $('gloss-btn').textContent = on ? 'Gloses' : 'Gloses masquées'; $('gloss-btn-2').textContent = on ? 'Masquer les gloses' : 'Afficher les gloses'; store('carnet-gloss', on ? '1' : '0'); }
+  setGloss(store('carnet-gloss') !== '0');
+  $('gloss-btn').onclick = $('gloss-btn-2').onclick = function(){ setGloss(document.body.classList.contains('no-gloss')); };
+  function curTheme(){ var t = document.documentElement.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+  function setTheme(t){ document.documentElement.setAttribute('data-theme', t); $('theme-btn').textContent = t === 'dark' ? 'Passer en clair' : 'Passer en sombre'; store('carnet-theme', t); }
+  if (store('carnet-theme')) setTheme(store('carnet-theme')); else $('theme-btn').textContent = curTheme() === 'dark' ? 'Passer en clair' : 'Passer en sombre';
+  $('theme-btn').onclick = function(){ setTheme(curTheme() === 'dark' ? 'light' : 'dark'); };
+  function tick(){ try { $('clock').textContent = new Date().toLocaleTimeString('fr-FR', { timeZone:'Indian/Antananarivo', hour:'2-digit', minute:'2-digit' }); } catch(e){} }
+  tick(); setInterval(tick, 20000);
+
+  /* ===== Carte des traversées ===== */
+  var PTS = [[96,350],[214,272],[150,170],[300,92]], PORT = [40,420];
+  (function(){
+    var g = '';
+    for (var x = 40; x <= 400; x += 60) g += '<path class="grat" d="M' + x + ' 20 V450"/>';
+    for (var y = 30; y <= 450; y += 60) g += '<path class="grat" d="M0 ' + y + ' H400"/>';
+    var legs = '', prev = PORT;
+    PTS.forEach(function(p, i){ var mx = (prev[0] + p[0]) / 2 + (i % 2 ? 40 : -40), my = (prev[1] + p[1]) / 2; legs += '<path class="leg" id="leg' + i + '" d="M' + prev[0] + ' ' + prev[1] + ' Q' + mx + ' ' + my + ' ' + p[0] + ' ' + p[1] + '"/>'; prev = p; });
+    var pts = PTS.map(function(p, i){ return '<g class="pt" id="pt' + i + '" data-jump="' + i + '" style="cursor:pointer"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="6"/><text x="' + (p[0] + 14) + '" y="' + (p[1] + 4) + '">' + ROMAN[i] + ' · ' + esc(PROJECTS[i].short) + '</text></g>'; }).join('');
+    var port = '<g class="port"><circle cx="' + PORT[0] + '" cy="' + PORT[1] + '" r="4"/><text x="' + (PORT[0] + 12) + '" y="' + (PORT[1] + 4) + '">Antananarivo · départ</text></g>';
+    var north = '<g style="stroke:var(--ardoise);fill:none;stroke-width:1"><path d="M376 60 V30"/><path d="M370 40 L376 28 L382 40"/></g><text x="372" y="74" style="font-family:var(--mono);font-size:10px;fill:var(--ardoise)">N</text>';
+    $('chart').insertAdjacentHTML('beforeend', g + legs + port + pts + north);
+    $('legs').innerHTML = PROJECTS.map(function(p, i){ return '<li><button type="button" data-jump="' + i + '"><span class="n">' + ROMAN[i] + '</span><span>' + esc(p.title) + '</span></button></li>'; }).join('');
+  })();
+
+  /* ===== Journal ===== */
+  $('log-count').textContent = PROJECTS.length + ' traversées consignées · de la plus exigeante à la plus personnelle';
+  $('journal').innerHTML = PROJECTS.map(function(p, i){
+    return '<article class="entry" id="traversee-' + (i + 1) + '" data-i="' + i + '" aria-labelledby="e' + i + '">' +
+      '<div class="stamp"><b>Traversée ' + ROMAN[i] + '</b><span class="mono">' + txt(p.period) + ' · ' + esc(p.nature) + '</span>' + (p.sealed ? '<span class="sealed">Confidentielle</span>' : '') + '</div>' +
+      '<h3 id="e' + i + '">' + esc(p.title) + '</h3>' +
+      '<dl class="rows"><div><dt>Le besoin</dt><dd>' + txt(p.need) + '</dd></div><div><dt>Ma part</dt><dd>' + txt(p.part) + '</dd></div><div><dt>Instruments</dt><dd class="mono" style="font-size:13px;color:var(--ivoire)">' + p.stack.map(function(s){ return txt(s[0]); }).join(' · ') + '</dd></div><div><dt>Équipe</dt><dd>' + txt(p.team) + '</dd></div></dl>' +
+      '<div class="go"><button class="act quiet" type="button" data-open="' + i + '" aria-haspopup="dialog">Ouvrir le récit</button></div>' +
+      '<p class="gloss"><b>En marge</b>' + esc(p.gloss) + '</p></article>';
+  }).join('');
+
+  /* ===== Annexes ===== */
+  $('index').innerHTML = TOOLS.map(function(t){
+    var refs = t.refs.length ? t.refs.map(function(r){ return '<a href="#traversee-' + (r + 1) + '" title="' + esc(PROJECTS[r].title) + '">' + ROMAN[r] + '</a>'; }).join(', ') : 'partout';
+    return '<li><div class="row"><span class="nm">' + esc(t.name) + '</span><span class="dots" aria-hidden="true"></span><span class="refs">' + esc(t.since) + ' · ' + refs + '</span></div><p>' + esc(t.role) + '</p></li>';
+  }).join('');
+  $('ports-b').innerHTML = PORTS.map(function(p){ return '<tr' + (p.now ? ' class="now"' : '') + '><td class="d">' + txt(p.when) + '</td><td><span class="p">' + txt(p.name) + '</span><br><span class="mono">' + txt(p.where) + '</span></td><td><b style="font-weight:500">' + txt(p.role) + '</b><br><span style="color:var(--cendre)">' + txt(p.text) + '</span></td></tr>'; }).join('');
+
+  /* ===== Sommaire ===== */
+  var folios = Array.prototype.slice.call(document.querySelectorAll('[data-folio]'));
+  $('toc-list').innerHTML = folios.map(function(f){
+    var sub = f.id === 'traversees' ? '<ol>' + PROJECTS.map(function(p, i){ return '<li><a href="#traversee-' + (i + 1) + '"><span class="mono">' + ROMAN[i] + '</span><span class="t">' + esc(p.title) + '</span><span class="mono">' + esc(p.nature.split(' · ')[0]) + '</span></a></li>'; }).join('') + '</ol>' : '';
+    return '<li><a href="#' + f.id + '" data-f="' + f.dataset.folio + '"><span class="mono">Feuillet ' + f.dataset.folio + '</span><span class="t">' + esc(f.dataset.name) + '</span><span></span></a>' + sub + '</li>';
+  }).join('');
+  var toc = $('toc');
+  function openToc(o){ toc.classList.toggle('open', o); $('toc-btn').setAttribute('aria-expanded', o); $('carnet').inert = o; if (o) setTimeout(function(){ (toc.querySelector('[aria-current="true"]') || toc.querySelector('a')).focus(); }, 60); else $('toc-btn').focus(); }
+  $('toc-btn').onclick = function(){ openToc(!toc.classList.contains('open')); }; $('toc-x').onclick = function(){ openToc(false); };
+  toc.addEventListener('click', function(e){ if (e.target.closest('a')){ toc.classList.remove('open'); $('toc-btn').setAttribute('aria-expanded', false); $('carnet').inert = false; } });
+
+  /* ===== Lecture : tête courante, barre de progression, carte allumée ===== */
+  var entries = Array.prototype.slice.call(document.querySelectorAll('.entry')), curF = '', curE = -1;
+  function setEntry(i){
+    if (i === curE) return; curE = i;
+    entries.forEach(function(e, k){ e.classList.toggle('on', k === i); });
+    PTS.forEach(function(p, k){ $('pt' + k).classList.toggle('on', k === i); $('pt' + k).classList.toggle('done', i > k); $('leg' + k).classList.toggle('on', k === i); $('leg' + k).classList.toggle('done', i > k); });
+    document.querySelectorAll('#legs button').forEach(function(b){ b.setAttribute('aria-current', +b.dataset.jump === i); });
+  }
+  function onScroll(){
+    var y = scrollY, H = document.documentElement.scrollHeight - innerHeight, mid = innerHeight * .4;
+    $('progress').style.transform = 'scaleX(' + (H > 0 ? Math.min(1, y / H) : 0) + ')';
+    var f = folios[0];
+    folios.forEach(function(s){ if (s.getBoundingClientRect().top <= mid) f = s; });
+    if (y + innerHeight >= document.documentElement.scrollHeight - 4) f = folios[folios.length - 1];
+    var label = 'Feuillet <b>' + f.dataset.folio + '</b> · ' + esc(f.dataset.name);
+    var ei = -1; entries.forEach(function(e, k){ if (e.getBoundingClientRect().top <= mid) ei = k; });
+    var tr = $('traversees').getBoundingClientRect();
+    if (tr.top > mid || tr.bottom < mid) ei = tr.bottom < mid ? entries.length : -1;
+    setEntry(Math.min(ei, entries.length - 1) < 0 ? (tr.bottom < mid ? entries.length : -1) : ei);
+    if (f.id === 'traversees' && ei >= 0 && ei < entries.length) label += ' · Traversée <b>' + ROMAN[ei] + '</b>';
+    if (label !== curF){ curF = label; $('pos').innerHTML = label; toc.querySelectorAll('[data-f]').forEach(function(a){ a.setAttribute('aria-current', a.dataset.f === f.dataset.folio); }); }
+  }
+  var raf = 0; addEventListener('scroll', function(){ if (!raf) raf = requestAnimationFrame(function(){ raf = 0; onScroll(); }); }, { passive:true });
+  addEventListener('resize', onScroll); onScroll();
+  function jumpTo(el){ el.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block:'start' }); }
+  document.addEventListener('click', function(e){ var j = e.target.closest('[data-jump]'); if (j){ jumpTo($('traversee-' + (+j.dataset.jump + 1))); } });
+
+  /* Révélations : présentes au repos, elles se posent seulement à l'entrée */
+  if (!RM && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if (en.isIntersecting){ en.target.classList.remove('wait'); io.unobserve(en.target); } }); }, { rootMargin:'0px 0px -10% 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ if (el.getBoundingClientRect().top > innerHeight){ el.classList.add('wait'); io.observe(el); } });
+  }
+
+  /* ===== Récit d'une traversée ===== */
+  function ratioNum(r){ var a = String(r).split('/'); return (+a[0] || 16) / (+a[1] || 10); }
+  function ph(im, n, eager){
+    var st = 'aspect-ratio:' + im.ratio + ';--r:' + ratioNum(im.ratio).toFixed(3);
+    if (im.src) return '<div class="ph" style="' + st + '"><img src="' + esc(im.src) + '" alt="' + esc(im.alt) + '"' + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + ' decoding="async"></div>';
+    return '<div class="ph empty" style="' + st + '" role="img" aria-label="Emplacement : ' + esc(im.kind) + ', image à fournir"><div class="lab"><span>Fig. ' + n + ' · ' + esc(im.kind) + ' · à fournir</span><small>Format ' + esc(im.ratio.replace('/', ':')) + '</small></div></div>';
+  }
+  function fig(im, k, cls, eager){ return '<figure class="' + (cls || '') + '"><button class="zoom" type="button" data-img="' + k + '" aria-label="Agrandir la figure ' + (k + 1) + ' : ' + esc(im.kind) + '">' + ph(im, k + 1, eager) + '</button><figcaption><b>Fig. ' + (k + 1) + '</b><span>' + esc(im.kind) + ' — ' + txt(im.caption) + '</span></figcaption></figure>'; }
+  function facts(p){ return '<dl class="facts"><div><dt>Période</dt><dd>' + txt(p.period) + '</dd></div><div><dt>Rôle</dt><dd>' + txt(p.role) + '</dd></div><div><dt>Équipe</dt><dd>' + txt(p.team) + '</dd></div><div><dt>Client</dt><dd>' + txt(p.client) + '</dd></div></dl>'; }
+  function sec(title, body, side){ return '<section class="r-sec gut"><div class="grid"><div class="lbl"><h3>' + title + '</h3></div><div class="body">' + body + '</div>' + (side ? '<div class="side">' + side + '</div>' : '') + '</div></section>'; }
+  var SECRET = 'Certains projets ne peuvent être présentés publiquement pour des raisons de confidentialité. Pour en savoir davantage sur mon rôle, les choix techniques ou les problématiques rencontrées, n’hésite pas à me contacter.';
+  function decisions(p){ return '<dl class="dec">' + p.decisions.map(function(d){ return '<div><dt>' + txt(d[0]) + '</dt><dd>' + txt(d[1]) + '</dd>' + (d[2] ? '<dd class="trade"><b>Compromis</b>' + txt(d[2]) + '</dd>' : '') + '</div>'; }).join('') + '</dl>'; }
+  function renderRecit(i){
+    var p = PROJECTS[i], im = p.images, open = '', used = [];
+    var stamp = '<p class="cap stamp">Traversée ' + ROMAN[i] + ' · ' + esc(p.nature) + (p.sealed ? ' · confidentielle' : '') + '</p>';
+    var head = '<h2 id="r-title" tabindex="-1">' + esc(p.title) + '</h2><p class="q">' + esc(p.quest) + '</p>';
+    if (p.layout === 'sealed'){
+      open = '<header class="r-open gut o-sealed"><div class="grid">' + stamp + '<div class="t">' + head + facts(p) + '</div><aside class="pli"><span class="cap" style="color:var(--or)">Pli scellé</span><p>' + SECRET + '</p><div><button class="act" type="button" data-contact>Me contacter pour en savoir plus</button></div></aside></div></header>';
+    } else if (p.layout === 'split'){
+      used = [0, 1];
+      open = '<header class="r-open gut o-split"><div class="grid">' + stamp + '<div class="t">' + head + '</div><div class="meta">' + facts(p) + '</div><div class="pair">' + fig(im[0], 0, '', true) + fig(im[1], 1, '', true) + '</div></div></header>';
+    } else if (p.layout === 'gallery'){
+      used = [0];
+      open = '<header class="r-open gut o-gallery"><div class="grid">' + stamp + '<div class="t">' + head + '</div><div class="meta">' + facts(p) + '</div><div class="hero">' + fig(im[0], 0, '', true) + '</div></div></header>';
+    } else {
+      open = '<header class="r-open gut o-process"><div class="grid">' + stamp + '<div class="t">' + head + facts(p) + '</div><div class="first"><h3>Les choix, d’abord</h3>' + decisions(p) + '</div></div></header>';
+    }
+    var rest = im.map(function(x, k){ return k; }).filter(function(k){ return used.indexOf(k) < 0; });
+    var plates = '<div class="plates l-' + p.layout + '">' + rest.map(function(k, n){ return fig(im[k], k, 'p' + n); }).join('') + '</div>';
+    var ctx = sec('Contexte et problème', '<p>' + txt(p.context) + '</p><p class="big">' + txt(p.problem) + '</p>', '<p class="gloss"><b>En marge</b>' + esc(p.gloss) + '</p>');
+    var role = sec('Ma contribution', '<p class="big">' + txt(p.roleText) + '</p><ul class="r-list">' + p.contribution.map(function(c){ return '<li>' + txt(c) + '</li>'; }).join('') + '</ul>');
+    var dec = p.layout === 'process' ? '' : sec('Décisions et compromis', decisions(p));
+    var gal = '<section class="r-sec gut"><div class="grid"><div class="lbl" style="margin-bottom:24px"><h3>' + (p.sealed ? 'Ce qui peut être montré' : 'Planches') + '</h3></div>' + plates + '</div></section>';
+    var res = sec('Instruments et résultats', '<ul class="r-list">' + p.stack.map(function(s){ return '<li><b class="serif" style="font-size:21px">' + txt(s[0]) + '</b> — <span style="color:var(--cendre)">' + txt(s[1]) + '</span></li>'; }).join('') + '</ul>',
+      p.results.length ? '<ul class="r-list">' + p.results.map(function(r){ return '<li>' + txt(r) + '</li>'; }).join('') + '</ul>' : '<p class="todo" style="margin:0">[Résultats documentés à fournir. Rien n’est affiché tant qu’ils ne sont pas vérifiés.]</p>');
+    var order = p.layout === 'process' ? [ctx, role, gal, res] : p.layout === 'gallery' ? [ctx, gal, role, dec, res] : [ctx, role, dec, gal, res];
+    var links = p.links.length ? '<div style="display:flex;flex-wrap:wrap;gap:10px">' + p.links.map(function(l){ return '<a class="act quiet" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' ↗</a>'; }).join('') + '</div>' : '';
+    var prev = (i - 1 + PROJECTS.length) % PROJECTS.length, next = (i + 1) % PROJECTS.length;
+    var close = '<footer class="r-close gut"><div class="grid"><div class="contact">' + (p.sealed ? '<p>' + SECRET + '</p>' : '<p>Une question sur ce projet, mon rôle ou un choix technique ?</p>') + '<div style="display:flex;flex-wrap:wrap;gap:10px"><button class="act" type="button" data-contact>' + (p.sealed ? 'Me contacter pour en savoir plus' : 'M’écrire à ce sujet') + '</button></div>' + links + '</div>' +
+      '<nav aria-label="Autres traversées"><button type="button" data-goto="' + prev + '"><span class="cap">← Traversée ' + ROMAN[prev] + '</span><b>' + esc(PROJECTS[prev].title) + '</b></button><button class="act quiet" type="button" data-close>Retour au journal</button><button class="nx" type="button" data-goto="' + next + '"><span class="cap">Traversée ' + ROMAN[next] + ' →</span><b>' + esc(PROJECTS[next].title) + '</b></button></nav></div></footer>';
+    $('r-crumb').innerHTML = 'Récit · <b>Traversée ' + ROMAN[i] + '</b> sur ' + ROMAN[PROJECTS.length - 1];
+    $('r-body').innerHTML = open + order.join('') + close;
+    curP = i;
+  }
+  var recit = $('recit'), curP = -1, pushed = false, opener = null, closing = false;
+  try { history.scrollRestoration = 'manual'; } catch(e){}
+  var behind = function(){ return [$('head'), $('carnet'), toc]; };
+  function openRecit(i, how){
+    var first = recit.hidden;
+    renderRecit(i);
+    if (first){ opener = document.activeElement; recit.hidden = false; behind().forEach(function(el){ el.inert = true; }); document.documentElement.style.overflow = 'hidden'; if (!RM){ recit.classList.add('opening'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ recit.classList.remove('opening'); }); }); } }
+    recit.scrollTop = 0;
+    var h = '#recit-' + PROJECTS[i].slug;
+    if (how === 'push'){ history.pushState({ r:i }, '', h); pushed = true; } else if (how === 'replace') history.replaceState({ r:i }, '', h);
+    setTimeout(function(){ $('r-title').focus({ preventScroll:true }); }, 30);
+  }
+  function closeRecit(fromHistory, then){
+    if (recit.hidden || closing) return; closing = true;
+    if (!fromHistory){ if (pushed){ pushed = false; history.back(); } else history.replaceState(null, '', location.pathname + location.search); }
+    var done = function(){
+      closing = false; recit.hidden = true; recit.classList.remove('closing'); behind().forEach(function(el){ el.inert = false; }); document.documentElement.style.overflow = '';
+      if (then) then(); else { var o = document.querySelector('[data-open="' + curP + '"]') || opener; if (o) o.focus({ preventScroll:true }); }
+      curP = -1;
+    };
+    if (RM) done(); else { recit.classList.add('closing'); setTimeout(done, 450); }
+  }
+  function fromHash(){
+    if (closing) return;
+    var m = /^#recit-(.+)$/.exec(location.hash), i = -1;
+    if (m) PROJECTS.forEach(function(p, k){ if (p.slug === m[1]) i = k; });
+    if (i >= 0) openRecit(i); else if (!recit.hidden){ pushed = false; closeRecit(true); }
+  }
+  addEventListener('popstate', fromHash); addEventListener('hashchange', fromHash);
+  document.addEventListener('click', function(e){
+    var o = e.target.closest('[data-open]'); if (o){ e.preventDefault(); openRecit(+o.dataset.open, 'push'); return; }
+    if (e.target.closest('[data-close]')){ closeRecit(false); return; }
+    var g = e.target.closest('[data-goto]'); if (g){ openRecit(+g.dataset.goto, 'replace'); return; }
+    if (e.target.closest('[data-contact]')){ closeRecit(false, function(){ jumpTo($('lettre')); setTimeout(function(){ $('f-name').focus({ preventScroll:true }); }, RM ? 0 : 900); }); return; }
+    var z = e.target.closest('[data-img]'); if (z) openLb(+z.dataset.img, z);
+  });
+  $('r-x').onclick = function(){ closeRecit(false); };
+
+  /* ===== Visionneuse ===== */
+  var lb = $('lb'), lbI = 0, lbFrom = null;
+  function showLb(k){
+    var p = PROJECTS[curP], n = p.images.length; lbI = (k + n) % n; var im = p.images[lbI];
+    $('lb-fig').innerHTML = ph(im, lbI + 1, true);
+    $('lb-count').textContent = 'Fig. ' + (lbI + 1) + ' sur ' + n + ' · ' + p.title;
+    $('lb-cap').innerHTML = '<span><b>Fig. ' + (lbI + 1) + '</b> · ' + esc(im.kind) + ' — ' + txt(im.caption) + '</span><span class="mono">← → pour naviguer · Échap pour fermer</span>';
+  }
+  function openLb(k, from){ lbFrom = from; lb.hidden = false; recit.inert = true; showLb(k); $('lb-close').focus(); }
+  function closeLb(){ lb.hidden = true; recit.inert = false; if (lbFrom) lbFrom.focus({ preventScroll:true }); }
+  $('lb-close').onclick = closeLb; $('lb-prev').onclick = function(){ showLb(lbI - 1); }; $('lb-next').onclick = function(){ showLb(lbI + 1); };
+  var sx = null;
+  lb.addEventListener('pointerdown', function(e){ sx = e.clientX; });
+  lb.addEventListener('pointerup', function(e){ if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) showLb(lbI + (dx < 0 ? 1 : -1)); });
+  addEventListener('keydown', function(e){
+    if (!lb.hidden){
+      if (e.key === 'Escape'){ e.preventDefault(); closeLb(); }
+      else if (e.key === 'ArrowRight') showLb(lbI + 1);
+      else if (e.key === 'ArrowLeft') showLb(lbI - 1);
+      else if (e.key === 'Tab'){ var f = [$('lb-close'), $('lb-prev'), $('lb-next')], at = f.indexOf(document.activeElement); e.preventDefault(); f[(at + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
+    } else if (!recit.hidden && e.key === 'Escape'){ e.preventDefault(); closeRecit(false); }
+    else if (toc.classList.contains('open') && e.key === 'Escape') openToc(false);
+  });
+
+  /* ===== Lettre : validation réelle, aucun envoi simulé ===== */
+  $('copy').onclick = function(){ var t = $('mail').textContent, b = this; function sel(){ var r = document.createRange(); r.selectNodeContents($('mail')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } try { navigator.clipboard.writeText(t).then(function(){ b.textContent = 'Copié'; }, sel); } catch(e){ sel(); } };
+  function check(input, id, ok, msg){ input.setAttribute('aria-invalid', !ok); $(id).textContent = ok ? '' : msg; return ok; }
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var a = check($('f-name'), 'e-name', $('f-name').value.trim().length > 1, 'Indique ton nom.');
+    var b = check($('f-mail'), 'e-mail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('f-mail').value.trim()), 'Il manque une adresse email valide.');
+    var c = check($('f-msg'), 'e-msg', $('f-msg').value.trim().length > 9, 'Le message est trop court.');
+    $('notice').hidden = !(a && b && c);
+    if (!(a && b && c)){ var f = this.querySelector('[aria-invalid="true"]'); if (f) f.focus(); }
+  });
+
+  setTimeout(fromHash, 0);
+})();
+</script>
