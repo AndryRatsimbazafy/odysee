@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Fragment, type ReactNode } from "react";
+import { Arsenal } from "@/components/chants/arsenal/arsenal";
 import { Divinites } from "@/components/chants/divinites/divinites";
 import { Epreuves } from "@/components/chants/epreuves/epreuves";
 import { Embarcadere } from "@/components/chants/embarcadere/embarcadere";
@@ -10,7 +11,7 @@ import { Reveal } from "@/components/voyage/reveal/reveal";
 import { RevealTitle } from "@/components/voyage/reveal/reveal-title";
 import { Route } from "@/components/voyage/route/route";
 
-// Temporary scaffold (T04b, T13): one bare section per chant (from chant III) with its id,
+// Temporary scaffold (T04b, T13): one bare section per chant (from chant IV) with its id,
 // a revealed title and a route to the next, to exercise the compass, the
 // index, anchor jumps and reveals. Replaced by the real chants from T14 on.
 
@@ -27,17 +28,19 @@ export default function Home() {
       <Divinites />
       <Route from="divinites" to="epreuves" />
       <Epreuves />
+      <Route from="epreuves" to="arsenal" />
+      <Arsenal />
       <div className="gut flex flex-col gap-8 pb-16">
-        {CHANTS.slice(3).map((chant, i) => (
+        {CHANTS.slice(4).map((chant, i) => (
           <Fragment key={chant}>
-            <Route from={CHANTS[i + 2]} to={chant} />
+            <Route from={CHANTS[i + 3]} to={chant} />
             <section id={chant} data-chant className="min-h-[80svh]">
               <p className="kicker">{t(`voyage.chants.${chant}.n`)}</p>
               <RevealTitle className="display text-5xl">
                 {t(`voyage.chants.${chant}.title`)}
               </RevealTitle>
               <Reveal className="mt-6 grid gap-2">
-                <p>{t("voyage.folio", { n: i + 4 })}</p>
+                <p>{t("voyage.folio", { n: i + 5 })}</p>
                 <p>{t("divinites.lead")}</p>
                 <p>{t("epreuves.lead")}</p>
               </Reveal>
