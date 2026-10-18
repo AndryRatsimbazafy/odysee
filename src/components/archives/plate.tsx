@@ -57,7 +57,7 @@ export function PlateImage({
   );
 }
 
-/** A captioned plate of the dossier: « Fig. n · nature — légende ». */
+/** A captioned, zoomable plate of the dossier: « Fig. n · nature — légende ». */
 export function PlateFigure({
   plate,
   n,
@@ -78,13 +78,21 @@ export function PlateFigure({
 
   return (
     <figure className={className}>
-      <PlateImage
-        plate={plate}
-        n={n}
-        emblem={emblem}
-        sizes={sizes}
-        priority={priority}
-      />
+      {/* Opens the lightbox (delegated click, see PlateViewer). */}
+      <button
+        type="button"
+        className="zoom"
+        data-plate={n - 1}
+        aria-label={t("zoom", { n, kind: plate.kind || tv("todo") })}
+      >
+        <PlateImage
+          plate={plate}
+          n={n}
+          emblem={emblem}
+          sizes={sizes}
+          priority={priority}
+        />
+      </button>
       <figcaption>
         <b>{t("fig", { n })}</b>
         <span>

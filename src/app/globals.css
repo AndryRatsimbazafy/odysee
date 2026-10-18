@@ -2630,6 +2630,15 @@
     grid-column: 3 / span 8;
   }
 
+  /* Portrait plates: capped, so a 3:4 never towers over its rank. */
+  .plates .portrait {
+    width: min(100%, clamp(240px, 30vw, 460px));
+  }
+
+  .plates :is(.p1, .p3).portrait {
+    justify-self: end;
+  }
+
   :is(.plates, .pair, .hero-img) figcaption {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
@@ -2655,6 +2664,11 @@
     .plates figure {
       grid-column: 1 / -1 !important;
       margin-top: 0 !important;
+    }
+
+    .plates .portrait {
+      width: min(100%, 420px);
+      justify-self: start;
     }
   }
 
@@ -2741,6 +2755,167 @@
 
   @media (prefers-reduced-motion: reduce) {
     .r-close nav a:not(.btn) b {
+      transition: none;
+    }
+  }
+}
+
+/* ── Plates and lightbox — T18 (DESIGN §8) ── */
+@layer components {
+  /* Explicit resets: `all: unset` would be reordered after `display`. */
+  .zoom {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    appearance: none;
+    cursor: zoom-in;
+  }
+
+  .zoom:focus-visible {
+    outline: 1px solid var(--or-clair);
+    outline-offset: 4px;
+  }
+
+  .zoom .ph-img {
+    transition: transform 0.6s var(--ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zoom:hover .ph-img {
+      transform: scale(1.01);
+    }
+  }
+
+  /* Engravings of the opening are drawn in (DossierOverlay). */
+  .r-open .line [pathLength] {
+    stroke-dasharray: 1;
+  }
+
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    padding-block: calc(env(safe-area-inset-top, 0px) + 14px)
+      calc(env(safe-area-inset-bottom, 0px) + 18px);
+    background: var(--nuit);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+
+  .lb-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lb-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .lb-fig {
+    grid-column: 2;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+  }
+
+  /* As large as the screen allows, at the plate's own ratio. */
+  .lb-fig .ph-img {
+    width: min(100%, 1400px, calc((100svh - 240px) * var(--r)));
+  }
+
+  .lb-arrow {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--filet);
+    background: none;
+    color: var(--ivoire);
+    font-size: 18px;
+    cursor: pointer;
+    transition:
+      border-color 0.2s var(--ease),
+      color 0.2s var(--ease);
+  }
+
+  .lb-arrow:hover {
+    border-color: var(--or);
+    color: var(--or-clair);
+  }
+
+  .lb-prev {
+    grid-column: 1;
+  }
+
+  .lb-next {
+    grid-column: 3;
+  }
+
+  .lb-cap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--filet);
+    font-size: 15px;
+    color: var(--cendre);
+  }
+
+  .lb-cap b {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--or);
+  }
+
+  @media (max-width: 640px) {
+    .lb-stage {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lb-fig {
+      grid-column: 1;
+    }
+
+    .lb-arrow {
+      position: absolute;
+      bottom: -4px;
+      z-index: 2;
+      background: var(--nuit);
+    }
+
+    .lb-prev {
+      left: 0;
+    }
+
+    .lb-next {
+      right: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zoom .ph-img,
+    .lb-arrow {
       transition: none;
     }
   }

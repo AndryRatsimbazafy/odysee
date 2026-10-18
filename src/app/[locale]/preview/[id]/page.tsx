@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Dossier } from "@/components/archives/dossier";
+import { DossierPage } from "@/components/archives/dossier-page";
 import { assignEmblems } from "@/components/engravings/project-emblems";
 import { getAdmin } from "@/lib/auth/admin";
 import { getProjectPreview } from "@/lib/data/admin";
@@ -60,7 +61,7 @@ async function Preview({
   ]);
 
   return (
-    <div className="dossier-page">
+    <DossierPage>
       <p className="kicker preview-flag gut">{t("preview")}</p>
       <Dossier
         project={shown}
@@ -68,6 +69,6 @@ async function Preview({
         emblem={emblems[shown.index - 1]}
         mode="page"
       />
-    </div>
+    </DossierPage>
   );
 }

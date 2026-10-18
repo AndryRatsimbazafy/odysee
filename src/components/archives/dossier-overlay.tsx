@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
+import { EASE, gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
 import { lockScroll, scrollToSection } from "@/lib/motion/scroll";
 
 // The dossier as a full-screen dialog over the page (intercepted route,
@@ -19,6 +20,12 @@ let afterClose: (() => void) | null = null;
 let shown = 0;
 let behind: HTMLElement[] = [];
 let opener: HTMLElement | null = null;
+
+/** The dialog on screen (closing animates it out). */
+let active: HTMLElement | null = null;
+/** Set by a previous / next click: the next dossier swaps in, unveiled. */
+let swapping = false;
+let closing = false;
 
 function freezePage() {
   opener =
@@ -50,17 +57,32 @@ function releasePage(slug: string) {
   (link ?? opener)?.focus({ preventScroll: true });
 }
 
-/** Closes the dossier, then optionally jumps to a section of the page. */
+/**
+ * Closes the dossier (curtain up, faster than it came down), then optionally
+ * jumps to a section of the page.
+ */
 export function useCloseDossier() {
   const router = useRouter();
   return (sectionId?: string) => {
+    if (closing) return;
+    closing = true;
     afterClose = sectionId
       ? () => {
           const el = document.getElementById(sectionId);
           if (el) scrollToSection(el);
         }
       : null;
-    router.back();
+    const done = () => {
+      closing = false;
+      router.back();
+    };
+    if (!active || !matchMedia(MOTION_OK).matches) return done();
+    gsap.to(active, {
+      clipPath: "inset(0% 0% 100% 0%)",
+      duration: 0.35,
+      ease: EASE,
+      onComplete: done,
+    });
   };
 }
 
@@ -83,6 +105,76 @@ export function DossierOverlay({
       if (--shown === 0) releasePage(current.current);
     };
   }, []);
+
+  // Opening (DESIGN §9): the dossier rises over the page like a curtain
+  // coming down (not on previous / next), its opening settles in stagger and
+  // its engravings are drawn; sections follow as the dialog scrolls.
+  useGSAP(
+    () => {
+      const dialog = root.current;
+      if (!dialog) return;
+      active = dialog;
+      const first = !swapping;
+      swapping = false;
+      const q = gsap.utils.selector(dialog);
+
+      gsap.matchMedia().add(MOTION_OK, () => {
+        if (first) {
+          gsap.fromTo(
+            dialog,
+            { clipPath: "inset(100% 0% 0% 0%)" },
+            {
+              clipPath: "inset(0% 0% 0% 0%)",
+              duration: 0.8,
+              ease: EASE,
+              clearProps: "clipPath",
+            },
+          );
+        } else {
+          gsap.set(dialog, { clearProps: "clipPath" });
+        }
+        gsap.from(q(".r-open .grid-12 > *"), {
+          opacity: 0,
+          y: 18,
+          duration: 0.8,
+          ease: EASE,
+          stagger: 0.07,
+          delay: first ? 0.3 : 0,
+        });
+        gsap.fromTo(
+          q(".r-open .line [pathLength]"),
+          { strokeDashoffset: 1 },
+          {
+            strokeDashoffset: 0,
+            duration: 1.6,
+            ease: "power2.inOut",
+            delay: first ? 0.6 : 0.1,
+            autoRound: false,
+          },
+        );
+        for (const block of q(".r-sec, .r-close")) {
+          gsap.from(block.querySelectorAll(".grid-12 > *"), {
+            opacity: 0,
+            y: 16,
+            duration: 0.8,
+            ease: EASE,
+            stagger: 0.08,
+            scrollTrigger: {
+              trigger: block,
+              scroller: dialog,
+              start: "top 85%",
+              once: true,
+            },
+          });
+        }
+      });
+
+      return () => {
+        if (active === dialog) active = null;
+      };
+    },
+    { scope: root },
+  );
 
   // Each dossier (first one, then previous / next) starts at its title.
   useEffect(() => {
@@ -113,6 +205,10 @@ export function DossierOverlay({
       aria-modal="true"
       aria-labelledby={`dossier-${slug}`}
       data-lenis-prevent
+      onClickCapture={(e) => {
+        // Previous / next: the following dossier swaps in without a curtain.
+        if ((e.target as Element).closest("nav a")) swapping = true;
+      }}
     >
       {children}
     </div>

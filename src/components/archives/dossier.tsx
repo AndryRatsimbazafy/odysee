@@ -10,6 +10,7 @@ import {
   ContactFromDossierButton,
 } from "./dossier-overlay";
 import { PlateFigure } from "./plate";
+import { PlateViewer } from "./plate-viewer";
 
 const b = (chunks: ReactNode) => <b>{chunks}</b>;
 
@@ -77,18 +78,25 @@ export function Dossier({
   );
   const decisions = p.decisions.length ? (
     <dl className="dec3">
-      {p.decisions.map((d, i) => (
-        <div key={i}>
-          <dt>{or(d.title)}</dt>
-          <dd>{or(d.why)}</dd>
-          {d.tradeoff ? (
-            <dd className="trade">
-              <b>{t("tradeoff")}</b>
-              {d.tradeoff}
-            </dd>
-          ) : null}
-        </div>
-      ))}
+      {p.decisions.map((d, i) =>
+        !d.title && !d.why && !d.tradeoff ? (
+          // One marker for a decision left entirely empty.
+          <div key={i}>
+            <dt className="todo">{todo}</dt>
+          </div>
+        ) : (
+          <div key={i}>
+            <dt>{or(d.title)}</dt>
+            <dd>{or(d.why)}</dd>
+            {d.tradeoff ? (
+              <dd className="trade">
+                <b>{t("tradeoff")}</b>
+                {d.tradeoff}
+              </dd>
+            ) : null}
+          </div>
+        ),
+      )}
     </dl>
   ) : (
     <p className="todo">{todo}</p>
@@ -105,7 +113,11 @@ export function Dossier({
       n={k + 1}
       emblem={emblem}
       sizes={sizes}
-      className={className}
+      className={
+        isPortrait(p.plates[k].ratio)
+          ? [className, "portrait"].filter(Boolean).join(" ")
+          : className
+      }
       priority={priority}
     />
   );
@@ -184,8 +196,14 @@ export function Dossier({
       title: t("sections.context"),
       body: (
         <>
-          <p>{or(p.context)}</p>
-          <p className="big">{or(p.problem)}</p>
+          {p.context || p.problem ? (
+            <>
+              <p>{or(p.context)}</p>
+              {p.problem ? <p className="big">{p.problem}</p> : null}
+            </>
+          ) : (
+            <p className="todo">{todo}</p>
+          )}
         </>
       ),
       side: <Gloss>{p.charonLine}</Gloss>,
@@ -280,98 +298,102 @@ export function Dossier({
   };
 
   return (
-    <article className="dossier-body">
-      <div className="d-bar gut">
-        <p className="crumbs">
-          {t.rich("crumb", { b, n: roman(p.index), total })}
-        </p>
-        {mode === "overlay" ? (
-          <CloseDossierButton className="close">
-            <span className="hide-sm">{t("close")}</span>
-            <span className="show-sm" aria-hidden="true">
-              {t("closeShort")}
-            </span>
-          </CloseDossierButton>
-        ) : (
-          <Link className="close" href="/#epreuves">
-            {t("nav.back")}
-          </Link>
-        )}
-      </div>
-
-      <header className={`r-open gut o-${p.layout}`}>
-        <div className="grid-12">{opening}</div>
-      </header>
-
-      {order.map((key, i) => {
-        const s = sections[key];
-        return (
-          <section
-            key={key}
-            className="r-sec gut"
-            aria-labelledby={`d-${p.slug}-${key}`}
-          >
-            <div className="grid-12">
-              <div className="lbl">
-                <span className="n">{t("section", { n: i + 2 })}</span>
-                <h3 id={`d-${p.slug}-${key}`}>{s.title}</h3>
-              </div>
-              {key === "plates" && rest.length ? (
-                s.body
-              ) : (
-                <>
-                  <div className="body">{s.body}</div>
-                  {s.side ? <div className="side">{s.side}</div> : null}
-                </>
-              )}
-            </div>
-          </section>
-        );
-      })}
-
-      <footer className="r-close gut">
-        <div className="grid-12">
-          <div className="contact">
-            <p>{p.isConfidential ? t("sealed.message") : t("contact.text")}</p>
-            <div>
-              <Contact
-                mode={mode}
-                label={p.isConfidential ? t("sealed.cta") : t("contact.cta")}
-              />
-            </div>
-            {links.length ? (
-              <ul className="links" aria-label={t("links.label")}>
-                {links.map((l) => (
-                  <li key={l.href}>
-                    <a
-                      className="btn ghost"
-                      href={l.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-          <nav aria-label={t("nav.label")}>
-            {p.previous ? other(p.previous, "prev") : <span />}
-            {mode === "overlay" ? (
-              <CloseDossierButton className="btn ghost">
-                {t("nav.back")}
-              </CloseDossierButton>
-            ) : (
-              <Link className="btn ghost" href="/#epreuves">
-                {t("nav.back")}
-              </Link>
-            )}
-            {p.next ? other(p.next, "next") : <span />}
-          </nav>
+    <PlateViewer plates={p.plates} emblem={emblem} title={p.title}>
+      <article className="dossier-body">
+        <div className="d-bar gut">
+          <p className="crumbs">
+            {t.rich("crumb", { b, n: roman(p.index), total })}
+          </p>
+          {mode === "overlay" ? (
+            <CloseDossierButton className="close">
+              <span className="hide-sm">{t("close")}</span>
+              <span className="show-sm" aria-hidden="true">
+                {t("closeShort")}
+              </span>
+            </CloseDossierButton>
+          ) : (
+            <Link className="close" href="/#epreuves">
+              {t("nav.back")}
+            </Link>
+          )}
         </div>
-      </footer>
-    </article>
+
+        <header className={`r-open gut o-${p.layout}`}>
+          <div className="grid-12">{opening}</div>
+        </header>
+
+        {order.map((key, i) => {
+          const s = sections[key];
+          return (
+            <section
+              key={key}
+              className="r-sec gut"
+              aria-labelledby={`d-${p.slug}-${key}`}
+            >
+              <div className="grid-12">
+                <div className="lbl">
+                  <span className="n">{t("section", { n: i + 2 })}</span>
+                  <h3 id={`d-${p.slug}-${key}`}>{s.title}</h3>
+                </div>
+                {key === "plates" && rest.length ? (
+                  s.body
+                ) : (
+                  <>
+                    <div className="body">{s.body}</div>
+                    {s.side ? <div className="side">{s.side}</div> : null}
+                  </>
+                )}
+              </div>
+            </section>
+          );
+        })}
+
+        <footer className="r-close gut">
+          <div className="grid-12">
+            <div className="contact">
+              <p>
+                {p.isConfidential ? t("sealed.message") : t("contact.text")}
+              </p>
+              <div>
+                <Contact
+                  mode={mode}
+                  label={p.isConfidential ? t("sealed.cta") : t("contact.cta")}
+                />
+              </div>
+              {links.length ? (
+                <ul className="links" aria-label={t("links.label")}>
+                  {links.map((l) => (
+                    <li key={l.href}>
+                      <a
+                        className="btn ghost"
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+            <nav aria-label={t("nav.label")}>
+              {p.previous ? other(p.previous, "prev") : <span />}
+              {mode === "overlay" ? (
+                <CloseDossierButton className="btn ghost">
+                  {t("nav.back")}
+                </CloseDossierButton>
+              ) : (
+                <Link className="btn ghost" href="/#epreuves">
+                  {t("nav.back")}
+                </Link>
+              )}
+              {p.next ? other(p.next, "next") : <span />}
+            </nav>
+          </div>
+        </footer>
+      </article>
+    </PlateViewer>
   );
 }
 
@@ -384,3 +406,6 @@ function Contact({ mode, label }: { mode: Mode; label: string }) {
     </Link>
   );
 }
+
+/** Tall plates (3:4, 4:5) would tower over their rank: their width is capped. */
+const isPortrait = (ratio: string) => ratio === "3/4" || ratio === "4/5";

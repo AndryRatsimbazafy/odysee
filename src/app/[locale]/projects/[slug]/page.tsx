@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { Dossier } from "@/components/archives/dossier";
+import { DossierPage } from "@/components/archives/dossier-page";
 import { loadDossier } from "@/components/archives/load-dossier";
 import { routing } from "@/i18n/routing";
 import { getProject, getProjectSlugs } from "@/lib/data/projects";
@@ -38,8 +39,8 @@ export default async function ProjectPage({
   const { project, total, emblem } = await loadDossier(locale as Locale, slug);
 
   return (
-    <div className="dossier-page">
+    <DossierPage>
       <Dossier project={project} total={total} emblem={emblem} mode="page" />
-    </div>
+    </DossierPage>
   );
 }
