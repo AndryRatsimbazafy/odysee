@@ -68,7 +68,22 @@
       "open": "Ouvrir",
       "zoom": "Agrandir"
     },
-    "todo": "[à fournir]"
+    "todo": "[à fournir]",
+    "sky": {
+      "orion": "Orion",
+      "aries": "Bélier",
+      "taurus": "Taureau",
+      "gemini": "Gémeaux",
+      "cancer": "Cancer",
+      "leo": "Lion",
+      "virgo": "Vierge",
+      "libra": "Balance",
+      "scorpius": "Scorpion",
+      "sagittarius": "Sagittaire",
+      "capricorn": "Capricorne",
+      "aquarius": "Verseau",
+      "pisces": "Poissons"
+    }
   },
   "hero": {
     "kicker": "Portfolio · Lead Front-End Developer",

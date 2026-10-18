@@ -47,7 +47,7 @@
 
 ## Phase 4 — Le voyage (couches globales)
 
-- [ ] **T11** Ciel étoilé et zodiaque — Lire : DESIGN §6 (point 1) ; prototype (bloc JS « Ciel : les douze constellations » + couche `#zodiac`). Îlot client fixe `aria-hidden` : dégradés, étoiles en 3 couches, 12 constellations + Orion (données des tracés dans `engravings/`), flottement idle, parallaxe, scintillement, opacités du prototype, mode clair, reduced-motion, pause onglet caché. Vérifier les contrastes sur le point le plus clair.
+- [x] **T11** Ciel étoilé et zodiaque — Lire : DESIGN §6 (point 1) ; prototype (bloc JS « Ciel : les douze constellations » + couche `#zodiac`). Îlot client fixe `aria-hidden` : dégradés, étoiles en 3 couches, 12 constellations + Orion (données des tracés dans `engravings/`), flottement idle, parallaxe, scintillement, opacités du prototype, mode clair, reduced-motion, pause onglet caché. Vérifier les contrastes sur le point le plus clair.
 - [ ] **T12** Chargeur et curseur — Lire : DESIGN §6 (points 2, 3), §9 ; ARCHITECTURE §8. Chargeur 1re visite de session (progression réelle, mini 1.4 s, sécurité CSS 8 s, absent sans JS) ; curseur `pointer:fine` (états via `data-cursor`) ; reduced-motion.
 - [ ] **T13** Rose des vents, index des chants, routes et révélations — Lire : DESIGN §6 (point 4), §7 (routes), §9 ; prototype (blocs « Rose des vents et index », « Routes entre les chants », « Défilement amorti »). Rose qui suit le chant courant, index en overlay (focus, Échap, `data-lenis-prevent`), Lenis + ticker GSAP, sauts d'ancre avec décalage d'en-tête, routes avec barque scrub, helpers `RevealTitle` (mot à mot) et `Reveal` (stagger).
 

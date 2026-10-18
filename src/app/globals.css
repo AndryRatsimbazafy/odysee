@@ -19,6 +19,12 @@
   --or-clair: #d2b985;
   --todo: #c99872;
 
+  /* Sky layer only (DESIGN §6.1): star ink and the three blue gradients. */
+  --star: #dce6ff;
+  --sky-a: rgba(46, 78, 140, 0.32);
+  --sky-b: rgba(28, 52, 104, 0.28);
+  --sky-c: rgba(70, 96, 160, 0.14);
+
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --gap: clamp(16px, 2vw, 32px);
   color-scheme: dark;
@@ -36,6 +42,10 @@
   --or: #7a5f2e;
   --or-clair: #6a5226;
   --todo: #8e4f2a;
+  --star: #22314f;
+  --sky-a: transparent;
+  --sky-b: transparent;
+  --sky-c: transparent;
   color-scheme: light;
 }
 
@@ -505,5 +515,74 @@
     .top-nav a {
       transition: none;
     }
+  }
+}
+
+/* ── Sky — T11 (DESIGN §6.1): fixed behind everything, luxe-4 opacities ── */
+@layer components {
+  .zodiac {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 70% at 18% 8%, var(--sky-a), transparent 60%),
+      radial-gradient(90% 60% at 85% 55%, var(--sky-b), transparent 62%),
+      radial-gradient(70% 50% at 40% 100%, var(--sky-c), transparent 70%);
+  }
+
+  .zodiac svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    will-change: transform;
+  }
+
+  @media (max-width: 700px) {
+    .zodiac svg {
+      left: -50vw;
+      width: 240vw;
+    }
+  }
+
+  :root[data-theme="light"] .zodiac svg {
+    opacity: 0.55;
+  }
+
+  .zodiac .field {
+    opacity: 0.6;
+  }
+
+  .zodiac .sf {
+    fill: var(--star);
+  }
+
+  .zodiac .ed {
+    fill: none;
+    stroke: var(--star);
+    stroke-width: 0.22;
+    opacity: 0.17;
+  }
+
+  .zodiac .halo {
+    opacity: 0.28;
+  }
+
+  .zodiac .st {
+    fill: var(--star);
+    opacity: 0.5;
+  }
+
+  .zodiac text {
+    fill: var(--star);
+    font-family: var(--font-sans);
+    font-size: 5.4px;
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    opacity: 0.2;
   }
 }

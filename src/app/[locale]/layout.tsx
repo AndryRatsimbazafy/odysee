@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { CONSTELLATIONS } from "@/components/engravings/constellations";
+import { Sky } from "@/components/voyage/sky/sky";
 import { ThemeProvider } from "@/components/voyage/theme-provider";
 import { GLOSS_INIT_SCRIPT } from "@/components/voyage/gloss-store";
 import { SiteFooter } from "@/components/voyage/site-footer";
@@ -26,6 +28,9 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const t = await getTranslations({ locale, namespace: "voyage" });
+  const skyNames = Object.fromEntries(
+    CONSTELLATIONS.map(({ id }) => [id, t(`sky.${id}`)]),
+  ) as Record<(typeof CONSTELLATIONS)[number]["id"], string>;
 
   return (
     <html
@@ -43,6 +48,7 @@ export default async function LocaleLayout({
         </a>
         <NextIntlClientProvider>
           <ThemeProvider>
+            <Sky names={skyNames} />
             <SiteHeader locale={locale} />
             <main id="main" tabIndex={-1} className="flex-1 outline-none">
               {children}
