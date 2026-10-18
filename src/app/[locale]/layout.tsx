@@ -3,6 +3,9 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CONSTELLATIONS } from "@/components/engravings/constellations";
+import { Cursor } from "@/components/voyage/cursor/cursor";
+import { BOARDING_INIT_SCRIPT } from "@/components/voyage/loader/boarding";
+import { Loader } from "@/components/voyage/loader/loader";
 import { Sky } from "@/components/voyage/sky/sky";
 import { ThemeProvider } from "@/components/voyage/theme-provider";
 import { GLOSS_INIT_SCRIPT } from "@/components/voyage/gloss-store";
@@ -41,6 +44,9 @@ export default async function LocaleLayout({
       <head>
         {/* Blocking, before first paint: re-applies a hidden-Charon choice. */}
         <script dangerouslySetInnerHTML={{ __html: GLOSS_INIT_SCRIPT }} />
+        {/* Blocking, before first paint: flags the session's first visit so
+            the loader shows (never without JS). */}
+        <script dangerouslySetInnerHTML={{ __html: BOARDING_INIT_SCRIPT }} />
       </head>
       <body className="flex min-h-full flex-col">
         <a className="skip" href="#main">
@@ -49,11 +55,13 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <ThemeProvider>
             <Sky names={skyNames} />
+            <Loader />
             <SiteHeader locale={locale} />
             <main id="main" tabIndex={-1} className="flex-1 outline-none">
               {children}
             </main>
             <SiteFooter locale={locale} />
+            <Cursor />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import type { ConstellationId } from "@/components/engravings/constellations";
+import { whenBoarded } from "../loader/boarding";
 import { skyMarkup } from "./sky-markup";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -31,13 +32,15 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const q = gsap.utils.selector(sky);
 
-        // Opening: the figures fade in one after the other.
-        gsap.from(q(".cst"), {
+        // Opening: the figures fade in one after the other, once boarded.
+        const opening = gsap.from(q(".cst"), {
           opacity: 0,
           duration: 2.4,
           ease: "power1.out",
           stagger: 0.18,
+          paused: true,
         });
+        const stopWaiting = whenBoarded(() => opening.play());
 
         // Parallax: the whole sky scrolls by, the star field a bit slower.
         gsap.to(sky, {
@@ -118,8 +121,10 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
         const onVisibility = () =>
           idle.forEach((tween) => tween.paused(document.hidden));
         document.addEventListener("visibilitychange", onVisibility);
-        return () =>
+        return () => {
+          stopWaiting();
           document.removeEventListener("visibilitychange", onVisibility);
+        };
       });
     },
     { scope: root, dependencies: [names], revertOnUpdate: true },

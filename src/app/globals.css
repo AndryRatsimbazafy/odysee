@@ -588,3 +588,338 @@
     opacity: 0.2;
   }
 }
+
+/* ── Loader and cursor — T12 (DESIGN §6.2, §6.3) ── */
+@layer components {
+  /* Shown only when BOARDING_INIT_SCRIPT set data-boarding before paint. */
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: none;
+    place-items: center;
+    background: var(--nuit);
+    transition:
+      opacity 0.9s var(--ease),
+      visibility 0s 0.9s;
+  }
+
+  :root[data-boarding] .loader {
+    display: grid;
+    /* Safety: gone after 8 s even if the script never finishes. */
+    animation: loader-safety 0.01s 8s forwards;
+  }
+
+  :root[data-boarding="done"] .loader {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  @keyframes loader-safety {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .loader .box {
+    display: grid;
+    justify-items: center;
+    gap: 22px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .loader svg {
+    width: min(340px, 76vw);
+    height: auto;
+    overflow: visible;
+  }
+
+  .loader .ln {
+    fill: none;
+    stroke: var(--or);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .loader .fine {
+    stroke-width: 0.6;
+  }
+
+  .loader .sky-ln {
+    stroke: var(--ivoire);
+    stroke-width: 1;
+  }
+
+  .loader .tw {
+    fill: var(--ivoire);
+    stroke: none;
+    animation: ld-tw 2.4s ease-in-out infinite;
+  }
+
+  .loader .tw:nth-child(2n) {
+    animation-delay: 0.8s;
+  }
+
+  .loader .tw:nth-child(3n) {
+    animation-delay: 1.5s;
+  }
+
+  .loader .faint {
+    opacity: 0.35;
+  }
+
+  .loader .dots {
+    stroke-dasharray: 0 3;
+    stroke-width: 1;
+  }
+
+  .loader .north {
+    fill: var(--or);
+    stroke: none;
+  }
+
+  .loader .far {
+    opacity: 0.6;
+  }
+
+  .loader .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: ld-draw 1.8s var(--ease) forwards;
+  }
+
+  .loader .d2 {
+    animation-delay: 0.25s;
+  }
+
+  .loader .d3 {
+    animation-delay: 0.5s;
+  }
+
+  .loader .d4 {
+    animation-delay: 0.75s;
+  }
+
+  .loader .sea {
+    animation: ld-sea 3.2s linear infinite;
+  }
+
+  .loader .bob {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: ld-bob 2.6s ease-in-out infinite;
+  }
+
+  .loader .needle {
+    transform-box: view-box;
+    transform-origin: 300px 40px;
+    animation: ld-needle 3s ease-in-out infinite;
+  }
+
+  @keyframes ld-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes ld-sea {
+    to {
+      transform: translateX(-52px);
+    }
+  }
+
+  @keyframes ld-bob {
+    50% {
+      transform: translateY(-3px) rotate(-1.5deg);
+    }
+  }
+
+  @keyframes ld-needle {
+    0%,
+    100% {
+      transform: rotate(-24deg);
+    }
+    50% {
+      transform: rotate(18deg);
+    }
+  }
+
+  @keyframes ld-tw {
+    50% {
+      opacity: 0.15;
+    }
+  }
+
+  .loader .quote {
+    max-width: 30ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--cendre);
+  }
+
+  .loader .bar {
+    width: min(240px, 60vw);
+    height: 1px;
+    overflow: hidden;
+    background: var(--filet);
+  }
+
+  .loader .bar i {
+    display: block;
+    height: 100%;
+    background: var(--or-clair);
+    transform: scaleX(0.08);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .loader .lbl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cendre);
+  }
+
+  .loader .lbl b {
+    font-weight: 400;
+    color: var(--or-clair);
+  }
+
+  /* Reduced motion: drawn at once, still, short fade. */
+  @media (prefers-reduced-motion: reduce) {
+    .loader {
+      transition:
+        opacity 0.3s var(--ease),
+        visibility 0s 0.3s;
+    }
+
+    .loader * {
+      animation: none !important;
+    }
+
+    .loader .draw {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Cursor: the native one is hidden, except over fields. */
+  .cur,
+  .cur * {
+    cursor: none !important;
+  }
+
+  .cur :is(input, textarea, select, [contenteditable="true"]) {
+    cursor: auto !important;
+  }
+
+  .cursor,
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .cursor {
+    z-index: 200;
+  }
+
+  .cursor-dot {
+    z-index: 201;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    border-radius: 50%;
+    background: var(--or-clair);
+  }
+
+  .cursor[data-on],
+  .cursor-dot[data-on] {
+    opacity: 1;
+  }
+
+  .cursor-dot:is([data-state="view"], [data-state="text"]) {
+    opacity: 0;
+  }
+
+  /* Ring states use transform and opacity only (DESIGN §9). */
+  .cursor i {
+    position: absolute;
+    top: -17px;
+    left: -17px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--or);
+    border-radius: 50%;
+    transition: transform 0.45s var(--ease);
+  }
+
+  .cursor i::before,
+  .cursor i::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.45s;
+  }
+
+  .cursor i::before {
+    background: var(--or-clair);
+  }
+
+  .cursor i::after {
+    background: var(--or);
+  }
+
+  .cursor[data-state="link"] i {
+    transform: scale(1.7);
+  }
+
+  .cursor[data-state="link"] i::before {
+    opacity: 0.12;
+  }
+
+  .cursor[data-state="view"] i {
+    transform: scale(2.47);
+  }
+
+  .cursor[data-state="view"] i::before {
+    opacity: 1;
+  }
+
+  .cursor[data-state="text"] i {
+    transform: scale(0.12, 0.82);
+  }
+
+  .cursor[data-state="text"] i::after {
+    opacity: 1;
+  }
+
+  .cursor span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--nuit);
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
+
+  .cursor[data-state="view"] span {
+    opacity: 1;
+  }
+}
