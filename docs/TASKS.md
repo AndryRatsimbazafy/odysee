@@ -41,7 +41,7 @@
 ## Phase 3 — Admin
 
 - [x] **T07** Auth admin 🧭 — Lire : ARCHITECTURE §5. `/admin/login`, session `@supabase/ssr` dans `proxy.ts`, layout protégé côté serveur, `requireAdmin()` dans chaque Server Action, `noindex`, socle shadcn (thème sombre, tokens du site).
-- [ ] **T08** Admin : profil, engagement, liens, CV — Lire : PRD F-ADM-03, F-ADM-07, F-ADM-13, F-ADM-14 (engagement).
+- [x] **T08** Admin : profil, engagement, liens, CV — Lire : PRD F-ADM-03, F-ADM-07, F-ADM-13, F-ADM-14 (engagement).
 - [ ] **T09** Admin : projets 🧭 — Lire : PRD F-ADM-04, F-ADM-08, F-ADM-08b, F-ADM-09, F-ADM-15 ; SEO-09, SEO-10. Formulaire en onglets (Récit · Fiche · Contribution & décisions · Planches · Technos · SEO), FR/EN côte à côte, listes ordonnables (contributions, résultats, décisions), planches (upload vers `projects/{project_id}/{uuid}.{ext}` — ARCHITECTURE §4 Storage —, nature, légende, ratio, alt), layout + emblème, statut, ordre, redirection de slug, `updateTag`.
 - [ ] **T10** Admin : technos, compétences, escales, oracle, témoignages, messages — Lire : PRD F-ADM-05, F-ADM-06, F-ADM-10, F-ADM-14, F-ADM-16.
 

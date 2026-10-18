@@ -1,4 +1,5 @@
 import "server-only";
+import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { ADMIN_LOGIN_PATH } from "@/lib/supabase/proxy";
@@ -12,6 +13,8 @@ export type Admin = { id: string; email: string };
  * Reads cookies: call it under <Suspense>, never inside `'use cache'`.
  */
 export const getAdmin = cache(async (): Promise<Admin | null> => {
+  // Request time only: token checks read the clock, never prerender them.
+  await connection();
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const claims = data?.claims;

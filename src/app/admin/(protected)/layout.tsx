@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
+import { AdminNav } from "@/components/admin/admin-nav";
 import { Button } from "@/components/admin/button";
 import { signOut } from "@/lib/actions/auth";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -13,7 +14,10 @@ async function AdminGate({ children }: { children: React.ReactNode }) {
   return (
     <>
       <header className="gut flex items-center justify-between gap-4 border-b border-border py-4">
-        <span className="kicker">{t("title")}</span>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+          <span className="kicker">{t("title")}</span>
+          <AdminNav />
+        </div>
         <div className="flex items-center gap-4">
           <span className="mono hidden sm:inline">
             {t("shell.signedInAs", { email: admin.email })}

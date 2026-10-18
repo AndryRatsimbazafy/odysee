@@ -286,12 +286,125 @@
     },
     "dashboard": {
       "heading": "Tableau de bord",
-      "lead": "Les sections d’édition arrivent avec les prochaines tâches.",
+      "lead": "Choisir une section à éditer. Chaque enregistrement met le site à jour immédiatement.",
+      "soon": "(prochainement)",
       "sections": {
-        "profile": "Profil, engagement, liens, CV",
+        "profile": "Profil, disponibilité, photo et SEO de l’accueil",
+        "engagement": "Engagement (Rotaract)",
+        "links": "Liens et CV",
         "projects": "Projets",
         "content": "Technos, compétences, escales, oracle, témoignages, messages"
       }
+    },
+    "nav": {
+      "label": "Sections de l’admin",
+      "dashboard": "Tableau de bord",
+      "profile": "Profil",
+      "engagement": "Engagement",
+      "links": "Liens & CV"
+    },
+    "form": {
+      "loading": "Chargement…",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "saved": "Enregistré. Le site est à jour.",
+      "unsaved": "Modifications non enregistrées.",
+      "invalid": "Certains champs sont invalides : vérifier les champs signalés.",
+      "failed": "L’enregistrement a échoué. Réessayer.",
+      "missing": "{lang} manquant",
+      "missingCount": "{count, plural, one {# traduction manquante} other {# traductions manquantes}}"
+    },
+    "list": {
+      "up": "Monter « {item} »",
+      "down": "Descendre « {item} »",
+      "remove": "Supprimer « {item} »"
+    },
+    "upload": {
+      "none": "[aucune]",
+      "uploading": "Envoi en cours…",
+      "remove": "Retirer l’image",
+      "imageHint": "JPEG, PNG, WebP ou AVIF, 5 Mo max. Pris en compte à l’enregistrement.",
+      "imageError": "Fichier refusé ou envoi impossible (JPEG, PNG, WebP ou AVIF, 5 Mo max)."
+    },
+    "profile": {
+      "heading": "Profil",
+      "lead": "Identité, récit de l’embarcadère, divinités, disponibilité, photo et SEO de la page d’accueil.",
+      "identity": "Identité",
+      "fullName": "Nom complet",
+      "location": "Lieu",
+      "publicEmail": "Email public",
+      "title": "Titre",
+      "tagline": "Accroche",
+      "languages": "Langues parlées",
+      "story": "Récit",
+      "recit": "Récit de l’embarcadère",
+      "bio": "Bio",
+      "hephaistos": "Héphaïstos (technique)",
+      "athena": "Athéna (stratégie, AMOA)",
+      "availability": "Disponibilité",
+      "isAvailable": "Disponible pour une mission",
+      "modes": "Modalités",
+      "mode": {
+        "cdi": "CDI",
+        "freelance": "Freelance",
+        "remote": "Télétravail"
+      },
+      "availableFrom": "Disponible à partir du",
+      "availabilityText": "Texte de disponibilité",
+      "photo": "Photo",
+      "photoFile": "Photo de profil",
+      "photoAlt": "Texte alternatif de la photo",
+      "seo": "SEO de l’accueil",
+      "seoTitle": "Titre SEO (70 caractères max)",
+      "seoDescription": "Meta description (170 caractères max)",
+      "ogImage": "Image de partage",
+      "ogImageHint": "Si vide, l’image de partage est générée automatiquement."
+    },
+    "engagement": {
+      "heading": "Engagement",
+      "lead": "« Hors du travail » (Chant I) : organisations, texte et fonctions occupées.",
+      "empty": "[à fournir] Aucun engagement.",
+      "item": "Engagement {n}",
+      "add": "Ajouter un engagement",
+      "organization": "Organisation",
+      "since": "Depuis (année)",
+      "url": "Lien",
+      "text": "Texte",
+      "roles": "Fonctions",
+      "noRoles": "Aucune fonction renseignée.",
+      "role": "Fonction {n}",
+      "roleLabel": "Intitulé",
+      "period": "Période",
+      "addRole": "Ajouter une fonction"
+    },
+    "links": {
+      "heading": "Liens & CV",
+      "lead": "CV téléchargeables et liens affichés sur le site.",
+      "listHeading": "Liens",
+      "empty": "[à fournir] Aucun lien.",
+      "platform": "Plateforme",
+      "url": "Adresse",
+      "item": "lien",
+      "add": "Ajouter un lien"
+    },
+    "resumes": {
+      "heading": "CV (PDF)",
+      "locale": {
+        "fr": "CV français",
+        "en": "CV anglais"
+      },
+      "current": "Voir le CV actuel",
+      "updated": "mis à jour le {date}",
+      "none": "[à fournir] Aucun CV.",
+      "noneEn": "[à fournir] Aucun CV anglais : le site propose le CV français.",
+      "upload": "Envoyer un PDF",
+      "replace": "Remplacer le PDF",
+      "hint": "PDF, 5 Mo max. Remplace immédiatement le CV publié.",
+      "uploading": "Envoi en cours…",
+      "saved": "CV publié.",
+      "error": "Fichier refusé ou envoi impossible (PDF, 5 Mo max).",
+      "remove": "Retirer ce CV",
+      "confirmRemove": "Retirer ce CV du site ?"
     }
   }
 }
