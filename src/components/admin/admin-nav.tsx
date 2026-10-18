@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 const ITEMS = [
   { href: "/admin", key: "dashboard" },
   { href: "/admin/profile", key: "profile" },
+  { href: "/admin/projects", key: "projects" },
   { href: "/admin/engagement", key: "engagement" },
   { href: "/admin/links", key: "links" },
 ] as const;
@@ -19,12 +20,16 @@ export function AdminNav() {
     <nav aria-label={t("label")}>
       <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
         {ITEMS.map(({ href, key }) => {
-          const current = pathname === href;
+          const current =
+            pathname === href ||
+            (href !== "/admin" && pathname.startsWith(`${href}/`));
           return (
             <li key={href}>
               <Link
                 href={href}
-                aria-current={current ? "page" : undefined}
+                aria-current={
+                  pathname === href ? "page" : current ? "true" : undefined
+                }
                 className={
                   current
                     ? "text-or-clair"

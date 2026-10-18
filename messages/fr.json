@@ -292,7 +292,7 @@
         "profile": "Profil, disponibilité, photo et SEO de l’accueil",
         "engagement": "Engagement (Rotaract)",
         "links": "Liens et CV",
-        "projects": "Projets",
+        "projects": "Projets : récit, fiche, planches, technos et SEO de chaque épreuve",
         "content": "Technos, compétences, escales, oracle, témoignages, messages"
       }
     },
@@ -300,6 +300,7 @@
       "label": "Sections de l’admin",
       "dashboard": "Tableau de bord",
       "profile": "Profil",
+      "projects": "Projets",
       "engagement": "Engagement",
       "links": "Liens & CV"
     },
@@ -405,6 +406,142 @@
       "error": "Fichier refusé ou envoi impossible (PDF, 5 Mo max).",
       "remove": "Retirer ce CV",
       "confirmRemove": "Retirer ce CV du site ?"
+    },
+    "projects": {
+      "heading": "Projets",
+      "lead": "Les épreuves du Chant II, dans l’ordre de la carte. Un brouillon n’apparaît pas sur le site.",
+      "new": "Nouveau projet",
+      "empty": "[à fournir] Aucun projet.",
+      "orderHeading": "Ordre de la carte",
+      "orderHint": "Monter ou descendre une épreuve puis enregistrer l’ordre. Les brouillons gardent leur place mais n’apparaissent pas sur la carte.",
+      "item": "Épreuve {n}",
+      "untitled": "[sans titre]",
+      "missingShort": "{count, plural, one {# trad. manquante} other {# trad. manquantes}}",
+      "status": {
+        "label": "Statut",
+        "draft": "Brouillon",
+        "published": "Publié"
+      },
+      "create": {
+        "heading": "Nouveau projet",
+        "lead": "Titre et slug suffisent pour créer le brouillon ; le reste se remplit ensuite, onglet par onglet.",
+        "submit": "Créer le brouillon",
+        "pending": "Création…",
+        "back": "Retour aux projets"
+      },
+      "edit": {
+        "back": "Tous les projets",
+        "preview": "Aperçu",
+        "previewSoon": "L’aperçu avant publication arrive avec le dossier d’archive (T17).",
+        "delete": "Supprimer le projet",
+        "confirmDelete": "Supprimer définitivement ce projet, ses planches et ses redirections ?",
+        "deleteFailed": "La suppression a échoué. Réessayer."
+      },
+      "tabs": {
+        "label": "Sections du projet",
+        "story": "Récit",
+        "sheet": "Fiche",
+        "work": "Contribution et décisions",
+        "plates": "Planches",
+        "stack": "Technos",
+        "seo": "SEO",
+        "hasErrors": "contient des erreurs"
+      },
+      "fields": {
+        "title": "Titre",
+        "shortTitle": "Titre court (carte)",
+        "quest": "Quête",
+        "charonLine": "Note de Charon (marge)",
+        "summary": "Résumé",
+        "context": "Contexte",
+        "problem": "Problème",
+        "slug": "Slug (adresse)",
+        "slugHint": "Minuscules, chiffres et tirets : /fr/projects/{slug}",
+        "slugTaken": "Ce slug est déjà utilisé par un autre projet.",
+        "slugChange": "L’ancienne adresse « {old} » redirigera vers la nouvelle.",
+        "redirects": "Anciennes adresses redirigées",
+        "removeRedirect": "Ne plus rediriger « {slug} »",
+        "kind": "Type",
+        "kinds": {
+          "client": "Client",
+          "associative": "Associatif",
+          "personal": "Personnel"
+        },
+        "kindLabel": "Libellé du type (affiché)",
+        "layout": "Mise en page du dossier",
+        "layouts": {
+          "sealed": "Scellé (sealed)",
+          "split": "Partagé (split)",
+          "gallery": "Galerie (gallery)",
+          "process": "Procédé (process)"
+        },
+        "emblem": "Emblème gravé",
+        "emblemAuto": "Automatique (suivant de la réserve)",
+        "emblems": {
+          "maze": "Labyrinthe",
+          "hydra": "Hydre",
+          "herald": "Héraut",
+          "boat": "Barque"
+        },
+        "period": "Période",
+        "role": "Rôle (court)",
+        "roleLabel": "Rôle détaillé",
+        "team": "Équipe",
+        "client": "Client",
+        "clientName": "Nom du client",
+        "showClient": "Afficher le nom du client",
+        "confidential": "Projet confidentiel",
+        "confidentialHint": "Mise en page « scellé » proposée ; aucun lien publié et nom du client masqué sur le site.",
+        "links": "Liens",
+        "demoUrl": "Démo",
+        "repoUrl": "Dépôt de code"
+      },
+      "work": {
+        "contributions": "Contributions",
+        "contribution": "Contribution {n}",
+        "addContribution": "Ajouter une contribution",
+        "results": "Résultats",
+        "result": "Résultat {n}",
+        "addResult": "Ajouter un résultat",
+        "decisions": "Décisions",
+        "decision": "Décision {n}",
+        "addDecision": "Ajouter une décision",
+        "decisionTitle": "Décision",
+        "why": "Pourquoi",
+        "tradeoff": "Compromis",
+        "text": "Texte",
+        "none": "[à fournir] Liste vide."
+      },
+      "plates": {
+        "hint": "4 à 5 planches par dossier. Une planche sans image s’affiche comme emplacement [à fournir].",
+        "tooFew": "{count, plural, one {# planche} other {# planches}} sur 4 attendues au minimum.",
+        "sealed": "Dossier scellé : aucune capture contenant des données client (le stockage des images est public).",
+        "plate": "Planche {n}",
+        "image": "Image",
+        "kind": "Nature (ex. « Maquette », « Schéma »)",
+        "caption": "Légende",
+        "alt": "Texte alternatif",
+        "altRequired": "Texte alternatif français obligatoire dès qu’une image est fournie.",
+        "ratio": "Format",
+        "add": "Ajouter une planche",
+        "max": "5 planches au maximum."
+      },
+      "stack": {
+        "hint": "Technologies de l’épreuve et leur usage ; elles alimentent les renvois de l’arsenal.",
+        "none": "[à fournir] Aucune technologie liée.",
+        "noOptions": "Aucune technologie enregistrée : les créer d’abord dans la section Technos (prochainement).",
+        "technology": "Technologie",
+        "item": "Technologie {n}",
+        "usage": "Usage dans ce projet",
+        "add": "Ajouter une technologie",
+        "duplicate": "Chaque technologie ne peut apparaître qu’une fois."
+      },
+      "seo": {
+        "title": "Titre SEO (70 caractères max)",
+        "description": "Meta description (170 caractères max)",
+        "ogImage": "Image de partage",
+        "ogImageHint": "Si vide, l’image de partage est générée automatiquement."
+      }
     }
   }
 }

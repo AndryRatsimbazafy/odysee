@@ -4,9 +4,9 @@ import { requireAdmin } from "@/lib/auth/admin";
 
 const SECTIONS = [
   { key: "profile", href: "/admin/profile" },
+  { key: "projects", href: "/admin/projects" },
   { key: "engagement", href: "/admin/engagement" },
   { key: "links", href: "/admin/links" },
-  { key: "projects", href: null },
   { key: "content", href: null },
 ] as const;
 

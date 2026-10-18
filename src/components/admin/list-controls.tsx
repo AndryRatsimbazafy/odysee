@@ -15,7 +15,8 @@ export function ListControls({
   index: number;
   count: number;
   onMove: (from: number, to: number) => void;
-  onRemove: (index: number) => void;
+  /** Omitted: no remove button (e.g. reordering only). */
+  onRemove?: (index: number) => void;
   /** Accessible name of the item, e.g. "LinkedIn". */
   itemLabel: string;
 }) {
@@ -42,15 +43,17 @@ export function ListControls({
       >
         <ArrowDown aria-hidden />
       </Button>
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t("remove", { item: itemLabel })}
-        onClick={() => onRemove(index)}
-      >
-        <Trash2 aria-hidden />
-      </Button>
+      {onRemove && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t("remove", { item: itemLabel })}
+          onClick={() => onRemove(index)}
+        >
+          <Trash2 aria-hidden />
+        </Button>
+      )}
     </div>
   );
 }

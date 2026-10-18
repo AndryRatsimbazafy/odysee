@@ -1,6 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
+import { z } from "zod";
 import { requireAdmin } from "@/lib/auth/admin";
 import { TAGS } from "@/lib/data/tags";
 import { createClient } from "@/lib/supabase/server";
@@ -19,17 +20,34 @@ type UploadTarget =
   | { ok: true; path: string; token: string }
   | { ok: false; error: "invalid" | "failed" };
 
-/** Signed upload slot for a profile image (photo, share image) in `media`. */
-export async function prepareImageUpload(file: {
-  type: string;
-  size: number;
-}): Promise<UploadTarget> {
+/**
+ * Signed upload slot for an image in `media`: profile images by default,
+ * `projects/{projectId}/` for a project's plates and share image.
+ */
+export async function prepareImageUpload(
+  file: { type: string; size: number },
+  projectId?: string,
+): Promise<UploadTarget> {
   await requireAdmin();
   const parsed = imageUploadSchema.safeParse(file);
   if (!parsed.success) return { ok: false, error: "invalid" };
 
-  const path = `profile/${crypto.randomUUID()}.${IMAGE_TYPES[parsed.data.type]}`;
   const supabase = await createClient();
+  let folder = "profile";
+  if (projectId !== undefined) {
+    if (!z.uuid().safeParse(projectId).success) {
+      return { ok: false, error: "invalid" };
+    }
+    const { data: project } = await supabase
+      .from("projects")
+      .select("id")
+      .eq("id", projectId)
+      .maybeSingle();
+    if (!project) return { ok: false, error: "invalid" };
+    folder = `projects/${projectId}`;
+  }
+
+  const path = `${folder}/${crypto.randomUUID()}.${IMAGE_TYPES[parsed.data.type]}`;
   const { data, error } = await supabase.storage
     .from("media")
     .createSignedUploadUrl(path);

@@ -14,13 +14,20 @@ type ImageFieldProps = {
   label: string;
   /** Public URL prefix of the `media` bucket. */
   baseUrl: string;
+  /** Stores the file under `projects/{projectId}/` instead of `profile/`. */
+  projectId?: string;
 };
 
 /**
  * Uploads an image to `media` and stores its path in the form field.
  * The previous file is removed when the form is saved.
  */
-export function ImageField({ name, label, baseUrl }: ImageFieldProps) {
+export function ImageField({
+  name,
+  label,
+  baseUrl,
+  projectId,
+}: ImageFieldProps) {
   const t = useTranslations("admin.upload");
   const id = useId();
   const { control, setValue } = useFormContext();
@@ -34,10 +41,10 @@ export function ImageField({ name, label, baseUrl }: ImageFieldProps) {
       return;
     }
     setState("uploading");
-    const target = await prepareImageUpload({
-      type: file.type,
-      size: file.size,
-    });
+    const target = await prepareImageUpload(
+      { type: file.type, size: file.size },
+      projectId,
+    );
     if (!target.ok) return setState("error");
     const { error } = await createClient()
       .storage.from("media")
