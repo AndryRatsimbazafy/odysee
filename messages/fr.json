@@ -47,6 +47,7 @@
     "folio": "Folio {n}",
     "rose": {
       "open": "Ouvrir l'index des chants",
+      "archives": "Archives",
       "current": "Index des chants. Chant actuel : {title}"
     },
     "index": {
@@ -158,6 +159,7 @@
   },
   "dossier": {
     "crumb": "Archives · <b>Dossier {n}</b> sur {total}",
+    "crumbShort": "<b>{n}</b> / {total}",
     "close": "Retour aux archives ✕",
     "closeShort": "Archives ✕",
     "stamp": "Dossier {n} · {kind}",

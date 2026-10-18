@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { lockScroll } from "@/lib/motion/scroll";
@@ -11,8 +12,12 @@ import { ThemeToggle } from "../theme-toggle";
 
 const STEP = 360 / CHANTS.length;
 
-/** Index of the chant whose top has passed 45 % of the viewport. */
+/**
+ * Index of the chant whose top has passed 45 % of the viewport, or -1 off
+ * the one-page (a dossier page has no chant).
+ */
 function currentChant(): number {
+  if (!CHANTS.some((id) => document.getElementById(id))) return -1;
   const line = window.innerHeight * 0.45;
   let current = 0;
   CHANTS.forEach((id, i) => {
@@ -38,6 +43,7 @@ export function Compass() {
   const t = useTranslations("voyage");
   const [current, setCurrent] = useState(0);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const rose = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   // Closing by following a link: focus goes to the section, not the rose.
@@ -60,7 +66,8 @@ export function Compass() {
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onScroll);
     };
-  }, []);
+    // A soft navigation (one-page ↔ dossier page) changes the sections.
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -104,8 +111,8 @@ export function Compass() {
     };
   }, [open]);
 
-  const chant = CHANTS[current];
-  const title = t(`chants.${chant}.title`);
+  const chant = current >= 0 ? CHANTS[current] : null;
+  const title = chant ? t(`chants.${chant}.title`) : t("index.label");
 
   return (
     <>
@@ -115,7 +122,7 @@ export function Compass() {
         className="rose"
         aria-controls="index"
         aria-expanded={open}
-        aria-label={t("rose.current", { title })}
+        aria-label={chant ? t("rose.current", { title }) : t("rose.open")}
         onClick={() => setOpen(true)}
       >
         <svg viewBox="0 0 100 100" aria-hidden="true">
@@ -133,7 +140,7 @@ export function Compass() {
             </g>
             <g
               className="needle"
-              style={{ transform: `rotate(${current * STEP}deg)` }}
+              style={{ transform: `rotate(${Math.max(0, current) * STEP}deg)` }}
             >
               <path className="north" d="M50 12 L55 50 L50 56 L45 50 Z" />
               <path className="soft" d="M50 88 L55 50 L50 44 L45 50 Z" />
@@ -142,7 +149,7 @@ export function Compass() {
           </g>
         </svg>
         <span className="lbl" aria-hidden="true">
-          <span>{t(`chants.${chant}.n`)}</span>
+          <span>{chant ? t(`chants.${chant}.n`) : t("rose.archives")}</span>
           <b>{title}</b>
         </span>
       </button>

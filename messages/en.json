@@ -47,6 +47,7 @@
     "folio": "Folio {n}",
     "rose": {
       "open": "Open the index of books",
+      "archives": "Archives",
       "current": "Index of books. Current book: {title}"
     },
     "index": {
@@ -158,6 +159,7 @@
   },
   "dossier": {
     "crumb": "Archives · <b>File {n}</b> of {total}",
+    "crumbShort": "<b>{n}</b> / {total}",
     "close": "Back to the archives ✕",
     "closeShort": "Archives ✕",
     "stamp": "File {n} · {kind}",

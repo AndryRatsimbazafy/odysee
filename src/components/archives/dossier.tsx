@@ -250,15 +250,21 @@ export function Dossier({
       ) : (
         <p className="todo">{todo}</p>
       ),
-      side: p.results.length ? (
-        <ul className="r-list" aria-label={t("resultsLabel")}>
-          {p.results.map((r, i) => (
-            <li key={i}>{r}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="todo">{t("resultsMissing")}</p>
-      ),
+      // Nothing at all yet: a single marker, in the body.
+      ...(!p.technologies.length && !p.results.length
+        ? { body: <p className="todo">{t("resultsMissing")}</p> }
+        : {}),
+      side:
+        !p.technologies.length && !p.results.length ? undefined : p.results
+            .length ? (
+          <ul className="r-list" aria-label={t("resultsLabel")}>
+            {p.results.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="todo">{t("resultsMissing")}</p>
+        ),
     },
   };
   const order =
@@ -302,7 +308,12 @@ export function Dossier({
       <article className="dossier-body">
         <div className="d-bar gut">
           <p className="crumbs">
-            {t.rich("crumb", { b, n: roman(p.index), total })}
+            <span className="hide-sm">
+              {t.rich("crumb", { b, n: roman(p.index), total })}
+            </span>
+            <span className="show-sm">
+              {t.rich("crumbShort", { b, n: roman(p.index), total })}
+            </span>
           </p>
           {mode === "overlay" ? (
             <CloseDossierButton className="close">

@@ -2199,8 +2199,11 @@
   }
 
   /* Full page (direct load): clears the fixed header. */
+  /* Full page: the bare night of the overlay, the sky stays behind. */
   .dossier-page {
+    position: relative;
     padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
+    background: var(--nuit);
   }
 
   .preview-flag {
@@ -2886,30 +2889,36 @@
     font-size: 11px;
     font-weight: 400;
     color: var(--or);
+    margin-right: 4px;
   }
 
+  /* Small screens: the image centred, the arrows right under it. */
   @media (max-width: 640px) {
     .lb-stage {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      align-content: center;
+      row-gap: 12px;
     }
 
     .lb-fig {
-      grid-column: 1;
+      grid-column: 1 / -1;
+      grid-row: 1;
+      height: auto;
     }
 
     .lb-arrow {
-      position: absolute;
-      bottom: -4px;
-      z-index: 2;
-      background: var(--nuit);
+      grid-row: 2;
     }
 
     .lb-prev {
-      left: 0;
+      grid-column: 1;
+      justify-self: start;
     }
 
     .lb-next {
-      right: 0;
+      grid-column: 2;
+      justify-self: end;
     }
   }
 

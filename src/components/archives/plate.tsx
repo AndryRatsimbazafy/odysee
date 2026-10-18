@@ -15,6 +15,7 @@ export function PlateImage({
   emblem,
   sizes,
   priority,
+  labelled = true,
 }: {
   plate: PlateView | null;
   /** 1-based figure number. */
@@ -22,6 +23,8 @@ export function PlateImage({
   emblem: Emblem;
   sizes: string;
   priority?: boolean;
+  /** False when a parent control already names the plate (zoom button). */
+  labelled?: boolean;
 }) {
   const t = useTranslations("dossier.plate");
   const tv = useTranslations("voyage");
@@ -45,8 +48,9 @@ export function PlateImage({
     <div
       className="ph-img empty"
       style={{ aspectRatio: ratio }}
-      role="img"
-      aria-label={t("emptyLabel", { kind })}
+      {...(labelled
+        ? { role: "img", "aria-label": t("emptyLabel", { kind }) }
+        : { "aria-hidden": true })}
     >
       <ProjectEmblem emblem={emblem} className="wm" />
       <div className="lab" aria-hidden="true">
@@ -91,6 +95,7 @@ export function PlateFigure({
           emblem={emblem}
           sizes={sizes}
           priority={priority}
+          labelled={false}
         />
       </button>
       <figcaption>
