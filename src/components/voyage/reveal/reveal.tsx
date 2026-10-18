@@ -33,7 +33,7 @@ export function Reveal({
         gsap.from(el.children, {
           opacity: 0,
           y,
-          duration: 1.2,
+          duration: 0.8,
           ease: EASE,
           stagger,
           scrollTrigger: { trigger: el, start: "top 82%", once: true },

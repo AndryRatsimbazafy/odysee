@@ -57,11 +57,17 @@ function CursorLayer() {
     let cx = -100;
     let cy = -100;
     let frame = 0;
+    let last = 0;
+    let shown = false;
+    let current: string | null = null;
 
     // The ring eases towards the pointer, and stops when it gets there.
-    const follow = () => {
-      cx += (mx - cx) * 0.18;
-      cy += (my - cy) * 0.18;
+    // The step depends on elapsed time, so 120 Hz screens trail the same.
+    const follow = (now: number) => {
+      const k = 1 - Math.pow(1 - 0.18, Math.min(4, (now - last) / 16.67 || 1));
+      last = now;
+      cx += (mx - cx) * k;
+      cy += (my - cy) * k;
       ring.current?.style.setProperty(
         "transform",
         `translate(${cx.toFixed(1)}px, ${cy.toFixed(1)}px)`,
@@ -79,20 +85,30 @@ function CursorLayer() {
         "transform",
         `translate(${mx}px, ${my}px)`,
       );
+      // Attributes only change with the state: no style work on plain moves.
       const [state, view] = stateOf(e.target);
-      for (const el of [ring.current, dot.current]) {
-        if (!el) continue;
-        el.dataset.on = "";
-        if (state) el.dataset.state = state;
-        else delete el.dataset.state;
+      const key = `${state}:${view}`;
+      if (!shown || key !== current) {
+        shown = true;
+        current = key;
+        for (const el of [ring.current, dot.current]) {
+          if (!el) continue;
+          el.dataset.on = "";
+          if (state) el.dataset.state = state;
+          else delete el.dataset.state;
+        }
+        if (label.current) {
+          label.current.textContent =
+            view === "zoom" ? t("zoom") : view ? t("open") : "";
+        }
       }
-      if (label.current) {
-        label.current.textContent =
-          view === "zoom" ? t("zoom") : view ? t("open") : "";
+      if (!frame) {
+        last = performance.now();
+        frame = requestAnimationFrame(follow);
       }
-      if (!frame) frame = requestAnimationFrame(follow);
     };
     const onLeave = () => {
+      shown = false;
       delete ring.current?.dataset.on;
       delete dot.current?.dataset.on;
     };

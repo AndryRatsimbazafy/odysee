@@ -57,7 +57,7 @@ export function RevealTitle({
       gsap.matchMedia().add(MOTION_OK, () => {
         gsap.from(el.querySelectorAll(".wd > span"), {
           yPercent: 110,
-          duration: 1.3,
+          duration: 0.9,
           ease: EASE,
           stagger: 0.08,
           scrollTrigger: { trigger: el, start: "top 85%", once: true },

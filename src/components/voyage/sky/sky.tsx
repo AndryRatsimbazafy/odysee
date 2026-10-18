@@ -35,9 +35,9 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
         // Opening: the figures fade in one after the other, once boarded.
         const opening = gsap.from(q(".cst"), {
           opacity: 0,
-          duration: 2.4,
-          ease: "power1.out",
-          stagger: 0.18,
+          duration: 1.6,
+          ease: "power2.out",
+          stagger: 0.12,
           paused: true,
         });
         const stopWaiting = whenBoarded(() => opening.play());

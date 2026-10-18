@@ -65,8 +65,7 @@
 
   --font-display:
     var(--font-cormorant), "Cormorant", Garamond, "Times New Roman", serif;
-  --font-sans:
-    var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
   --font-mono:
     var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
@@ -830,7 +829,7 @@
     left: 0;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s var(--ease);
   }
 
   .cursor {
@@ -864,7 +863,7 @@
     height: 34px;
     border: 1px solid var(--or);
     border-radius: 50%;
-    transition: transform 0.45s var(--ease);
+    transition: transform 0.25s var(--ease);
   }
 
   .cursor i::before,
@@ -874,7 +873,7 @@
     inset: -1px;
     border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.45s;
+    transition: opacity 0.25s var(--ease);
   }
 
   .cursor i::before {
@@ -921,7 +920,7 @@
     color: var(--nuit);
     opacity: 0;
     transform: translate(-50%, -50%);
-    transition: opacity 0.3s;
+    transition: opacity 0.2s var(--ease);
   }
 
   .cursor[data-state="view"] span {
@@ -968,7 +967,7 @@
 
   .rose .needle {
     transform-origin: 50px 50px;
-    transition: transform 1s var(--ease);
+    transition: transform 0.8s var(--ease);
   }
 
   .rose .north {
@@ -1043,15 +1042,16 @@
     background: var(--nuit);
     clip-path: circle(0% at 54px calc(100% - 54px));
     visibility: hidden;
+    /* Closing snaps (a system response); opening takes its time. */
     transition:
-      clip-path 1s cubic-bezier(0.77, 0, 0.18, 1),
-      visibility 0s 1s;
+      clip-path 0.35s var(--ease),
+      visibility 0s 0.35s;
   }
 
   .index[data-open] {
     clip-path: circle(150% at 54px calc(100% - 54px));
     visibility: visible;
-    transition: clip-path 1s cubic-bezier(0.77, 0, 0.18, 1);
+    transition: clip-path 0.7s var(--ease);
   }
 
   @media (max-width: 820px) {
@@ -1095,8 +1095,8 @@
     font-weight: 500;
     line-height: 1.05;
     transition:
-      color 0.5s,
-      transform 0.8s var(--ease);
+      color 0.3s var(--ease),
+      transform 0.4s var(--ease);
   }
 
   .index li a .s {
@@ -1105,10 +1105,16 @@
     color: var(--cendre);
   }
 
-  .index li a:hover .t,
   .index li a[aria-current="true"] .t {
     color: var(--or-clair);
     transform: translateX(8px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .index li a:hover .t {
+      color: var(--or-clair);
+      transform: translateX(8px);
+    }
   }
 
   @media (max-width: 600px) {
