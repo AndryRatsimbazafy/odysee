@@ -3524,6 +3524,9 @@
     border-bottom: 1px solid var(--ardoise);
     border-radius: 0;
     padding: 10px 0;
+    /* An input's intrinsic width would push the signature out of its column. */
+    width: 100%;
+    min-width: 0;
   }
 
   .field textarea {
@@ -3609,7 +3612,12 @@
   .err {
     font-size: 14px;
     color: var(--todo);
-    min-height: 1.2em;
+  }
+
+  /* No reserved line: errors only appear after a send, the gap would show
+     on every field until then. */
+  .err:empty {
+    display: none;
   }
 
   .field .hint {
