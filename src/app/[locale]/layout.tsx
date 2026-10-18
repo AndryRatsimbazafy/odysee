@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LocaleLayout({
   children,
+  dossier,
   params,
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
@@ -64,6 +65,8 @@ export default async function LocaleLayout({
               {children}
             </main>
             <SiteFooter locale={locale} />
+            {/* Intercepted dossier (overlay), outside the page it makes inert. */}
+            {dossier}
             <Cursor />
             <SmoothScroll />
           </ThemeProvider>

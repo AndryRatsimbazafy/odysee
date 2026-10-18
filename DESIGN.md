@@ -98,7 +98,7 @@ Sombre par défaut (nuit) ; clair (ivoire) en alternative. Les noms de tokens so
 - Sections numérotées `§ n` : Contexte et problème (+ note de Charon) · Ma contribution · Décisions et compromis (sauf `process`) · Planches (« Ce qui peut être montré » si scellé) · Instruments et résultats. Ordre variable selon le layout (prototype `renderDossier`).
 - **Planches** : 4 à 5 images, ratios propres (`16/10`, `1/1`, `4/5`, `21/9`, `3/4`, `16/9`), légende « Fig. n · nature — légende ». Emplacement vide = cadre `--nuit-3` + libellé `[à fournir]`. **Lightbox** : flèches, Échap, swipe, piège de focus, compteur.
 - Pied : contact (message de confidentialité exact pour un projet scellé, voir PRD F-PRO-05), liens publics seulement s'ils existent, dossier précédent / suivant, « Retour aux archives ».
-- Le **message de confidentialité** est toujours ce texte exact (FR) : « Certains projets ne peuvent être présentés publiquement pour des raisons de confidentialité. Pour en savoir davantage sur mon rôle, les choix techniques ou les problématiques rencontrées, n'hésite pas à me contacter. » + bouton « Me contacter pour en savoir plus ».
+- Le **message de confidentialité** est toujours ce texte exact (FR) : « Certains projets ne peuvent être présentés publiquement pour des raisons de confidentialité. Pour en savoir davantage sur mon rôle, les choix techniques ou les problématiques rencontrées, n’hésite pas à me contacter. » + bouton « Me contacter pour en savoir plus ».
 
 ## 9. Mouvement
 

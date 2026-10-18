@@ -19,13 +19,13 @@ const SUMMARY_SELECT = `*,
   project_images(path, kind_fr, kind_en, alt_fr, alt_en, ratio, sort_order),
   project_technologies(sort_order, technologies(name))` as const;
 
-const DETAIL_SELECT = `*,
+export const DETAIL_SELECT = `*,
   project_items(*),
   project_decisions(*),
   project_images(*),
   project_technologies(sort_order, usage_fr, usage_en, technologies(name, weapon))` as const;
 
-async function getProjectRows() {
+export async function getProjectRows() {
   "use cache";
   cacheTag(TAGS.projects, TAGS.technologies);
   cacheLife("max");
@@ -55,8 +55,8 @@ async function getProjectRow(slug: string) {
   return data;
 }
 
-type SummaryRow = Awaited<ReturnType<typeof getProjectRows>>[number];
-type DetailRow = NonNullable<Awaited<ReturnType<typeof getProjectRow>>>;
+export type SummaryRow = Awaited<ReturnType<typeof getProjectRows>>[number];
+export type DetailRow = NonNullable<Awaited<ReturnType<typeof getProjectRow>>>;
 
 function toSummary(
   row: SummaryRow | DetailRow,
@@ -126,13 +126,32 @@ export async function getProject(
   slug: string,
 ): Promise<Project | null> {
   const [row, rows] = await Promise.all([getProjectRow(slug), getProjectRows()]);
-  if (!row) return null;
+  return row ? toProject(row, rows, locale, createPublicClient()) : null;
+}
 
+/**
+ * Maps a detail row (DETAIL_SELECT) to the dossier view. `rows` are the
+ * published projects in chart order: they give the dossier its number and its
+ * previous / next, which loop around (a draft outside them gets neither).
+ */
+export function toProject(
+  row: DetailRow,
+  rows: SummaryRow[],
+  locale: Locale,
+  client: Parameters<typeof mediaUrl>[0],
+): Project {
   const position = rows.findIndex((r) => r.id === row.id);
-  const link = (r: SummaryRow | undefined, i: number): ProjectLink | null =>
-    r ? { slug: r.slug, title: pick(r, "title", locale), index: i + 1 } : null;
+  const n = rows.length;
+  const link = (i: number): ProjectLink | null => {
+    const r = rows[(i + n) % n];
+    if (position < 0 || n < 2 || !r) return null;
+    return {
+      slug: r.slug,
+      title: pick(r, "title", locale),
+      index: ((i + n) % n) + 1,
+    };
+  };
 
-  const client = createPublicClient();
   const items = [...row.project_items].sort(bySortOrder);
   const itemsOf = (kind: "contribution" | "result") =>
     items.filter((it) => it.kind === kind).map((it) => pick(it, "text", locale));
@@ -189,8 +208,8 @@ export async function getProject(
       ogImage: mediaUrl(client, row.og_image_path),
     },
     updatedAt: row.updated_at,
-    previous: position > 0 ? link(rows[position - 1], position - 1) : null,
-    next: link(rows[position + 1], position + 1),
+    previous: link(position - 1),
+    next: link(position + 1),
   };
 }
 

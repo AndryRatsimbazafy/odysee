@@ -122,13 +122,15 @@ export function ProjectForm({
                 }))}
               />
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              disabled
-              aria-describedby="preview-soon"
-            >
-              {t("edit.preview")}
+            <Button variant="outline" asChild>
+              <a
+                href={`/api/draft?id=${projectId}`}
+                target="_blank"
+                rel="noopener"
+                aria-describedby="preview-hint"
+              >
+                {t("edit.preview")}
+              </a>
             </Button>
             <Button
               type="button"
@@ -140,8 +142,8 @@ export function ProjectForm({
               {t("edit.delete")}
             </Button>
           </div>
-          <p id="preview-soon" className="text-sm text-muted-foreground">
-            {t("edit.previewSoon")}
+          <p id="preview-hint" className="text-sm text-muted-foreground">
+            {t("edit.previewHint")}
           </p>
           {deleteFailed && (
             <p aria-live="polite" className="text-sm text-destructive">

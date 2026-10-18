@@ -1,4 +1,5 @@
 import "server-only";
+import type { Locale } from "next-intl";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -19,6 +20,8 @@ import type { SkillsValues } from "@/lib/validation/skills";
 import type { TechnologiesValues } from "@/lib/validation/technologies";
 import type { TestimonialsValues } from "@/lib/validation/testimonials";
 import { bySortOrder } from "./localize";
+import { DETAIL_SELECT, getProjectRows, toProject } from "./projects";
+import type { Project } from "./types";
 
 // Admin reads: session client, no cache, raw FR/EN values (no fallback).
 // Each one checks the admin itself, wherever it is called from.
@@ -453,4 +456,23 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
     emailSent: row.email_sent,
     createdAt: row.created_at,
   }));
+}
+
+/**
+ * Any project (draft included) as its public dossier, for the admin preview
+ * (F-ADM-09). The session client lets RLS show drafts to the admin only.
+ */
+export async function getProjectPreview(
+  locale: Locale,
+  id: string,
+): Promise<Project | null> {
+  await requireAdmin();
+  if (!z.uuid().safeParse(id).success) return null;
+  const supabase = await createClient();
+  const [{ data: row, error }, rows] = await Promise.all([
+    supabase.from("projects").select(DETAIL_SELECT).eq("id", id).maybeSingle(),
+    getProjectRows(),
+  ]);
+  if (error) throw new Error(`project preview ${id}: ${error.message}`);
+  return row ? toProject(row, rows, locale, supabase) : null;
 }

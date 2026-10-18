@@ -56,7 +56,6 @@ export default function Home() {
           </div>
         </section>
         <p>{t("epreuves.count", { count: 4 })}</p>
-        <blockquote>{t("dossier.sealed.message")}</blockquote>
         <RevealTitle className="display text-5xl">
           {t.rich("ithaque.title", { em, br })}
         </RevealTitle>

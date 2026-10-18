@@ -166,7 +166,8 @@
       "period": "Period",
       "role": "Role",
       "team": "Team",
-      "client": "Client"
+      "client": "Client",
+      "clientHidden": "Anonymised"
     },
     "sealed": {
       "title": "Sealed by Hades",
@@ -201,7 +202,16 @@
       "emptyLabel": "Placeholder: {kind}, image to come",
       "empty": "Image {n} · {kind} · to come",
       "format": "Format {ratio}"
-    }
+    },
+    "quest": "“{text}”",
+    "stackLabel": "Tools",
+    "resultsLabel": "Results",
+    "links": {
+      "label": "Public links",
+      "demo": "View the demo ↗",
+      "repo": "View the repository ↗"
+    },
+    "preview": "Preview · unpublished draft"
   },
   "lightbox": {
     "label": "Image viewer",

@@ -166,7 +166,8 @@
       "period": "Période",
       "role": "Rôle",
       "team": "Équipe",
-      "client": "Client"
+      "client": "Client",
+      "clientHidden": "Anonymisé"
     },
     "sealed": {
       "title": "Pli scellé par Hadès",
@@ -201,7 +202,16 @@
       "emptyLabel": "Emplacement : {kind}, image à fournir",
       "empty": "Image {n} · {kind} · à fournir",
       "format": "Format {ratio}"
-    }
+    },
+    "quest": "« {text} »",
+    "stackLabel": "Instruments",
+    "resultsLabel": "Résultats",
+    "links": {
+      "label": "Liens publics",
+      "demo": "Voir la démo ↗",
+      "repo": "Voir le dépôt ↗"
+    },
+    "preview": "Aperçu · brouillon non publié"
   },
   "lightbox": {
     "label": "Visionneuse d'images",
@@ -470,7 +480,7 @@
       "edit": {
         "back": "Tous les projets",
         "preview": "Aperçu",
-        "previewSoon": "L’aperçu avant publication arrive avec le dossier d’archive (T17).",
+        "previewHint": "L’aperçu ouvre le vrai dossier dans un nouvel onglet, dans sa dernière version enregistrée, même en brouillon.",
         "delete": "Supprimer le projet",
         "confirmDelete": "Supprimer définitivement ce projet, ses planches et ses redirections ?",
         "deleteFailed": "La suppression a échoué. Réessayer."

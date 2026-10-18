@@ -1,10 +1,7 @@
-import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
-import {
-  assignEmblems,
-  ProjectEmblem,
-} from "@/components/engravings/project-emblems";
+import { PlateImage } from "@/components/archives/plate";
+import { assignEmblems } from "@/components/engravings/project-emblems";
 import { Gloss } from "@/components/ui/gloss";
 import { Marg } from "@/components/ui/marg";
 import { CHANTS } from "@/components/voyage/chants";
@@ -21,10 +18,9 @@ const b = (chunks: ReactNode) => <b>{chunks}</b>;
 /** Chant II · The trials (STORYBOARD §3): the crossing chart and the archives. */
 export async function Epreuves() {
   const locale = await getLocale();
-  const [t, tv, td, projects] = await Promise.all([
+  const [t, tv, projects] = await Promise.all([
     getTranslations("epreuves"),
     getTranslations("voyage"),
-    getTranslations("dossier.plate"),
     getProjects(locale),
   ]);
   const emblems = assignEmblems(projects.map((p) => p.emblem));
@@ -32,32 +28,14 @@ export async function Epreuves() {
   const thumb = (p: ProjectSummary, emblem: Emblem) => {
     const plate = p.firstPlate;
     const kind = plate?.kind || tv("todo");
-    const ratio = plate?.ratio ?? "16/10";
     return (
       <>
-        {plate?.src ? (
-          <div className="ph-img" style={{ aspectRatio: ratio }}>
-            <Image
-              src={plate.src}
-              alt={plate.alt}
-              fill
-              sizes="(max-width: 900px) 100vw, 45vw"
-            />
-          </div>
-        ) : (
-          <div
-            className="ph-img empty"
-            style={{ aspectRatio: ratio }}
-            role="img"
-            aria-label={td("emptyLabel", { kind })}
-          >
-            <ProjectEmblem emblem={emblem} className="wm" />
-            <div className="lab" aria-hidden="true">
-              <span>{td("empty", { n: 1, kind })}</span>
-              <small>{td("format", { ratio: ratio.replace("/", ":") })}</small>
-            </div>
-          </div>
-        )}
+        <PlateImage
+          plate={plate}
+          n={1}
+          emblem={emblem}
+          sizes="(max-width: 900px) 100vw, 45vw"
+        />
         <p className="ph-cap">
           <span>
             {t.rich("preview.dossier", { b, n: roman(p.index), kind })}
