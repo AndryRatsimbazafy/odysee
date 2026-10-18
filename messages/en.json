@@ -277,10 +277,13 @@
         "other": "Other"
       },
       "message": "Message",
+      "hint": "At least 20 characters.",
       "honeypot": "Leave this field empty",
       "submit": "Send the message",
       "sending": "Hermes takes flight…",
-      "failure": "Sending failed. Try again in a moment or write directly to the address alongside."
+      "reply": "Reply within 48 hours, to the address you give.",
+      "failure": "Sending failed. Your letter is kept: try again in a moment, or write to me at {email}.",
+      "failureNoEmail": "Sending failed. Your letter is kept: try again in a moment."
     },
     "letter": {
       "to": "To",
@@ -292,13 +295,13 @@
       "another": "Write another letter"
     },
     "errors": {
-      "name": "Please enter your name.",
-      "email": "A valid email address is missing.",
-      "subject": "Please choose a subject.",
-      "message": "The message is too short: Hermes won't fly empty-handed.",
-      "tooLong": "The message is too long: Hermes has sandals, not a cart.",
-      "tooFast": "Too fast, even for Hermes. Try again in a few seconds.",
-      "rateLimit": "Too many messages sent. Try again in an hour."
+      "name": "Enter your name.",
+      "email": "Enter a valid email address, for example name@domain.com.",
+      "subject": "Choose a subject.",
+      "message": "Write at least 20 characters.",
+      "tooLong": "The message is over 5,000 characters: please shorten it.",
+      "tooFast": "Sent too quickly. Wait a few seconds, then send the letter again.",
+      "rateLimit": "Limit of 3 messages per hour reached. Try again later."
     },
     "direct": "Directly",
     "copy": "Copy",

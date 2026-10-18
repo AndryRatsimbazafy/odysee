@@ -277,10 +277,13 @@
         "other": "Autre"
       },
       "message": "Message",
+      "hint": "20 caractères minimum.",
       "honeypot": "Ne pas remplir ce champ",
       "submit": "Envoyer le message",
       "sending": "Hermès s'envole…",
-      "failure": "L'envoi a échoué. Réessaie dans un instant ou écris directement à l'adresse ci-contre."
+      "reply": "Réponse sous 48 h, à l'adresse indiquée.",
+      "failure": "L'envoi a échoué. Ta lettre est conservée : réessaie dans un instant, ou écris-moi à {email}.",
+      "failureNoEmail": "L'envoi a échoué. Ta lettre est conservée : réessaie dans un instant."
     },
     "letter": {
       "to": "À",
@@ -293,12 +296,12 @@
     },
     "errors": {
       "name": "Indique ton nom.",
-      "email": "Il manque une adresse email valide.",
+      "email": "Indique une adresse email valide, par exemple nom@domaine.fr.",
       "subject": "Choisis un objet.",
-      "message": "Le message est trop court : Hermès refuse de voler à vide.",
-      "tooLong": "Le message est trop long : Hermès a des sandales, pas une charrette.",
-      "tooFast": "Trop rapide, même pour Hermès. Réessaie dans quelques secondes.",
-      "rateLimit": "Trop de messages envoyés. Réessaie dans une heure."
+      "message": "Écris au moins 20 caractères.",
+      "tooLong": "Le message dépasse 5 000 caractères : raccourcis-le.",
+      "tooFast": "Envoi trop rapide. Attends quelques secondes, puis renvoie la lettre.",
+      "rateLimit": "Limite de 3 messages par heure atteinte. Réessaie plus tard."
     },
     "direct": "Directement",
     "copy": "Copier",

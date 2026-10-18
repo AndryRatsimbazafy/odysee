@@ -21,6 +21,8 @@ type Props = {
   locale: Locale;
   /** "Andry · Antananarivo, Madagascar", the letter's addressee. */
   recipient: string;
+  /** Public address, named in the failure message; null until provided. */
+  email: string | null;
 };
 
 /**
@@ -37,6 +39,7 @@ export function HermesForm(props: Props) {
 function Letter({
   locale,
   recipient,
+  email,
   onAnother,
 }: Props & { onAnother: () => void }) {
   const t = useTranslations("hermes");
@@ -94,7 +97,9 @@ function Letter({
   const notice =
     state.error && state.error !== "invalid"
       ? state.error === "failed"
-        ? t("form.failure")
+        ? email
+          ? t("form.failure", { email })
+          : t("form.failureNoEmail")
         : t(`errors.${state.error}`)
       : null;
 
@@ -169,7 +174,16 @@ function Letter({
 
           <div className="field">
             <label htmlFor="hermes-message">{t("form.message")}</label>
-            <textarea {...field("message")} />
+            <textarea
+              {...field("message")}
+              aria-describedby="hermes-message-hint hermes-message-err"
+            />
+            {/* The rule, until the error repeats it. */}
+            {invalid("message") ? null : (
+              <span className="hint mono" id="hermes-message-hint">
+                {t("form.hint")}
+              </span>
+            )}
             {error("message")}
           </div>
 
@@ -187,10 +201,11 @@ function Letter({
             </div>
           </fieldset>
 
-          <div>
+          <div className="letter-send">
             <button className="btn" type="submit" aria-disabled={pending}>
               {pending ? t("form.sending") : t("form.submit")}
             </button>
+            <p className="mono">{t("form.reply")}</p>
           </div>
         </form>
       )}

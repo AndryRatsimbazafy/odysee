@@ -1,6 +1,7 @@
 "use server";
 
 import { createHash } from "node:crypto";
+import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import nodemailer from "nodemailer";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -91,6 +92,11 @@ export async function sendContactMessage(
     if (insertError) throw insertError;
 
     try {
+      // The inbox reads French: the subject's label, not its key.
+      const subjects = await getTranslations({
+        locale: "fr",
+        namespace: "hermes.form.subjects",
+      });
       const user = requiredEnv("SMTP_USER");
       const transport = nodemailer.createTransport({
         service: "gmail",
@@ -100,8 +106,8 @@ export async function sendContactMessage(
         from: `Hermès <${user}>`,
         to: requiredEnv("CONTACT_TO_EMAIL"),
         replyTo: { name: data.name, address: data.email },
-        subject: `[Hermès] ${data.subject} · ${data.name}`,
-        text: `${data.name} <${data.email}> · ${data.subject} · ${data.locale}\n\n${data.message}`,
+        subject: `[Hermès] ${subjects(data.subject)} · ${data.name}`,
+        text: `${data.name} <${data.email}> · ${subjects(data.subject)} · ${data.locale}\n\n${data.message}`,
       });
     } catch (mailError) {
       console.error("contact: mail failed", mailError);

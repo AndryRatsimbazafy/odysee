@@ -3490,6 +3490,7 @@
 
   .field {
     display: grid;
+    align-content: start;
     gap: 6px;
   }
 
@@ -3609,6 +3610,26 @@
     font-size: 14px;
     color: var(--todo);
     min-height: 1.2em;
+  }
+
+  .field .hint {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ardoise);
+  }
+
+  /* The send button and, beside it, when the reply will come. */
+  .letter-send {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+
+  .letter-send p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--cendre);
   }
 
   /* Sending: the button keeps its focus (aria-disabled, not disabled). */

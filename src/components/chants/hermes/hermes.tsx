@@ -67,7 +67,11 @@ export async function Hermes() {
             </p>
             <Gloss>{t("charon")}</Gloss>
           </aside>
-          <HermesForm locale={locale} recipient={recipient} />
+          <HermesForm
+            locale={locale}
+            recipient={recipient}
+            email={email || null}
+          />
         </div>
       </div>
     </ChantStage>
