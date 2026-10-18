@@ -3430,6 +3430,161 @@
   }
 }
 
+/* ── Chant VI · Écrire à Hermès — T21 (STORYBOARD §8) ── */
+@layer components {
+  /* The letter on the left, the direct ways on the right. */
+  .letter {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: start;
+  }
+
+  .letter-form {
+    display: grid;
+    gap: 22px;
+  }
+
+  .letter-form > p {
+    margin: 0;
+  }
+
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cendre);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font: inherit;
+    font-size: 19px;
+    color: var(--ivoire);
+    background: var(--nuit-2);
+    border: 1px solid var(--filet);
+    border-radius: 0;
+    padding: 12px 14px;
+    transition: border-color 0.5s var(--ease);
+  }
+
+  .field textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  .field input:focus-visible,
+  .field select:focus-visible,
+  .field textarea:focus-visible {
+    outline: none;
+    border-color: var(--or);
+  }
+
+  .field [aria-invalid="true"] {
+    border-color: var(--todo);
+  }
+
+  .err {
+    font-size: 14px;
+    color: var(--todo);
+    min-height: 1.2em;
+  }
+
+  .letter-form .btn[disabled] {
+    cursor: progress;
+    opacity: 0.7;
+  }
+
+  .notice {
+    margin: 0;
+    border-left: 1px solid var(--todo);
+    padding: 6px 0 6px 14px;
+    font-size: 15px;
+  }
+
+  .notice[data-state="success"] {
+    border-left-color: var(--or);
+  }
+
+  /* Honeypot: off screen rather than display:none, which some bots skip. */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .contact-side {
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--ivoire);
+    padding-top: 16px;
+  }
+
+  .contact-side p {
+    margin: 0;
+  }
+
+  .addr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .addr code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .copy {
+    min-height: 24px;
+    padding: 5px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cendre);
+    background: none;
+    border: 1px solid var(--filet);
+    cursor: pointer;
+    transition: border-color 0.5s var(--ease);
+  }
+
+  .copy:hover,
+  .copy:focus-visible {
+    border-color: var(--or);
+  }
+
+  .contact-links > * + *::before {
+    content: " · ";
+    color: var(--cendre);
+  }
+
+  .contact-links a {
+    border-bottom: 0;
+  }
+
+  .contact-links a:hover {
+    color: var(--or-clair);
+  }
+
+  @media (max-width: 900px) {
+    .letter {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
 /* ── Épilogue, pied de page, 404 — T22 (STORYBOARD §9, §10) ── */
 @layer components {
   /* The return to Ithaca: the coast, then "your team" in large type. */

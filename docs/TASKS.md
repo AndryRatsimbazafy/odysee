@@ -60,7 +60,7 @@
 - [x] **T18** Planches et lightbox — Lire : DESIGN §8 (Planches) ; PRD F-PRO-08. Planches par layout (`next/image`, ratios, emplacements `[à fournir]`), lightbox (flèches, Échap, swipe, compteur, piège de focus), ouverture animée du dossier.
 - [x] **T19** Chant III · L'arsenal — Lire : STORYBOARD §5 ; PRD F-SKI-01, F-SKI-02. Index de livre (points de conduite, renvois calculés, ligne dépliable), sanctuaire de l'arme (gravures + réserve), test avec 12 outils.
 - [x] **T20** Chant IV · Les escales + Chant V · L'oracle — Lire : STORYBOARD §6, §7. Journal de bord (table → blocs empilés en mobile), FAQ `details/summary`, voix de Delphes masquée si vide. Test avec 7 escales.
-- [ ] **T21** Chant VI · Écrire à Hermès 🧭 — Lire : ARCHITECTURE §6 ; STORYBOARD §8. Formulaire (Zod, `useActionState`, honeypot, délai, limite par IP hachée, sauvegarde, Nodemailer), états réels, copier l'email.
+- [x] **T21** Chant VI · Écrire à Hermès 🧭 — Lire : ARCHITECTURE §6 ; STORYBOARD §8. Formulaire (Zod, `useActionState`, honeypot, délai, limite par IP hachée, sauvegarde, Nodemailer), états réels, copier l'email.
 - [x] **T22** Ithaque, 404 et console — Lire : STORYBOARD §9, §10. Épilogue, pied de page, 404 « Charybde et Scylla », message console.
 
 ## Phase 6 — SEO, qualité, mise en ligne
