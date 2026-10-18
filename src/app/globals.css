@@ -548,8 +548,9 @@
     }
   }
 
+  /* Below luxe-4 (.55): keeps every token ≥ 4.5 over light stars (T11). */
   :root[data-theme="light"] .zodiac svg {
-    opacity: 0.55;
+    opacity: 0.4;
   }
 
   .zodiac .field {
@@ -567,8 +568,9 @@
     opacity: 0.17;
   }
 
+  /* Below luxe-4 (.28): text over a bright star stays readable (T11). */
   .zodiac .halo {
-    opacity: 0.28;
+    opacity: 0.15;
   }
 
   .zodiac .st {
