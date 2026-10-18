@@ -60,19 +60,24 @@ export function VoyageStage({
       }
       const total = route.getTotalLength();
 
-      let placed = -1;
-      const place = (len: number) => {
-        if (Math.abs(len - placed) < 0.3) return;
-        placed = len;
-        const at = Math.max(0, Math.min(total, len));
-        const a = route.getPointAtLength(at);
-        const b = route.getPointAtLength(Math.min(total, at + 2));
-        const heading = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
-        const tilt = Math.max(-25, Math.min(25, heading / 3));
+      // The boat: where it is on the route, which way its bow points (it
+      // turns about when the leg heads west), and how much it heels.
+      const boatAt = { len: 0, tilt: 0, flip: 1 };
+      const draw = () => {
+        const a = route.getPointAtLength(boatAt.len);
         boat.setAttribute(
           "transform",
-          `translate(${a.x.toFixed(1)} ${(a.y - 4).toFixed(1)}) rotate(${tilt.toFixed(1)})`,
+          `translate(${a.x.toFixed(1)} ${(a.y - 4).toFixed(1)}) scale(${boatAt.flip} 1) rotate(${boatAt.tilt.toFixed(1)})`,
         );
+      };
+      /** Heel along the leg at this length, seen from the bow. */
+      const course = (len: number) => {
+        const a = route.getPointAtLength(len);
+        const b = route.getPointAtLength(Math.min(total, len + 2));
+        const flip = b.x < a.x ? -1 : 1;
+        const angle =
+          (Math.atan2(b.y - a.y, (b.x - a.x) * flip) * 180) / Math.PI;
+        return { flip, tilt: Math.max(-25, Math.min(25, angle / 3)) };
       };
 
       // Current trial: 0 = still in port, n = reading preview n.
@@ -102,14 +107,38 @@ export function VoyageStage({
       // "all" keeps the callback running with reduced motion too (stops, no sailing).
       mm.add({ motion: MOTION_OK, all: "all" }, ({ conditions }) => {
         const motion = Boolean(conditions?.motion);
-        const proxy = { len: 0 };
-        const sail = motion
-          ? gsap.quickTo(proxy, "len", {
-              duration: 0.6,
-              ease: "power3.out",
-              onUpdate: () => place(proxy.len),
-            })
-          : (len: number) => place(len);
+        // Heel eased on its own, so the boat does not snap at each stop.
+        const heel = gsap.quickTo(boatAt, "tilt", {
+          duration: 0.4,
+          ease: "power3.out",
+          onUpdate: draw,
+        });
+        const glide = gsap.quickTo(boatAt, "len", {
+          duration: 0.6,
+          ease: "power3.out",
+          onUpdate: () => {
+            const c = course(boatAt.len);
+            boatAt.flip = c.flip;
+            heel(c.tilt);
+            draw();
+          },
+        });
+        let docked = false;
+        const sail = (target: number) => {
+          const len = Math.max(0, Math.min(total, target));
+          if (Math.abs(len - boatAt.len) < 0.3 && docked) return;
+          if (!motion || !docked) {
+            // First placement (or reduced motion): straight there, no crossing.
+            docked = true;
+            const c = course(len);
+            Object.assign(boatAt, { len, ...c });
+            glide(len, len);
+            heel(c.tilt, c.tilt);
+            draw();
+            return;
+          }
+          glide(len);
+        };
 
         // The logic of the prototype's updateVoyage: arrive at stop n when
         // preview n reaches the reading line, set sail for the next one in
@@ -118,14 +147,18 @@ export function VoyageStage({
           const mid = innerHeight * READ_AT;
           let n = 0;
           let read = 0;
+          let firstTop = 0;
+          // Every read before any write (setEntry): no forced layout.
           previews.forEach((pv, k) => {
             const r = pv.getBoundingClientRect();
+            if (!k) firstTop = r.top;
             if (r.top <= mid) {
               n = k + 1;
               read = Math.min(1, (mid - r.top) / Math.max(1, r.height));
             }
           });
-          if (wrap.getBoundingClientRect().bottom < mid) {
+          const past = wrap.getBoundingClientRect().bottom < mid;
+          if (past) {
             setEntry(previews.length + 1);
             sail(total);
             return;
@@ -133,10 +166,9 @@ export function VoyageStage({
           setEntry(n);
           if (!n) {
             // Leaving port as the first preview comes up.
-            const first = previews[0].getBoundingClientRect();
             const f = Math.max(
               0,
-              Math.min(1, 1 - (first.top - mid) / innerHeight),
+              Math.min(1, 1 - (firstTop - mid) / innerHeight),
             );
             sail(motion ? stops[1] * f : 0);
             return;
@@ -174,7 +206,12 @@ export function VoyageStage({
               })
               .from(
                 q(".leg"),
-                { opacity: 0, duration: 1, ease: "power1.out", stagger: 0.12 },
+                {
+                  opacity: 0,
+                  duration: 0.8,
+                  ease: "power1.out",
+                  stagger: 0.06,
+                },
                 0.1,
               );
           }
