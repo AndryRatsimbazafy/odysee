@@ -3429,3 +3429,160 @@
     }
   }
 }
+
+/* ── Épilogue, pied de page, 404 — T22 (STORYBOARD §9, §10) ── */
+@layer components {
+  /* The return to Ithaca: the coast, then "your team" in large type. */
+  .ithaque {
+    position: relative;
+    padding-block: clamp(56px, 8vw, 112px) 32px;
+    border-top: 1px solid var(--filet);
+    overflow: hidden;
+  }
+
+  .ithaque .coast {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: clamp(20px, 3vw, 40px);
+  }
+
+  .ithaque .coast path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .ithaque .kicker {
+    grid-column: 1 / -1;
+    margin-bottom: 16px;
+  }
+
+  .ithaque h2 {
+    grid-column: 1 / span 10;
+    font-size: clamp(52px, 8.2vw, 140px);
+    line-height: 0.92;
+  }
+
+  .ithaque h2 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--or-clair);
+  }
+
+  .ithaque .act {
+    grid-column: 1 / span 7;
+    display: grid;
+    gap: 22px;
+    margin-top: 28px;
+  }
+
+  .ithaque .act p {
+    max-width: 34em;
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 26px);
+    color: var(--cendre);
+  }
+
+  .ithaque .act div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn.off {
+    cursor: not-allowed;
+    border-style: dashed;
+    color: var(--cendre);
+  }
+
+  @media (max-width: 860px) {
+    .ithaque h2,
+    .ithaque .act {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Colophon additions: links and back to top, on every page. */
+  .colophon ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .colophon a {
+    color: inherit;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--filet);
+  }
+
+  .colophon .to-top {
+    margin-left: auto;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .colophon a:hover {
+      color: var(--or-clair);
+    }
+  }
+
+  /* 404: lost between Charybdis and Scylla, the needle off course. */
+  .lost {
+    display: grid;
+    justify-items: start;
+    align-content: center;
+    gap: clamp(20px, 3vw, 32px);
+    min-height: 70svh;
+    padding-block: clamp(96px, 12vw, 160px) clamp(48px, 6vw, 80px);
+  }
+
+  .lost-rose {
+    width: clamp(120px, 16vw, 180px);
+    height: auto;
+    overflow: visible;
+  }
+
+  .lost-rose .needle {
+    transform: rotate(118deg);
+    transform-box: view-box;
+    transform-origin: 0 0;
+  }
+
+  .lost h1 {
+    max-width: 14ch;
+    font-size: clamp(48px, 7vw, 104px);
+  }
+
+  .lost-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+  }
+
+  /* The needle hesitates, then settles off course (once, at load). */
+  @media (prefers-reduced-motion: no-preference) {
+    .lost-rose .needle {
+      animation: lost-needle 2.4s var(--ease) both;
+    }
+  }
+
+  @keyframes lost-needle {
+    0% {
+      transform: rotate(0deg);
+    }
+    40% {
+      transform: rotate(160deg);
+    }
+    70% {
+      transform: rotate(96deg);
+    }
+    100% {
+      transform: rotate(118deg);
+    }
+  }
+}

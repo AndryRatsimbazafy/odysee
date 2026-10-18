@@ -305,7 +305,8 @@
     "colophon": "Andry · Lead Front-End Developer · Antananarivo",
     "engravings": "Gravures au trait faites main · {year}",
     "copyright": "© {year} Andry",
-    "backToTop": "Retour en haut"
+    "backToTop": "Retour en haut",
+    "links": "Liens"
   },
   "notFound": {
     "title": "Égaré entre Charybde et Scylla.",

@@ -10,7 +10,8 @@ const ONCE = { start: "top 80%", once: true } as const;
  * A chant and its entrance (DESIGN §9), for chants whose motion is only
  * settling: margin and lead settle, the children of each `[data-stagger]`
  * group rise one after the other, each `[data-trace]` rule is drawn from
- * the left. Anything already on screen at setup is left as is.
+ * the left, the strokes of each `[data-draw]` engraving are traced (paths
+ * with pathLength="1"). Anything already on screen at setup is left as is.
  */
 export function ChantStage({
   id,
@@ -57,6 +58,22 @@ export function ChantStage({
             ease: EASE,
             scrollTrigger: { trigger: rule, ...ONCE },
           });
+        }
+
+        for (const engraving of q("[data-draw]").filter(fresh)) {
+          gsap.fromTo(
+            engraving.querySelectorAll("[pathLength]"),
+            { strokeDashoffset: 1 },
+            {
+              strokeDashoffset: 0,
+              duration: 1.6,
+              ease: "power2.inOut",
+              stagger: 0.12,
+              // The dash is normalised (pathLength 1): no pixel rounding.
+              autoRound: false,
+              scrollTrigger: { trigger: engraving, ...ONCE },
+            },
+          );
         }
 
         for (const group of q("[data-stagger]").filter(fresh)) {

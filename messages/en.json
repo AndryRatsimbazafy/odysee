@@ -305,7 +305,8 @@
     "colophon": "Andry · Lead Front-End Developer · Antananarivo",
     "engravings": "Hand-made line engravings · {year}",
     "copyright": "© {year} Andry",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "links": "Links"
   },
   "notFound": {
     "title": "Lost between Charybdis and Scylla.",

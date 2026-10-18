@@ -1,25 +1,15 @@
 import { useTranslations } from "next-intl";
-import { Fragment, type ReactNode } from "react";
 import { Arsenal } from "@/components/chants/arsenal/arsenal";
 import { Divinites } from "@/components/chants/divinites/divinites";
 import { Epreuves } from "@/components/chants/epreuves/epreuves";
 import { Embarcadere } from "@/components/chants/embarcadere/embarcadere";
 import { Escales } from "@/components/chants/escales/escales";
+import { Ithaque } from "@/components/chants/ithaque/ithaque";
 import { Oracle } from "@/components/chants/oracle/oracle";
-import { Gloss } from "@/components/ui/gloss";
-import { Marg } from "@/components/ui/marg";
-import { CHANTS } from "@/components/voyage/chants";
-import { Reveal } from "@/components/voyage/reveal/reveal";
 import { RevealTitle } from "@/components/voyage/reveal/reveal-title";
 import { Route } from "@/components/voyage/route/route";
 
-// Temporary scaffold (T04b, T13): one bare section per chant (from chant VI) with its id,
-// a revealed title and a route to the next, to exercise the compass, the
-// index, anchor jumps and reveals. Replaced by the real chants from T14 on.
-
-const em = (chunks: ReactNode) => <em>{chunks}</em>;
-const br = () => <br />;
-
+/** The one-page: the chants in reading order, joined by routes. */
 export default function Home() {
   const t = useTranslations();
 
@@ -36,40 +26,16 @@ export default function Home() {
       <Escales />
       <Route from="escales" to="oracle" />
       <Oracle />
-      <div className="gut flex flex-col gap-8 pb-16">
-        {CHANTS.slice(6).map((chant, i) => (
-          <Fragment key={chant}>
-            <Route from={CHANTS[i + 5]} to={chant} />
-            <section id={chant} data-chant className="min-h-[80svh]">
-              <p className="kicker">{t(`voyage.chants.${chant}.n`)}</p>
-              <RevealTitle className="display text-5xl">
-                {t(`voyage.chants.${chant}.title`)}
-              </RevealTitle>
-              <Reveal className="mt-6 grid gap-2">
-                <p>{t("voyage.folio", { n: i + 7 })}</p>
-                <p>{t("divinites.lead")}</p>
-                <p>{t("epreuves.lead")}</p>
-              </Reveal>
-            </section>
-          </Fragment>
-        ))}
-        <section className="grid-12">
-          <Marg
-            chant={t("voyage.chants.divinites.n")}
-            folio={2}
-            note={t("divinites.lead")}
-          />
-          <div className="col-span-12 min-[821px]:col-span-9">
-            <p>{t("divinites.lead")}</p>
-            <Gloss>{t("hermes.charon")}</Gloss>
-          </div>
-        </section>
-        <p>{t("epreuves.count", { count: 4 })}</p>
+      <Route from="oracle" to="hermes" />
+      {/* Chant VI · Écrire à Hermès arrives with T21. */}
+      <section id="hermes" data-chant className="chant gut min-h-[60svh]">
+        <p className="kicker">{t("voyage.chants.hermes.n")}</p>
         <RevealTitle className="display text-5xl">
-          {t.rich("ithaque.title", { em, br })}
+          {t("voyage.chants.hermes.title")}
         </RevealTitle>
-        <p>{t("notFound.title")}</p>
-      </div>
+      </section>
+      <Route from="hermes" to="ithaque" />
+      <Ithaque />
     </>
   );
 }
