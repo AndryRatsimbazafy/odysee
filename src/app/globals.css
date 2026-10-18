@@ -3462,17 +3462,24 @@
     color: var(--cendre);
   }
 
+  /* A rule to write on rather than a box: --ardoise keeps it ≥ 3:1 on the
+     night and on the sky (WCAG 1.4.11); the box border was 1.4:1. */
   .field input,
   .field select,
   .field textarea {
     font: inherit;
     font-size: 19px;
     color: var(--ivoire);
-    background: var(--nuit-2);
-    border: 1px solid var(--filet);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--ardoise);
     border-radius: 0;
-    padding: 12px 14px;
+    padding: 10px 0;
     transition: border-color 0.5s var(--ease);
+  }
+
+  .field select option {
+    background: var(--nuit);
   }
 
   .field textarea {
@@ -3480,11 +3487,11 @@
     resize: vertical;
   }
 
+  /* Same focus ring as the rest of the site, plus the gold rule. */
   .field input:focus-visible,
   .field select:focus-visible,
   .field textarea:focus-visible {
-    outline: none;
-    border-color: var(--or);
+    border-color: var(--or-clair);
   }
 
   .field [aria-invalid="true"] {
@@ -3497,7 +3504,8 @@
     min-height: 1.2em;
   }
 
-  .letter-form .btn[disabled] {
+  /* Sending: the button keeps its focus (aria-disabled, not disabled). */
+  .letter-form .btn[aria-disabled="true"] {
     cursor: progress;
     opacity: 0.7;
   }
@@ -3507,6 +3515,11 @@
     border-left: 1px solid var(--todo);
     padding: 6px 0 6px 14px;
     font-size: 15px;
+  }
+
+  .notice:empty {
+    padding: 0;
+    border: 0;
   }
 
   .notice[data-state="success"] {

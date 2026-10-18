@@ -10,6 +10,15 @@ import {
 } from "@/lib/validation/contact";
 
 const INITIAL: ContactState = { status: "idle" };
+// Same caps as the schema, so a letter can't be refused for its length.
+const MAX: Record<ContactField, number> = {
+  name: 120,
+  email: 254,
+  subject: 20,
+  message: 5000,
+};
+// DOM order: focus goes to the first field in error.
+const ORDER: ContactField[] = ["name", "email", "subject", "message"];
 
 /** The letter to Hermès: real sending, inline errors, honeypot and delay. */
 export function HermesForm({ locale }: { locale: Locale }) {
@@ -24,7 +33,18 @@ export function HermesForm({ locale }: { locale: Locale }) {
     startedAt.current = Date.now();
   }, []);
 
+  // After each answer: focus the first field in error, so its label and
+  // message are read; other outcomes are announced by the status line.
+  const form = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    const first = ORDER.find((f) => state.fieldErrors?.[f]);
+    if (first)
+      form.current?.querySelector<HTMLElement>(`#hermes-${first}`)?.focus();
+  }, [state]);
+
   const submit = (formData: FormData) => {
+    // The button stays focusable while sending: ignore a second press.
+    if (pending) return;
     formData.set("startedAt", String(startedAt.current));
     formAction(formData);
   };
@@ -34,13 +54,15 @@ export function HermesForm({ locale }: { locale: Locale }) {
     return {
       id: `hermes-${name}`,
       name,
+      required: true,
+      maxLength: MAX[name],
       defaultValue: state.values?.[name] ?? "",
       "aria-invalid": error ? true : undefined,
       "aria-describedby": `hermes-${name}-err`,
     } as const;
   };
   const error = (name: ContactField) => (
-    <span className="err" id={`hermes-${name}-err`} aria-live="polite">
+    <span className="err" id={`hermes-${name}-err`}>
       {state.fieldErrors?.[name]
         ? t(`errors.${state.fieldErrors[name]}`)
         : null}
@@ -58,6 +80,7 @@ export function HermesForm({ locale }: { locale: Locale }) {
 
   return (
     <form
+      ref={form}
       className="letter-form"
       action={submit}
       noValidate
@@ -106,16 +129,13 @@ export function HermesForm({ locale }: { locale: Locale }) {
       </div>
 
       <div>
-        <button className="btn" type="submit" disabled={pending}>
+        <button className="btn" type="submit" aria-disabled={pending}>
           {pending ? t("form.sending") : t("form.submit")}
         </button>
       </div>
-      <p
-        className="notice"
-        data-state={state.status}
-        role="status"
-        hidden={!notice}
-      >
+      {/* Always in the DOM: a live region that appears with its text is
+          often not announced. */}
+      <p className="notice" data-state={state.status} role="status">
         {notice}
       </p>
     </form>
