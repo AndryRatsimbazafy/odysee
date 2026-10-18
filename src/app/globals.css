@@ -3523,7 +3523,6 @@
     border-bottom: 1px solid var(--ardoise);
     border-radius: 0;
     padding: 10px 0;
-    transition: border-color 0.5s var(--ease);
   }
 
   .field textarea {
@@ -3652,6 +3651,56 @@
     stroke-width: 1.1;
   }
 
+  /* The one authored moment of the chant: the seal is pressed. Its rings
+     are traced, then the caduceus, then the dotted ring and the words. */
+  .hermes-seal [pathLength] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: seal-trace 1.4s var(--ease) forwards;
+  }
+
+  .hermes-seal .weapon [pathLength] {
+    animation-delay: 0.35s;
+  }
+
+  .hermes-seal .dots {
+    opacity: 0;
+    animation: seal-fade 0.6s var(--ease) 0.9s forwards;
+  }
+
+  .sealed-text {
+    animation: sealed-rise 0.7s var(--ease) 0.25s both;
+  }
+
+  @keyframes seal-trace {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes seal-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes sealed-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hermes-seal [pathLength],
+    .hermes-seal .dots,
+    .sealed-text {
+      animation: none;
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+
   .sealed-text {
     display: grid;
     gap: 14px;
@@ -3702,7 +3751,6 @@
     background: none;
     border: 1px solid var(--filet);
     cursor: pointer;
-    transition: border-color 0.5s var(--ease);
   }
 
   .copy:hover,
