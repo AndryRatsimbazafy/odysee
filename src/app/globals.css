@@ -1265,3 +1265,246 @@
     }
   }
 }
+
+/* ── L'embarcadère (hero) — T14 (STORYBOARD §1, DESIGN §7) ── */
+@layer components {
+  .hero {
+    position: relative;
+    display: grid;
+    align-content: end;
+    min-height: min(100svh, 920px);
+    padding-block: clamp(110px, 14vh, 150px) 40px;
+  }
+
+  .hero .grid-12 {
+    row-gap: 28px;
+    align-items: end;
+  }
+
+  .hero-id {
+    position: relative;
+    z-index: 2;
+    grid-column: 1 / span 7;
+  }
+
+  .hero-id .kicker {
+    display: block;
+    margin-bottom: 22px;
+  }
+
+  /* Letters rise from behind this mask on the first visit. */
+  .hero-name {
+    overflow: hidden;
+    margin-left: -0.05em;
+    padding-bottom: 0.06em;
+    font-size: clamp(64px, 11vw, 168px);
+    line-height: 0.78;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-name .l {
+    display: inline-block;
+  }
+
+  .hero-tagline {
+    max-width: 24ch;
+    margin-top: 20px;
+    font-size: clamp(26px, 2.8vw, 40px);
+    line-height: 1.15;
+  }
+
+  .hero-tagline em {
+    color: var(--or-clair);
+  }
+
+  .hero-recit {
+    max-width: 44ch;
+    margin: 20px 0 0;
+    color: var(--cendre);
+    font-size: 18px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .chart {
+    grid-column: 8 / span 5;
+    align-self: stretch;
+    display: grid;
+    align-content: end;
+    gap: 14px;
+    margin: 0;
+  }
+
+  .chart svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .chart text {
+    fill: var(--cendre);
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .chart .city {
+    fill: var(--or-clair);
+  }
+
+  .chart .pin {
+    fill: var(--or-clair);
+  }
+
+  /* Trace (DESIGN §5): stroke by stroke, held while the loader is up. */
+  .chart .trace path {
+    stroke-dasharray: 1;
+    animation: chart-trace 1.8s cubic-bezier(0.45, 0, 0.55, 1)
+      calc(var(--i) * 60ms) both;
+  }
+
+  .chart .city-mark {
+    animation: chart-city 0.9s var(--ease) 1.6s both;
+  }
+
+  :root[data-boarding="on"] .chart .trace path,
+  :root[data-boarding="on"] .chart .city-mark {
+    animation-play-state: paused;
+  }
+
+  @keyframes chart-trace {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+
+  @keyframes chart-city {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .fiche-id {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 16px 0 0;
+    border-top: 1px solid var(--ivoire);
+  }
+
+  .fiche-id > div {
+    min-width: 0;
+    margin-right: 18px;
+    padding: 14px 18px 6px 0;
+    border-right: 1px solid var(--filet);
+  }
+
+  .fiche-id > div:last-child {
+    margin-right: 0;
+    border-right: 0;
+  }
+
+  .fiche-id dt {
+    margin-bottom: 4px;
+    color: var(--cendre);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fiche-id dd {
+    margin: 0;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  .fiche-id b {
+    color: var(--or-clair);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Status dot, as in luxe-4 (not text, so no contrast token). */
+  .fiche-id .on::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: #8fa66b;
+    vertical-align: 2px;
+  }
+
+  .fiche-id a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--filet);
+    transition: border-color 0.5s var(--ease);
+  }
+
+  .fiche-id a:hover {
+    border-color: var(--or);
+  }
+
+  .hero-links > * + *::before {
+    content: " · ";
+    color: var(--cendre);
+  }
+
+  .hero-links a {
+    border-bottom: 0;
+  }
+
+  .hero-links a:hover {
+    color: var(--or-clair);
+  }
+
+  @media (max-width: 980px) {
+    .hero-id {
+      grid-column: 1 / -1;
+    }
+
+    .chart {
+      order: -1;
+      grid-column: 1 / -1;
+      max-width: 440px;
+    }
+  }
+
+  /* Phones: the h1 and the identity card come first, the chart closes. */
+  @media (max-width: 600px) {
+    .chart {
+      order: 1;
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .fiche-id {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .fiche-id > div:nth-child(2) {
+      margin-right: 0;
+      border-right: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chart .trace path,
+    .chart .city-mark {
+      animation: none;
+    }
+
+    .fiche-id a {
+      transition: none;
+    }
+  }
+}

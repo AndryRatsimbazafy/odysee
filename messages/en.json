@@ -86,20 +86,29 @@
     }
   },
   "hero": {
-    "kicker": "Portfolio · Lead Front-End Developer",
+    "kicker": "Portfolio · {title}",
     "fallback": {
       "tagline": "I lead the front end of <em>React and TypeScript</em> applications.",
-      "recit": "Tech lead at Bocasay, working remotely for French clients. I also bring a business analyst's reading of the need (AMOA) before the first line of code is written."
+      "recit": "Tech lead at Bocasay, working remotely for French clients. I also bring a business analyst's reading of the need (AMOA) before the first line of code is written.",
+      "name": "Andry",
+      "title": "Lead Front-End Developer",
+      "location": "Antananarivo, Madagascar"
     },
     "ctaWork": "See the work",
     "ctaWrite": "Write",
     "chart": {
       "label": "Point of departure: Antananarivo, 18°53′ S, 47°30′ E",
-      "caption": "Fig. 1 · Where the voyage begins. Line engraving."
+      "caption": "Fig. 1 · Where the voyage begins. Line engraving.",
+      "city": "Antananarivo",
+      "coords": "18°53′ S · 47°30′ E",
+      "meridian": "0°",
+      "lat1": "18° S",
+      "lat2": "19° S"
     },
     "identity": {
       "label": "Identity card",
       "role": "Role",
+      "focus": "React · TypeScript · AMOA",
       "port": "Home port",
       "timezone": "UTC+3",
       "availability": "Availability",
@@ -108,7 +117,10 @@
       "availableFrom": "From {date}",
       "dateMissing": "[date to come]",
       "contact": "Contact",
-      "writeHermes": "Write to Hermes"
+      "writeHermes": "Write to Hermes",
+      "cv": "CV",
+      "cvMissing": "[CV]",
+      "linksMissing": "[LinkedIn · GitHub]"
     }
   },
   "divinites": {

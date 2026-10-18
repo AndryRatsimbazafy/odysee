@@ -86,20 +86,29 @@
     }
   },
   "hero": {
-    "kicker": "Portfolio · Lead Front-End Developer",
+    "kicker": "Portfolio · {title}",
     "fallback": {
       "tagline": "Je dirige le front-end d'applications <em>React et TypeScript</em>.",
-      "recit": "Lead technique chez Bocasay, en remote pour des clients français. J'apporte aussi la lecture du besoin métier (AMOA) avant d'écrire la première ligne."
+      "recit": "Lead technique chez Bocasay, en remote pour des clients français. J'apporte aussi la lecture du besoin métier (AMOA) avant d'écrire la première ligne.",
+      "name": "Andry",
+      "title": "Lead Front-End Developer",
+      "location": "Antananarivo, Madagascar"
     },
     "ctaWork": "Voir les réalisations",
     "ctaWrite": "Écrire",
     "chart": {
       "label": "Point de départ : Antananarivo, 18°53′ S, 47°30′ E",
-      "caption": "Fig. 1 · Point de départ du voyage. Gravure au trait."
+      "caption": "Fig. 1 · Point de départ du voyage. Gravure au trait.",
+      "city": "Antananarivo",
+      "coords": "18°53′ S · 47°30′ E",
+      "meridian": "0°",
+      "lat1": "18° S",
+      "lat2": "19° S"
     },
     "identity": {
       "label": "Fiche d'identité",
       "role": "Fonction",
+      "focus": "React · TypeScript · AMOA",
       "port": "Port d'attache",
       "timezone": "UTC+3",
       "availability": "Disponibilité",
@@ -108,7 +117,10 @@
       "availableFrom": "À partir du {date}",
       "dateMissing": "[date à fournir]",
       "contact": "Contact",
-      "writeHermes": "Écrire à Hermès"
+      "writeHermes": "Écrire à Hermès",
+      "cv": "CV",
+      "cvMissing": "[CV]",
+      "linksMissing": "[LinkedIn · GitHub]"
     }
   },
   "divinites": {
