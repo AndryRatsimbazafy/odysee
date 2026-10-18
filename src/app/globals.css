@@ -1508,3 +1508,248 @@
     }
   }
 }
+
+/* ── Chants: shared frame (head and body in columns 4–12) ── */
+@layer components {
+  .chant {
+    padding-block: clamp(40px, 6vw, 80px);
+  }
+
+  .chant-head {
+    grid-column: 4 / -1;
+    display: grid;
+    gap: 14px;
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+
+  .chant-head h2 {
+    font-size: clamp(50px, 7.4vw, 112px);
+  }
+
+  .chant-head .lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.4;
+    color: var(--cendre);
+    max-width: 36em;
+    margin: 0;
+  }
+
+  .chant-body {
+    grid-column: 4 / -1;
+    min-width: 0;
+  }
+
+  @media (max-width: 820px) {
+    .chant-head,
+    .chant-body {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+/* ── Chant I · Deux divinités — T15 (STORYBOARD §2) ── */
+@layer components {
+  /* Hephaestus wide, Athena in counterpoint, the "&" rule between. */
+  .duo {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) 1px minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+  }
+
+  /* Two strokes with a gap for the "&": no opaque patch over the sky. */
+  .duo .rule {
+    --amp: 44%;
+    position: relative;
+  }
+
+  .duo .rule::before,
+  .duo .rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1px;
+    background: var(--filet);
+  }
+
+  .duo .rule::before {
+    top: 0;
+    height: calc(var(--amp) - 28px);
+  }
+
+  .duo .rule::after {
+    top: calc(var(--amp) + 28px);
+    bottom: 0;
+  }
+
+  .duo .rule span {
+    position: absolute;
+    top: var(--amp);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--or);
+  }
+
+  .god {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+
+  .god .emb {
+    width: 84px;
+    height: 84px;
+  }
+
+  .god .emb path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* Sized so "Architecture front-end" (kept whole) holds two lines at 1440. */
+  .god h3 {
+    font-size: clamp(34px, 3.7vw, 56px);
+  }
+
+  .god.minor h3 {
+    font-size: clamp(30px, 3vw, 42px);
+  }
+
+  .god p {
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  .god dl {
+    margin: 8px 0 0;
+    border-top: 1px solid var(--filet);
+  }
+
+  .god dl > div {
+    display: grid;
+    grid-template-columns: minmax(120px, 30%) minmax(0, 1fr);
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--filet);
+  }
+
+  .god dt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--or);
+    padding-top: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  .god dd {
+    margin: 0;
+  }
+
+  .god.minor {
+    color: var(--cendre);
+  }
+
+  .god.minor dd {
+    color: var(--ivoire);
+  }
+
+  /* Off duty: one quiet line under the duo. */
+  .agora {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    align-items: baseline;
+    margin-top: clamp(28px, 4vw, 44px);
+    padding-top: 16px;
+    border-top: 1px solid var(--filet);
+  }
+
+  .agora ul {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    min-width: 0;
+  }
+
+  .agora li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    align-items: baseline;
+  }
+
+  .agora .it {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.35;
+  }
+
+  .agora a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--filet);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.5s var(--ease);
+  }
+
+  .agora a:hover {
+    text-decoration-color: var(--or);
+  }
+
+  @media (max-width: 860px) {
+    .duo {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .duo .rule {
+      --amp: 50%;
+      height: 1px;
+    }
+
+    .duo .rule::before,
+    .duo .rule::after {
+      top: 0;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+
+    .duo .rule::before {
+      left: 0;
+      right: calc(100% - var(--amp) + 28px);
+    }
+
+    .duo .rule::after {
+      left: calc(var(--amp) + 28px);
+      right: 0;
+    }
+
+    .duo .rule span {
+      left: var(--amp);
+      top: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .god dl > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agora a {
+      transition: none;
+    }
+  }
+}

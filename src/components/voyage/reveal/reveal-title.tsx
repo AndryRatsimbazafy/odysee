@@ -41,10 +41,12 @@ function words(children: ReactNode): ReactNode[] {
  */
 export function RevealTitle({
   as: Tag = "h2",
+  id,
   className,
   children,
 }: {
   as?: ElementType;
+  id?: string;
   className?: string;
   children: ReactNode;
 }) {
@@ -68,7 +70,7 @@ export function RevealTitle({
   );
 
   return (
-    <Tag ref={root} className={className}>
+    <Tag ref={root} id={id} className={className}>
       {words(children)}
     </Tag>
   );
