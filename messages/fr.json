@@ -280,8 +280,16 @@
       "honeypot": "Ne pas remplir ce champ",
       "submit": "Envoyer le message",
       "sending": "Hermès s'envole…",
-      "success": "Message reçu. Hermès l'a déposé, je te réponds sous 48 h.",
       "failure": "L'envoi a échoué. Réessaie dans un instant ou écris directement à l'adresse ci-contre."
+    },
+    "letter": {
+      "to": "À",
+      "signed": "Signé"
+    },
+    "sent": {
+      "title": "Lettre scellée.",
+      "text": "Hermès l'a déposée. Je te réponds sous 48 h à {email}.",
+      "another": "Écrire une autre lettre"
     },
     "errors": {
       "name": "Indique ton nom.",

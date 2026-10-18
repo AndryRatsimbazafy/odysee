@@ -10,19 +10,21 @@ import { CopyEmail } from "./copy-email";
 import { HermesForm } from "./hermes-form";
 
 /**
- * Chant VI · Writing to Hermès (STORYBOARD §8): the letter on the left,
- * really sent by a Server Action; the direct ways on the right.
+ * Chant VI · Writing to Hermès (STORYBOARD §8): a letter, really sent by a
+ * Server Action and sealed once delivered; the direct ways beside it.
  */
 export async function Hermes() {
   const locale = await getLocale();
-  const [t, tv, th, profile, links] = await Promise.all([
+  const [t, tv, th, tf, profile, links] = await Promise.all([
     getTranslations("hermes"),
     getTranslations("voyage"),
     getTranslations("hero.identity"),
+    getTranslations("hero.fallback"),
     getProfile(locale),
     getSocialLinks(),
   ]);
   const email = profile?.publicEmail;
+  const recipient = `${profile?.fullName || tf("name")} · ${profile?.location || tf("location")}`;
 
   return (
     <ChantStage id="hermes" labelledBy="hermes-title">
@@ -37,8 +39,9 @@ export async function Hermes() {
             {tv("chants.hermes.title")}
           </RevealTitle>
         </header>
+        {/* The direct ways come first in reading order: on a phone they sit
+            above the letter; on a wide screen they move to its right. */}
         <div className="chant-body letter">
-          <HermesForm locale={locale} />
           <aside className="contact-side" data-stagger>
             <span className="kicker">{t("direct")}</span>
             {email ? (
@@ -64,6 +67,7 @@ export async function Hermes() {
             </p>
             <Gloss>{t("charon")}</Gloss>
           </aside>
+          <HermesForm locale={locale} recipient={recipient} />
         </div>
       </div>
     </ChantStage>

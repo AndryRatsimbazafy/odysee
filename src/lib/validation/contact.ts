@@ -25,4 +25,6 @@ export type ContactState = {
   fieldErrors?: Partial<Record<ContactField, ContactErrorKey>>;
   /** Sent back on error: React resets the form after the action. */
   values?: Partial<Record<ContactField, string>>;
+  /** On success: the address the reply will go to. */
+  sentTo?: string;
 };

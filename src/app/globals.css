@@ -3432,12 +3432,51 @@
 
 /* ── Chant VI · Écrire à Hermès — T21 (STORYBOARD §8) ── */
 @layer components {
-  /* The letter on the left, the direct ways on the right. */
+  /* The letter on the left, the direct ways on the right. In the DOM the
+     direct ways come first: on a phone they sit above the letter. */
   .letter {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     gap: clamp(24px, 4vw, 64px);
     align-items: start;
+  }
+
+  .letter-main {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    gap: 22px;
+  }
+
+  .contact-side {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--ivoire);
+    padding-top: 16px;
+  }
+
+  /* The addressee, as on a letter: who, where, what time it is there. */
+  .letter-head {
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ivoire);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--cendre);
+  }
+
+  .letter-head > span:first-child {
+    color: var(--or);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-right: 6px;
+  }
+
+  .letter-head b {
+    font-weight: 400;
+    color: var(--ivoire);
   }
 
   .letter-form {
@@ -3454,7 +3493,9 @@
     gap: 6px;
   }
 
-  .field label {
+  .field label,
+  .field legend,
+  .signature legend {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.1em;
@@ -3462,10 +3503,17 @@
     color: var(--cendre);
   }
 
+  fieldset.field,
+  .signature {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
   /* A rule to write on rather than a box: --ardoise keeps it ≥ 3:1 on the
      night and on the sky (WCAG 1.4.11); the box border was 1.4:1. */
-  .field input,
-  .field select,
+  .field input:not([type="radio"]),
   .field textarea {
     font: inherit;
     font-size: 19px;
@@ -3478,24 +3526,78 @@
     transition: border-color 0.5s var(--ease);
   }
 
-  .field select option {
-    background: var(--nuit);
-  }
-
   .field textarea {
-    min-height: 150px;
+    min-height: 132px;
     resize: vertical;
   }
 
   /* Same focus ring as the rest of the site, plus the gold rule. */
   .field input:focus-visible,
-  .field select:focus-visible,
   .field textarea:focus-visible {
     border-color: var(--or-clair);
   }
 
   .field [aria-invalid="true"] {
     border-color: var(--todo);
+  }
+
+  /* Subject: three visible choices instead of a closed select. */
+  .choices > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 28px;
+  }
+
+  .choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    font-size: 17px;
+    cursor: pointer;
+  }
+
+  .choice input {
+    appearance: none;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 3px;
+    border: 1px solid var(--ardoise);
+    border-radius: 50%;
+    background-clip: content-box;
+    cursor: pointer;
+  }
+
+  .choice input:checked {
+    border-color: var(--or);
+    background-color: var(--or);
+  }
+
+  .choice:has(input:checked) {
+    color: var(--or-clair);
+  }
+
+  /* The signature: name and reply address, side by side under a fine rule. */
+  .signature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 clamp(16px, 2vw, 32px);
+    padding-top: 14px;
+    border-top: 1px solid var(--filet);
+  }
+
+  .signature legend {
+    float: left;
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--or);
   }
 
   .err {
@@ -3522,10 +3624,6 @@
     border: 0;
   }
 
-  .notice[data-state="success"] {
-    border-left-color: var(--or);
-  }
-
   /* Honeypot: off screen rather than display:none, which some bots skip. */
   .hp {
     position: absolute;
@@ -3535,11 +3633,45 @@
     overflow: hidden;
   }
 
-  .contact-side {
+  /* Delivered: the letter is sealed with Hermes' caduceus. */
+  .sealed {
     display: grid;
-    gap: 16px;
-    border-top: 1px solid var(--ivoire);
-    padding-top: 16px;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 40px);
+    align-items: center;
+    padding-block: clamp(16px, 3vw, 40px);
+  }
+
+  .hermes-seal {
+    width: clamp(88px, 10vw, 128px);
+    height: auto;
+  }
+
+  .hermes-seal .dots {
+    stroke-dasharray: 0 3.2;
+    stroke-width: 1.1;
+  }
+
+  .sealed-text {
+    display: grid;
+    gap: 14px;
+    justify-items: start;
+  }
+
+  .sealed-text h3 {
+    margin: 0;
+    font-size: clamp(32px, 3.4vw, 48px);
+    line-height: 1;
+  }
+
+  .sealed-text h3:focus {
+    outline: none;
+  }
+
+  .sealed-text p {
+    margin: 0;
+    color: var(--cendre);
+    overflow-wrap: anywhere;
   }
 
   .contact-side p {
@@ -3560,8 +3692,8 @@
   }
 
   .copy {
-    min-height: 24px;
-    padding: 5px 10px;
+    min-height: 32px;
+    padding: 5px 12px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.08em;
@@ -3591,8 +3723,30 @@
     color: var(--or-clair);
   }
 
+  @media (pointer: coarse) {
+    .copy {
+      min-height: 44px;
+    }
+  }
+
   @media (max-width: 900px) {
     .letter {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .letter-main,
+    .contact-side {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .signature {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sealed {
       grid-template-columns: minmax(0, 1fr);
     }
   }

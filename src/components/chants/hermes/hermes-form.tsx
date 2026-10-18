@@ -1,7 +1,9 @@
 "use client";
 
 import { useTranslations, type Locale } from "next-intl";
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
+import { Clock } from "@/components/chants/embarcadere/clock";
+import { WeaponMedallion } from "@/components/engravings/weapons";
 import { sendContactMessage } from "@/lib/actions/contact";
 import {
   CONTACT_SUBJECTS,
@@ -11,35 +13,56 @@ import {
 
 const INITIAL: ContactState = { status: "idle" };
 // Same caps as the schema, so a letter can't be refused for its length.
-const MAX: Record<ContactField, number> = {
-  name: 120,
-  email: 254,
-  subject: 20,
-  message: 5000,
-};
+const MAX = { name: 120, email: 254, message: 5000 } as const;
 // DOM order: focus goes to the first field in error.
-const ORDER: ContactField[] = ["name", "email", "subject", "message"];
+const ORDER: ContactField[] = ["subject", "message", "name", "email"];
 
-/** The letter to Hermès: real sending, inline errors, honeypot and delay. */
-export function HermesForm({ locale }: { locale: Locale }) {
+type Props = {
+  locale: Locale;
+  /** "Andry · Antananarivo, Madagascar", the letter's addressee. */
+  recipient: string;
+};
+
+/**
+ * The letter to Hermès. Each letter is its own form: once sealed, "write
+ * another" starts a fresh one (and a fresh action state).
+ */
+export function HermesForm(props: Props) {
+  const [round, setRound] = useState(0);
+  return (
+    <Letter key={round} {...props} onAnother={() => setRound((r) => r + 1)} />
+  );
+}
+
+function Letter({
+  locale,
+  recipient,
+  onAnother,
+}: Props & { onAnother: () => void }) {
   const t = useTranslations("hermes");
+  const th = useTranslations("hero.identity");
   const [state, formAction, pending] = useActionState(
     sendContactMessage,
     INITIAL,
   );
-  // When the form appeared: the action refuses letters written in < 3 s.
+  // When the letter appeared: the action refuses letters written in < 3 s.
   const startedAt = useRef(0);
   useEffect(() => {
     startedAt.current = Date.now();
   }, []);
 
-  // After each answer: focus the first field in error, so its label and
-  // message are read; other outcomes are announced by the status line.
-  const form = useRef<HTMLFormElement>(null);
+  // After each answer: focus the first field in error (its label and
+  // message are read), or the sealed letter's title.
+  const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const first = ORDER.find((f) => state.fieldErrors?.[f]);
-    if (first)
-      form.current?.querySelector<HTMLElement>(`#hermes-${first}`)?.focus();
+    const target =
+      state.status === "success"
+        ? "#hermes-sealed"
+        : first === "subject"
+          ? "[name=subject]"
+          : first && `#hermes-${first}`;
+    if (target) root.current?.querySelector<HTMLElement>(target)?.focus();
   }, [state]);
 
   const submit = (formData: FormData) => {
@@ -49,18 +72,17 @@ export function HermesForm({ locale }: { locale: Locale }) {
     formAction(formData);
   };
 
-  const field = (name: ContactField) => {
-    const error = state.fieldErrors?.[name];
-    return {
-      id: `hermes-${name}`,
-      name,
-      required: true,
-      maxLength: MAX[name],
-      defaultValue: state.values?.[name] ?? "",
-      "aria-invalid": error ? true : undefined,
-      "aria-describedby": `hermes-${name}-err`,
-    } as const;
-  };
+  const invalid = (name: ContactField) =>
+    state.fieldErrors?.[name] ? true : undefined;
+  const field = (name: Exclude<ContactField, "subject">) => ({
+    id: `hermes-${name}`,
+    name,
+    required: true,
+    maxLength: MAX[name],
+    defaultValue: state.values?.[name] ?? "",
+    "aria-invalid": invalid(name),
+    "aria-describedby": `hermes-${name}-err`,
+  });
   const error = (name: ContactField) => (
     <span className="err" id={`hermes-${name}-err`}>
       {state.fieldErrors?.[name]
@@ -70,74 +92,114 @@ export function HermesForm({ locale }: { locale: Locale }) {
   );
 
   const notice =
-    state.status === "success"
-      ? t("form.success")
-      : state.error && state.error !== "invalid"
-        ? state.error === "failed"
-          ? t("form.failure")
-          : t(`errors.${state.error}`)
-        : null;
+    state.error && state.error !== "invalid"
+      ? state.error === "failed"
+        ? t("form.failure")
+        : t(`errors.${state.error}`)
+      : null;
 
   return (
-    <form
-      ref={form}
-      className="letter-form"
-      action={submit}
-      noValidate
-      aria-describedby="hermes-help"
-    >
-      <p id="hermes-help" className="mono">
-        {t("form.help")}
+    <div className="letter-main" ref={root}>
+      <p className="letter-head mono">
+        <span>{t("letter.to")}</span> {recipient}
+        <span className="whitespace-nowrap">
+          {" "}
+          · <Clock /> {th("timezone")}
+        </span>
       </p>
-      <input type="hidden" name="locale" value={locale} />
-      <div className="hp" aria-hidden="true">
-        <label htmlFor="hermes-website">{t("form.honeypot")}</label>
-        <input
-          id="hermes-website"
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
 
-      <div className="field">
-        <label htmlFor="hermes-name">{t("form.name")}</label>
-        <input {...field("name")} autoComplete="name" />
-        {error("name")}
-      </div>
-      <div className="field">
-        <label htmlFor="hermes-email">{t("form.email")}</label>
-        <input {...field("email")} type="email" autoComplete="email" />
-        {error("email")}
-      </div>
-      <div className="field">
-        <label htmlFor="hermes-subject">{t("form.subject")}</label>
-        <select {...field("subject")}>
-          <option value="" disabled />
-          {CONTACT_SUBJECTS.map((s) => (
-            <option key={s} value={s}>
-              {t(`form.subjects.${s}`)}
-            </option>
-          ))}
-        </select>
-        {error("subject")}
-      </div>
-      <div className="field">
-        <label htmlFor="hermes-message">{t("form.message")}</label>
-        <textarea {...field("message")} />
-        {error("message")}
-      </div>
+      {state.status === "success" ? (
+        <div className="sealed">
+          <WeaponMedallion weapon="caducee" className="hermes-seal" />
+          <div className="sealed-text">
+            <h3 id="hermes-sealed" className="display" tabIndex={-1}>
+              {t("sent.title")}
+            </h3>
+            <p>{t("sent.text", { email: state.sentTo ?? "" })}</p>
+            <button className="btn ghost" type="button" onClick={onAnother}>
+              {t("sent.another")}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <form
+          className="letter-form"
+          action={submit}
+          noValidate
+          aria-describedby="hermes-help"
+        >
+          <p id="hermes-help" className="mono">
+            {t("form.help")}
+          </p>
+          <input type="hidden" name="locale" value={locale} />
+          <div className="hp" aria-hidden="true">
+            <label htmlFor="hermes-website">{t("form.honeypot")}</label>
+            <input
+              id="hermes-website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
 
-      <div>
-        <button className="btn" type="submit" aria-disabled={pending}>
-          {pending ? t("form.sending") : t("form.submit")}
-        </button>
-      </div>
+          <fieldset className="field choices">
+            <legend id="hermes-subject-legend">{t("form.subject")}</legend>
+            <div
+              role="radiogroup"
+              aria-labelledby="hermes-subject-legend"
+              aria-describedby="hermes-subject-err"
+              aria-required="true"
+              aria-invalid={invalid("subject")}
+            >
+              {CONTACT_SUBJECTS.map((s) => (
+                <label key={s} className="choice">
+                  <input
+                    type="radio"
+                    name="subject"
+                    value={s}
+                    required
+                    defaultChecked={state.values?.subject === s}
+                  />
+                  {t(`form.subjects.${s}`)}
+                </label>
+              ))}
+            </div>
+            {error("subject")}
+          </fieldset>
+
+          <div className="field">
+            <label htmlFor="hermes-message">{t("form.message")}</label>
+            <textarea {...field("message")} />
+            {error("message")}
+          </div>
+
+          <fieldset className="signature">
+            <legend>{t("letter.signed")}</legend>
+            <div className="field">
+              <label htmlFor="hermes-name">{t("form.name")}</label>
+              <input {...field("name")} autoComplete="name" />
+              {error("name")}
+            </div>
+            <div className="field">
+              <label htmlFor="hermes-email">{t("form.email")}</label>
+              <input {...field("email")} type="email" autoComplete="email" />
+              {error("email")}
+            </div>
+          </fieldset>
+
+          <div>
+            <button className="btn" type="submit" aria-disabled={pending}>
+              {pending ? t("form.sending") : t("form.submit")}
+            </button>
+          </div>
+        </form>
+      )}
+
       {/* Always in the DOM: a live region that appears with its text is
           often not announced. */}
-      <p className="notice" data-state={state.status} role="status">
+      <p className="notice" role="status">
         {notice}
       </p>
-    </form>
+    </div>
   );
 }

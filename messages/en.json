@@ -280,8 +280,16 @@
       "honeypot": "Leave this field empty",
       "submit": "Send the message",
       "sending": "Hermes takes flight…",
-      "success": "Message received. Hermes has delivered it; I'll reply within 48 hours.",
       "failure": "Sending failed. Try again in a moment or write directly to the address alongside."
+    },
+    "letter": {
+      "to": "To",
+      "signed": "Signed"
+    },
+    "sent": {
+      "title": "Letter sealed.",
+      "text": "Hermes has delivered it. I'll reply within 48 hours to {email}.",
+      "another": "Write another letter"
     },
     "errors": {
       "name": "Please enter your name.",

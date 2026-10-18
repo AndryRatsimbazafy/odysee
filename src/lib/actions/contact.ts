@@ -47,7 +47,8 @@ export async function sendContactMessage(
   ) as Record<ContactField, string>;
 
   // A filled honeypot is a bot: pretend it worked, keep nothing.
-  if (formData.get("website")) return { status: "success" };
+  if (formData.get("website"))
+    return { status: "success", sentTo: values.email.trim() };
 
   const startedAt = Number(formData.get("startedAt"));
   if (!startedAt || Date.now() - startedAt < MIN_DELAY_MS)
@@ -111,7 +112,7 @@ export async function sendContactMessage(
       .from("contact_messages")
       .update({ email_sent: true })
       .eq("id", row.id);
-    return { status: "success" };
+    return { status: "success", sentTo: data.email };
   } catch (error) {
     console.error("contact: failed", error);
     return { status: "error", error: "failed", values };
