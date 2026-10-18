@@ -61,6 +61,29 @@
     var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --ease-out: var(--ease);
+
+  /* shadcn semantic names (admin only, DESIGN §11) → site tokens, no new colour. */
+  --color-background: var(--nuit);
+  --color-foreground: var(--ivoire);
+  --color-card: var(--nuit-2);
+  --color-card-foreground: var(--ivoire);
+  --color-popover: var(--nuit-2);
+  --color-popover-foreground: var(--ivoire);
+  --color-primary: var(--or);
+  --color-primary-foreground: var(--nuit);
+  --color-secondary: var(--nuit-3);
+  --color-secondary-foreground: var(--ivoire);
+  --color-muted: var(--nuit-2);
+  --color-muted-foreground: var(--cendre);
+  --color-accent: var(--nuit-3);
+  --color-accent-foreground: var(--ivoire);
+  --color-destructive: var(--todo);
+  --color-border: var(--filet);
+  --color-input: var(--filet);
+  --color-ring: var(--or-clair);
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
 }
 
 @layer base {

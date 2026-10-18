@@ -263,5 +263,35 @@
     "home": "Retour à l'embarcadère",
     "epreuves": "Voir les épreuves"
   },
-  "console": "Un dev qui ouvre la console ? Tu es des nôtres. Le code est sur GitHub."
+  "console": "Un dev qui ouvre la console ? Tu es des nôtres. Le code est sur GitHub.",
+  "admin": {
+    "title": "Admin",
+    "login": {
+      "heading": "Connexion",
+      "lead": "Accès réservé. Identifiants du compte Supabase administrateur.",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "pending": "Connexion…",
+      "errors": {
+        "invalid": "Email ou mot de passe incorrect.",
+        "forbidden": "Ce compte n’a pas accès à l’administration.",
+        "unavailable": "Service d’authentification indisponible. Réessayer dans un instant."
+      }
+    },
+    "shell": {
+      "signedInAs": "Connecté : {email}",
+      "signOut": "Se déconnecter",
+      "checking": "Vérification de la session…"
+    },
+    "dashboard": {
+      "heading": "Tableau de bord",
+      "lead": "Les sections d’édition arrivent avec les prochaines tâches.",
+      "sections": {
+        "profile": "Profil, engagement, liens, CV",
+        "projects": "Projets",
+        "content": "Technos, compétences, escales, oracle, témoignages, messages"
+      }
+    }
+  }
 }
