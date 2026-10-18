@@ -256,7 +256,9 @@
       "role": "Poste",
       "entry": "Entrée du journal"
     },
-    "current": "en cours"
+    "current": "en cours",
+    "now": "aujourd’hui",
+    "remote": "remote"
   },
   "oracle": {
     "margin": "Ulysse a consulté Tirésias. Ici, les réponses aux questions que posent le plus souvent les recruteurs.",

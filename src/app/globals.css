@@ -3175,3 +3175,257 @@
     }
   }
 }
+
+/* ── Chant IV · Les escales, Chant V · L'oracle — T20 (STORYBOARD §6, §7) ── */
+@layer components {
+  /* Drawn rules above the logbook and the oracle (ChantStage `data-trace`). */
+  .log-rule,
+  .qa-rule {
+    display: block;
+    height: 1px;
+    background: var(--ivoire);
+  }
+
+  /* The logbook: a real table, read row by row. */
+  .log {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .log thead th {
+    padding: 14px 18px 10px 0;
+    border-bottom: 1px solid var(--filet);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--cendre);
+  }
+
+  .log td,
+  .log tbody th {
+    padding: 20px 18px 20px 0;
+    border-bottom: 1px solid var(--filet);
+    vertical-align: top;
+    text-align: left;
+    font-weight: inherit;
+  }
+
+  .log .d {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--or);
+    white-space: nowrap;
+  }
+
+  .log .now {
+    display: block;
+    margin-top: 6px;
+    color: var(--cendre);
+  }
+
+  /* The current port: a small gold mark before "en cours". */
+  .log .now::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--or-clair);
+    vertical-align: 1px;
+  }
+
+  .log .p {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: 500;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .log .p small {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--cendre);
+  }
+
+  .log .r {
+    font-weight: 500;
+  }
+
+  .log .e {
+    max-width: 46ch;
+    color: var(--cendre);
+  }
+
+  .log .tech {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ardoise);
+  }
+
+  /* Small screens: each row becomes a stacked block. */
+  @media (max-width: 760px) {
+    .log thead {
+      display: none;
+    }
+
+    .log,
+    .log tbody,
+    .log tr,
+    .log td,
+    .log tbody th {
+      display: block;
+    }
+
+    .log tr {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--filet);
+    }
+
+    .log td,
+    .log tbody th {
+      padding: 4px 0;
+      border: 0;
+    }
+
+    .log .now {
+      display: inline;
+      margin: 0 0 0 12px;
+    }
+  }
+
+  /* The oracle: native details/summary, the answer settles in when opened. */
+  .qa details {
+    border-bottom: 1px solid var(--filet);
+  }
+
+  .qa summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px;
+    gap: 16px;
+    align-items: baseline;
+    padding: 18px 0;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: color 0.3s var(--ease);
+  }
+
+  .qa summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .qa summary::after {
+    content: "";
+    justify-self: end;
+    width: 11px;
+    height: 11px;
+    margin-right: 6px;
+    border-right: 1px solid var(--or);
+    border-bottom: 1px solid var(--or);
+    transform: rotate(45deg) translateY(-4px);
+    transition: transform 0.3s var(--ease);
+  }
+
+  .qa details[open] summary::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  .qa summary:focus-visible {
+    outline: 1px solid var(--or-clair);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .qa summary:hover {
+      color: var(--or-clair);
+    }
+  }
+
+  .qa .a {
+    max-width: 60ch;
+    margin: 0;
+    padding: 0 46px 20px 0;
+    color: var(--cendre);
+  }
+
+  .qa details[open] .a {
+    animation: qa-in 0.35s var(--ease);
+  }
+
+  @keyframes qa-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  /* The voices of Delphi: only when a testimonial is published. */
+  .delphes {
+    display: grid;
+    gap: 20px;
+    margin-top: clamp(40px, 5vw, 64px);
+    padding-top: 16px;
+    border-top: 1px solid var(--ivoire);
+  }
+
+  .delphes h3 {
+    margin: 0;
+  }
+
+  .delphes > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: clamp(24px, 3vw, 48px);
+  }
+
+  .delphes figure {
+    margin: 0;
+  }
+
+  .delphes blockquote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.4;
+  }
+
+  .delphes blockquote p {
+    margin: 0;
+  }
+
+  .delphes figcaption {
+    display: grid;
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--cendre);
+  }
+
+  .delphes figcaption b {
+    font-weight: 600;
+    color: var(--ivoire);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qa summary::after {
+      transition: none;
+    }
+
+    .qa details[open] .a {
+      animation: none;
+    }
+  }
+}

@@ -256,7 +256,9 @@
       "role": "Position",
       "entry": "Log entry"
     },
-    "current": "current"
+    "current": "current",
+    "now": "today",
+    "remote": "remote"
   },
   "oracle": {
     "margin": "Odysseus consulted Tiresias. Here are the answers to the questions recruiters ask most often.",
