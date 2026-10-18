@@ -5,6 +5,9 @@ import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
 
 const ONCE = { start: "top 80%", once: true } as const;
 
+/** One rise for every block (px). */
+const RISE = 12;
+
 /**
  * Chant I and its motion (STORYBOARD §2): margin and lead settle, each god's
  * emblem is traced then its text and list follow in stagger, the "&" rule
@@ -35,12 +38,12 @@ export function DivinitesStage({
           if (head && fresh(head)) {
             gsap.from(q(".marg > *, .chant-head .lead"), {
               opacity: 0,
-              y: 10,
+              y: RISE,
               duration: 0.9,
               ease: EASE,
               stagger: 0.08,
-              delay: 0.25,
-              scrollTrigger: { trigger: head, ...ONCE },
+              // Same start as the RevealTitle above, so title and lead go together.
+              scrollTrigger: { trigger: head, start: "top 85%", once: true },
             });
           }
 
@@ -58,7 +61,7 @@ export function DivinitesStage({
                   strokeDashoffset: 0,
                   duration: 1.6,
                   ease: "power2.inOut",
-                  stagger: 0.05,
+                  stagger: 0.04,
                   // The dash is normalised (pathLength 1): no pixel rounding.
                   autoRound: false,
                 },
@@ -66,12 +69,12 @@ export function DivinitesStage({
               )
               .from(
                 sel("[data-rise]"),
-                { opacity: 0, y: 14, duration: 0.8, stagger: 0.08 },
+                { opacity: 0, y: RISE, duration: 0.8, stagger: 0.08 },
                 0.2,
               )
               .from(
                 sel("dl > div"),
-                { opacity: 0, y: 12, duration: 0.8, stagger: 0.07 },
+                { opacity: 0, y: RISE, duration: 0.8, stagger: 0.07 },
                 0.45,
               );
           }
@@ -99,11 +102,11 @@ export function DivinitesStage({
           if (agora && fresh(agora)) {
             gsap.from(agora.children, {
               opacity: 0,
-              y: 12,
+              y: RISE,
               duration: 0.8,
               ease: EASE,
               stagger: 0.08,
-              scrollTrigger: { trigger: agora, start: "top 88%", once: true },
+              scrollTrigger: { trigger: agora, ...ONCE },
             });
           }
         },
