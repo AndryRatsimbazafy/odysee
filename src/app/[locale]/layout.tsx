@@ -3,6 +3,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CONSTELLATIONS } from "@/components/engravings/constellations";
+import { Compass } from "@/components/voyage/compass/compass";
 import { Cursor } from "@/components/voyage/cursor/cursor";
 import { BOARDING_INIT_SCRIPT } from "@/components/voyage/loader/boarding";
 import { Loader } from "@/components/voyage/loader/loader";
@@ -11,6 +12,7 @@ import { ThemeProvider } from "@/components/voyage/theme-provider";
 import { GLOSS_INIT_SCRIPT } from "@/components/voyage/gloss-store";
 import { SiteFooter } from "@/components/voyage/site-footer";
 import { SiteHeader } from "@/components/voyage/site-header";
+import { SmoothScroll } from "@/components/voyage/smooth-scroll";
 import { routing } from "@/i18n/routing";
 import { fontVariables } from "../fonts";
 import "../globals.css";
@@ -57,11 +59,13 @@ export default async function LocaleLayout({
             <Sky names={skyNames} />
             <Loader />
             <SiteHeader locale={locale} />
+            <Compass />
             <main id="main" tabIndex={-1} className="flex-1 outline-none">
               {children}
             </main>
             <SiteFooter locale={locale} />
             <Cursor />
+            <SmoothScroll />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

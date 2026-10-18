@@ -399,7 +399,7 @@
     border-style: dashed;
   }
 
-  .top .gl {
+  :is(.top, .index) .gl {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.08em;
@@ -412,7 +412,7 @@
     white-space: nowrap;
   }
 
-  .top .gl[aria-pressed="true"] {
+  :is(.top, .index) .gl[aria-pressed="true"] {
     border-color: var(--or);
     color: var(--or-clair);
   }
@@ -461,12 +461,17 @@
   @media (max-width: 820px) {
     .top-nav,
     .top-cv,
-    .brand span {
+    .brand span,
+    .top .gl,
+    .top .seg {
       display: none;
     }
 
+    /* Charon and the theme live in the index on small screens (T13); the
+       compass rose sits at the right end of the header. */
     .top-tools {
       gap: 10px;
+      margin-right: 52px;
     }
 
     .seg button {
@@ -921,5 +926,336 @@
 
   .cursor[data-state="view"] span {
     opacity: 1;
+  }
+}
+
+/* ── Compass rose, index of chants, routes, reveals — T13 (DESIGN §6.4, §7, §9) ── */
+@layer components {
+  [data-chant] {
+    /* Native anchor jumps (no JS, or from another page) clear the header. */
+    scroll-margin-top: 80px;
+  }
+
+  .scroll-locked,
+  .scroll-locked body {
+    overflow: hidden;
+  }
+
+  .rose {
+    position: fixed;
+    z-index: 45;
+    left: max(22px, calc(env(safe-area-inset-left, 0px) + 22px));
+    bottom: max(22px, calc(env(safe-area-inset-bottom, 0px) + 22px));
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ivoire);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .rose svg {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--nuit);
+  }
+
+  .rose .needle {
+    transform-origin: 50px 50px;
+    transition: transform 1s var(--ease);
+  }
+
+  .rose .north {
+    fill: var(--or);
+    stroke: none;
+  }
+
+  .rose .soft {
+    stroke-width: 1;
+  }
+
+  .rose .ring {
+    transition: stroke 0.4s;
+  }
+
+  .rose:hover .ring {
+    stroke: var(--or-clair);
+  }
+
+  .rose .lbl {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .rose .lbl b {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .rose .lbl span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--or);
+  }
+
+  @media (max-width: 820px) {
+    .rose {
+      z-index: 55;
+      top: calc(env(safe-area-inset-top, 0px) + 10px);
+      right: max(14px, calc(env(safe-area-inset-right, 0px) + 14px));
+      bottom: auto;
+      left: auto;
+    }
+
+    .rose svg {
+      width: 42px;
+      height: 42px;
+    }
+
+    .rose .lbl {
+      display: none;
+    }
+  }
+
+  /* Index: a full-screen chart that opens from the rose. */
+  .index {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: grid;
+    align-content: center;
+    gap: 24px;
+    padding-block: 72px 32px;
+    overflow: auto;
+    background: var(--nuit);
+    clip-path: circle(0% at 54px calc(100% - 54px));
+    visibility: hidden;
+    transition:
+      clip-path 1s cubic-bezier(0.77, 0, 0.18, 1),
+      visibility 0s 1s;
+  }
+
+  .index[data-open] {
+    clip-path: circle(150% at 54px calc(100% - 54px));
+    visibility: visible;
+    transition: clip-path 1s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  @media (max-width: 820px) {
+    .index {
+      clip-path: circle(0% at calc(100% - 35px) 31px);
+    }
+
+    .index[data-open] {
+      clip-path: circle(150% at calc(100% - 35px) 31px);
+    }
+  }
+
+  .index ol {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--filet);
+  }
+
+  .index li a {
+    display: grid;
+    grid-template-columns: 10ch minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--filet);
+    text-decoration: none;
+  }
+
+  .index li a .n {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    white-space: nowrap;
+    color: var(--or);
+  }
+
+  .index li a .t {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.6vw, 46px);
+    font-weight: 500;
+    line-height: 1.05;
+    transition:
+      color 0.5s,
+      transform 0.8s var(--ease);
+  }
+
+  .index li a .s {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cendre);
+  }
+
+  .index li a:hover .t,
+  .index li a[aria-current="true"] .t {
+    color: var(--or-clair);
+    transform: translateX(8px);
+  }
+
+  @media (max-width: 600px) {
+    .index li a {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 12px;
+    }
+
+    .index li a .n {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .index-head,
+  .index-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+  }
+
+  .index-head {
+    justify-content: space-between;
+  }
+
+  .close {
+    padding: 10px 16px;
+    border: 1px solid var(--filet);
+    background: none;
+    color: var(--ivoire);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* Route between two chants. */
+  .route {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    padding-block: clamp(28px, 4vw, 48px);
+  }
+
+  .route .track {
+    position: relative;
+    min-width: 0;
+  }
+
+  .route svg {
+    display: block;
+    width: 100%;
+    height: 24px;
+    overflow: visible;
+  }
+
+  .route .dotted {
+    stroke-dasharray: 2 7;
+    stroke-width: 1;
+  }
+
+  .route .course {
+    stroke-width: 1;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .route .rb {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 34px;
+    height: 22px;
+    margin-top: -17px;
+  }
+
+  .route[data-rtl] .rb {
+    right: 0;
+    left: auto;
+    transform: scaleX(-1);
+  }
+
+  .route .from,
+  .route .to {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--cendre);
+  }
+
+  .route .to {
+    color: var(--or);
+  }
+
+  @media (max-width: 600px) {
+    .route {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .route .from {
+      display: none;
+    }
+
+    .route .to {
+      max-width: 16ch;
+      line-height: 1.4;
+      white-space: normal;
+      text-align: right;
+    }
+  }
+
+  /* RevealTitle: each word in its mask. */
+  .wd {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    /* Room for descenders and italics inside the mask. */
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+
+  .wd > span {
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rose .needle,
+    .index,
+    .index[data-open],
+    .index li a .t {
+      transition: none;
+    }
+
+    /* Final state: the boat has arrived. */
+    .route .rb {
+      right: 0;
+      left: auto;
+    }
+
+    .route[data-rtl] .rb {
+      right: auto;
+      left: 0;
+    }
   }
 }
