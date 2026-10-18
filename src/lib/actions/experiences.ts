@@ -21,6 +21,12 @@ export async function saveExperiences(
 
   const supabase = await createClient();
   const list = parsed.data.experiences;
+  // Once something is written, refresh the public site even if a later
+  // step fails, so it never keeps serving the previous version.
+  const failed = () => {
+    updateTag(TAGS.experiences);
+    return { ok: false, error: "failed" } as const;
+  };
   const ids = await replaceList(
     supabase,
     "experiences",
@@ -37,7 +43,7 @@ export async function saveExperiences(
       message_en: experience.message_en,
     })),
   );
-  if (!ids) return { ok: false, error: "failed" };
+  if (!ids) return failed();
 
   // Links of removed experiences went with them (on delete cascade).
   if (ids.length) {
@@ -45,7 +51,7 @@ export async function saveExperiences(
       .from("experience_technologies")
       .delete()
       .in("experience_id", ids);
-    if (clearError) return { ok: false, error: "failed" };
+    if (clearError) return failed();
 
     const links = list.flatMap((experience, i) =>
       experience.technology_ids.map((technology_id, index) => ({
@@ -58,7 +64,7 @@ export async function saveExperiences(
       const { error } = await supabase
         .from("experience_technologies")
         .insert(links);
-      if (error) return { ok: false, error: "failed" };
+      if (error) return failed();
     }
   }
 

@@ -35,10 +35,10 @@ export async function saveTechnologies(
       weapon: tech.weapon || null,
     })),
   );
-  if (!ids) return { ok: false, error: "failed" };
-
+  // Invalidate even on failure: replaceList may have written part of it.
   // Project and arsenal reads are tagged with both.
   updateTag(TAGS.technologies);
+  if (!ids) return { ok: false, error: "failed" };
   return {
     ok: true,
     data: { technologies: list.map((tech, i) => ({ ...tech, id: ids[i] })) },

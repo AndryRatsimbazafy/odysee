@@ -22,9 +22,9 @@ export async function saveTestimonials(
   const supabase = await createClient();
   const list = parsed.data.testimonials;
   const ids = await replaceList(supabase, "testimonials", list);
-  if (!ids) return { ok: false, error: "failed" };
-
+  // Invalidate even on failure: replaceList may have written part of it.
   updateTag(TAGS.testimonials);
+  if (!ids) return { ok: false, error: "failed" };
   return {
     ok: true,
     data: { testimonials: list.map((item, i) => ({ ...item, id: ids[i] })) },

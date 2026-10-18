@@ -27,6 +27,13 @@ export async function saveEngagements(
     .select("id");
   if (readError) return { ok: false, error: "failed" };
 
+  // Once something is written, refresh the public site even if a later
+  // step fails, so it never keeps serving the previous version.
+  const failed = () => {
+    updateTag(TAGS.engagements);
+    return { ok: false, error: "failed" } as const;
+  };
+
   const items = parsed.data.engagements.map((item) => ({
     ...item,
     id: item.id ?? crypto.randomUUID(),
@@ -46,13 +53,13 @@ export async function saveEngagements(
         sort_order: index,
       })),
     );
-    if (error) return { ok: false, error: "failed" };
+    if (error) return failed();
 
     const { error: clearError } = await supabase
       .from("engagement_roles")
       .delete()
       .in("engagement_id", [...kept]);
-    if (clearError) return { ok: false, error: "failed" };
+    if (clearError) return failed();
 
     const roles = items.flatMap((item) =>
       item.roles.map((role, index) => ({
@@ -65,7 +72,7 @@ export async function saveEngagements(
       const { error: rolesError } = await supabase
         .from("engagement_roles")
         .insert(roles);
-      if (rolesError) return { ok: false, error: "failed" };
+      if (rolesError) return failed();
     }
   }
 
@@ -75,7 +82,7 @@ export async function saveEngagements(
       .from("engagements")
       .delete()
       .in("id", removed);
-    if (error) return { ok: false, error: "failed" };
+    if (error) return failed();
   }
 
   updateTag(TAGS.engagements);

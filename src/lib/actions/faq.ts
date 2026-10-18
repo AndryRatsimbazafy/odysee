@@ -19,9 +19,9 @@ export async function saveFaq(
   const supabase = await createClient();
   const list = parsed.data.questions;
   const ids = await replaceList(supabase, "faq_items", list);
-  if (!ids) return { ok: false, error: "failed" };
-
+  // Invalidate even on failure: replaceList may have written part of it.
   updateTag(TAGS.faq);
+  if (!ids) return { ok: false, error: "failed" };
   return {
     ok: true,
     data: { questions: list.map((item, i) => ({ ...item, id: ids[i] })) },

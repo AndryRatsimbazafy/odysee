@@ -22,9 +22,9 @@ export async function saveSkills(
     ...hephaistos.map((skill) => ({ ...skill, domain: "hephaistos" })),
     ...athena.map((skill) => ({ ...skill, domain: "athena" })),
   ]);
-  if (!ids) return { ok: false, error: "failed" };
-
+  // Invalidate even on failure: replaceList may have written part of it.
   updateTag(TAGS.skills);
+  if (!ids) return { ok: false, error: "failed" };
   return {
     ok: true,
     data: {

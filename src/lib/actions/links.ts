@@ -27,6 +27,13 @@ export async function saveSocialLinks(
     .select("id");
   if (readError) return { ok: false, error: "failed" };
 
+  // Once something is written, refresh the public site even if a later
+  // step fails, so it never keeps serving the previous version.
+  const failed = () => {
+    updateTag(TAGS.socialLinks);
+    return { ok: false, error: "failed" } as const;
+  };
+
   const rows = parsed.data.links.map((link, index) => ({
     id: link.id ?? crypto.randomUUID(),
     platform: link.platform,
@@ -38,14 +45,14 @@ export async function saveSocialLinks(
 
   if (rows.length) {
     const { error } = await supabase.from("social_links").upsert(rows);
-    if (error) return { ok: false, error: "failed" };
+    if (error) return failed();
   }
   if (removed.length) {
     const { error } = await supabase
       .from("social_links")
       .delete()
       .in("id", removed);
-    if (error) return { ok: false, error: "failed" };
+    if (error) return failed();
   }
 
   updateTag(TAGS.socialLinks);

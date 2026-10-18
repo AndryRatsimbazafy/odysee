@@ -66,11 +66,13 @@ export async function createProject(
     return { ok: false, error: "slugTaken" };
   if (error) return { ok: false, error: "failed" };
 
-  // A slug taken back by a new project must no longer redirect elsewhere.
+  // A slug taken back by a new project must no longer redirect elsewhere
+  // (redirects are cached with the projects).
   await supabase
     .from("slug_redirects")
     .delete()
     .eq("old_slug", parsed.data.slug);
+  updateTag(TAGS.projects);
   redirect(`/admin/projects/${data.id}`);
 }
 
@@ -126,6 +128,13 @@ export async function saveProject(
     return { ok: false, error: "slugTaken" };
   if (error || !updated.length) return { ok: false, error: "failed" };
 
+  // From here on the row has changed: refresh the public site even if a
+  // later step fails, so it never keeps serving the previous version.
+  const failed = () => {
+    refreshPublicSite();
+    return { ok: false, error: "failed" } as const;
+  };
+
   // The trigger records the old slug; a slug owned elsewhere stops redirecting.
   await supabase
     .from("slug_redirects")
@@ -141,7 +150,7 @@ export async function saveProject(
     clear("project_decisions"),
     clear("project_technologies"),
   ]);
-  if (cleared.some((r) => r.error)) return { ok: false, error: "failed" };
+  if (cleared.some((r) => r.error)) return failed();
 
   const ordered = <T extends object>(rows: T[]) =>
     rows.map((row, index) => ({ ...row, project_id: id, sort_order: index }));
@@ -156,14 +165,14 @@ export async function saveProject(
     technologies.length &&
       supabase.from("project_technologies").insert(ordered(technologies)),
   ]);
-  if (inserted.some((r) => r && r.error)) return { ok: false, error: "failed" };
+  if (inserted.some((r) => r && r.error)) return failed();
 
   // Plates: upsert by id, then drop the removed ones.
   const { data: existing, error: readError } = await supabase
     .from("project_images")
     .select("id")
     .eq("project_id", id);
-  if (readError) return { ok: false, error: "failed" };
+  if (readError) return failed();
   const owned = new Set(existing.map((row) => row.id));
   const savedPlates = plates.map((plate) => ({
     ...plate,
@@ -180,14 +189,14 @@ export async function saveProject(
         sort_order: index,
       })),
     );
-    if (plateError) return { ok: false, error: "failed" };
+    if (plateError) return failed();
   }
   if (removed.length) {
     const { error: removeError } = await supabase
       .from("project_images")
       .delete()
       .in("id", removed);
-    if (removeError) return { ok: false, error: "failed" };
+    if (removeError) return failed();
   }
 
   await removeStaleImages(supabase, id, images);
@@ -220,9 +229,9 @@ export async function reorderProjects(ids: string[]): Promise<ActionResult> {
       supabase.from("projects").update({ sort_order: index }).eq("id", id),
     ),
   );
-  if (updates.some((u) => u.error)) return { ok: false, error: "failed" };
-
+  // Some rows may have moved even if others failed.
   refreshPublicSite();
+  if (updates.some((u) => u.error)) return { ok: false, error: "failed" };
   return { ok: true, data: undefined };
 }
 
