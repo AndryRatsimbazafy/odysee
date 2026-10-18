@@ -59,7 +59,8 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
           scrollTrigger: { start: 0, end: "max", scrub: 3 },
         });
 
-        // Idle: slow drift, twinkling, each figure and layer at its own rhythm.
+        // Idle: slow drift and twinkling, each star layer at its own rhythm.
+        // The figures stay put: inside the SVG every moving group repaints it.
         const idle: gsap.core.Animation[] = [
           gsap.to(sky, {
             x: -60,
@@ -75,35 +76,6 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
             stagger: { each: 0.05, from: "random", yoyo: true, repeat: -1 },
           }),
         ];
-        q(".fl").forEach((g, k) => {
-          const d = 9 + (k % 5) * 2.3;
-          idle.push(
-            gsap.to(g, {
-              x: (k % 2 ? -1 : 1) * (18 + (k % 4) * 6),
-              duration: d,
-              ease: "sine.inOut",
-              yoyo: true,
-              repeat: -1,
-              delay: -k * 1.7,
-            }),
-            gsap.to(g, {
-              y: k % 3 ? 14 : -16,
-              duration: d * 1.3,
-              ease: "sine.inOut",
-              yoyo: true,
-              repeat: -1,
-              delay: -k * 2.1,
-            }),
-            gsap.to(g, {
-              rotation: k % 2 ? 1.2 : -1.2,
-              transformOrigin: "50% 50%",
-              duration: d * 1.7,
-              ease: "sine.inOut",
-              yoyo: true,
-              repeat: -1,
-            }),
-          );
-        });
         q(".fl-s").forEach((g, n) => {
           idle.push(
             gsap.to(g, {
@@ -117,13 +89,27 @@ export function Sky({ names }: { names: Record<ConstellationId, string> }) {
           );
         });
 
-        // Hidden tab: stop the idle loops (scroll tweens are already idle).
-        const onVisibility = () =>
-          idle.forEach((tween) => tween.paused(document.hidden));
-        document.addEventListener("visibilitychange", onVisibility);
+        // Hidden tab or scrolling: hold the idle loops, so the SVG is not
+        // repainted for them while the page moves (scroll tweens go on).
+        let scrolling = false;
+        const sync = () =>
+          idle.forEach((tween) => tween.paused(document.hidden || scrolling));
+        const onScrollStart = () => {
+          scrolling = true;
+          sync();
+        };
+        const onScrollEnd = () => {
+          scrolling = false;
+          sync();
+        };
+        document.addEventListener("visibilitychange", sync);
+        ScrollTrigger.addEventListener("scrollStart", onScrollStart);
+        ScrollTrigger.addEventListener("scrollEnd", onScrollEnd);
         return () => {
           stopWaiting();
-          document.removeEventListener("visibilitychange", onVisibility);
+          document.removeEventListener("visibilitychange", sync);
+          ScrollTrigger.removeEventListener("scrollStart", onScrollStart);
+          ScrollTrigger.removeEventListener("scrollEnd", onScrollEnd);
         };
       });
     },

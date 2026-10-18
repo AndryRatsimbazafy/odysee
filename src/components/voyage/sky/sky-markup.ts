@@ -63,7 +63,7 @@ function figures(names: Record<ConstellationId, string>): string {
     const ys = stars.map(([, y]) => y);
     const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
     const label = `<text x="${cx}" y="${Math.max(...ys) + 22}" text-anchor="middle">${escape(names[id])}</text>`;
-    return `<g class="fl"><g class="cst" transform="translate(${at[0]} ${at[1]}) scale(${CONSTELLATION_SCALE})">${lines}${points}${label}</g></g>`;
+    return `<g class="cst" transform="translate(${at[0]} ${at[1]}) scale(${CONSTELLATION_SCALE})">${lines}${points}${label}</g>`;
   }).join("");
 }
 
