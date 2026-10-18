@@ -7,7 +7,7 @@ import { Button } from "@/components/admin/button";
 import { ListControls } from "@/components/admin/list-controls";
 import type { TechnologyOption } from "@/lib/data/admin";
 import type { ProjectValues } from "@/lib/validation/projects";
-import { SelectField } from "./fields";
+import { SelectField } from "@/components/admin/fields";
 
 /** Technologies of the project and their usage (feeds the arsenal). */
 export function StackTab({ options }: { options: TechnologyOption[] }) {

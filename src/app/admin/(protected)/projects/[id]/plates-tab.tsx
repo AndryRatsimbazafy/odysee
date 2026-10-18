@@ -12,7 +12,7 @@ import {
   PLATE_RATIOS,
   type ProjectValues,
 } from "@/lib/validation/projects";
-import { SelectField } from "./fields";
+import { SelectField } from "@/components/admin/fields";
 
 /** 4 to 5 plates per dossier (F-ADM-08b), each with its alt text (SEO-09). */
 export function PlatesTab({

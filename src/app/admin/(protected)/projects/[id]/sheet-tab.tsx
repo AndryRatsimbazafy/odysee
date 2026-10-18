@@ -14,7 +14,7 @@ import {
   PROJECT_LAYOUTS,
   type ProjectValues,
 } from "@/lib/validation/projects";
-import { CheckField, SelectField, TextField } from "./fields";
+import { CheckField, SelectField, TextField } from "@/components/admin/fields";
 
 export function SheetTab({
   projectId,

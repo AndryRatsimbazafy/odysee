@@ -32,7 +32,7 @@ import {
   type ProjectTab,
   type ProjectValues,
 } from "@/lib/validation/projects";
-import { SelectField } from "./fields";
+import { SelectField } from "@/components/admin/fields";
 import { PlatesTab } from "./plates-tab";
 import { SheetTab } from "./sheet-tab";
 import { StackTab } from "./stack-tab";

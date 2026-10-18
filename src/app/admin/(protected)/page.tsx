@@ -6,8 +6,13 @@ const SECTIONS = [
   { key: "profile", href: "/admin/profile" },
   { key: "projects", href: "/admin/projects" },
   { key: "engagement", href: "/admin/engagement" },
+  { key: "technologies", href: "/admin/technologies" },
+  { key: "skills", href: "/admin/skills" },
+  { key: "experiences", href: "/admin/experiences" },
+  { key: "oracle", href: "/admin/oracle" },
+  { key: "testimonials", href: "/admin/testimonials" },
   { key: "links", href: "/admin/links" },
-  { key: "content", href: null },
+  { key: "messages", href: "/admin/messages" },
 ] as const;
 
 // Reads the session: allowed to block (Cache Components instant validation).
@@ -24,18 +29,12 @@ export default async function AdminHome() {
       <ul className="mt-8 grid gap-2 border-t border-border pt-6">
         {SECTIONS.map(({ key, href }) => (
           <li key={key}>
-            {href ? (
-              <Link
-                href={href}
-                className="underline underline-offset-4 hover:text-or-clair"
-              >
-                {t(`sections.${key}`)}
-              </Link>
-            ) : (
-              <span className="text-muted-foreground">
-                {t(`sections.${key}`)} <span className="todo">{t("soon")}</span>
-              </span>
-            )}
+            <Link
+              href={href}
+              className="underline underline-offset-4 hover:text-or-clair"
+            >
+              {t(`sections.${key}`)}
+            </Link>
           </li>
         ))}
       </ul>

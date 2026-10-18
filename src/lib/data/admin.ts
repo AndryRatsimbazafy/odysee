@@ -3,6 +3,8 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { EngagementsValues } from "@/lib/validation/engagements";
+import type { ExperiencesValues } from "@/lib/validation/experiences";
+import type { FaqValues } from "@/lib/validation/faq";
 import type { SocialLinksValues } from "@/lib/validation/links";
 import type { ProfileValues } from "@/lib/validation/profile";
 import { AVAILABILITY_MODES } from "@/lib/validation/profile";
@@ -13,6 +15,9 @@ import {
   PROJECT_LAYOUTS,
   type ProjectValues,
 } from "@/lib/validation/projects";
+import type { SkillsValues } from "@/lib/validation/skills";
+import type { TechnologiesValues } from "@/lib/validation/technologies";
+import type { TestimonialsValues } from "@/lib/validation/testimonials";
 import { bySortOrder } from "./localize";
 
 // Admin reads: session client, no cache, raw FR/EN values (no fallback).
@@ -305,4 +310,147 @@ export async function getTechnologyOptions(): Promise<TechnologyOption[]> {
     .order("name");
   if (error) throw new Error(`technologies: ${error.message}`);
   return data;
+}
+
+// Arsenal, gods, ports of call, oracle, Delphi, messages ----------------------
+
+export async function getTechnologiesForm(): Promise<TechnologiesValues> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("technologies")
+    .select("*")
+    .order("sort_order")
+    .order("name");
+  if (error) throw new Error(`technologies: ${error.message}`);
+
+  return {
+    technologies: data.map((row) => ({
+      id: row.id,
+      name: row.name,
+      category: row.category,
+      years_of_use: row.years_of_use === null ? "" : String(row.years_of_use),
+      duration_label_fr: row.duration_label_fr,
+      duration_label_en: row.duration_label_en,
+      weapon: row.weapon ?? "",
+      role_fr: row.role_fr,
+      role_en: row.role_en,
+      context_fr: row.context_fr,
+      context_en: row.context_en,
+      is_featured: row.is_featured,
+    })),
+  };
+}
+
+export async function getSkillsForm(): Promise<SkillsValues> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("skills")
+    .select("id, domain, label_fr, label_en, description_fr, description_en")
+    .order("sort_order");
+  if (error) throw new Error(`skills: ${error.message}`);
+
+  const of = (domain: string) =>
+    data
+      .filter((row) => row.domain === domain)
+      .map((row) => ({
+        id: row.id,
+        label_fr: row.label_fr,
+        label_en: row.label_en,
+        description_fr: row.description_fr,
+        description_en: row.description_en,
+      }));
+  return { hephaistos: of("hephaistos"), athena: of("athena") };
+}
+
+export async function getExperiencesForm(): Promise<ExperiencesValues> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("experiences")
+    .select("*, experience_technologies(technology_id, sort_order)")
+    .order("sort_order")
+    .order("start_date", { ascending: false });
+  if (error) throw new Error(`experiences: ${error.message}`);
+
+  return {
+    experiences: data.map((row) => ({
+      id: row.id,
+      company: row.company,
+      role_fr: row.role_fr,
+      role_en: row.role_en,
+      start_date: row.start_date,
+      end_date: row.end_date ?? "",
+      location: row.location,
+      is_remote: row.is_remote,
+      message_fr: row.message_fr,
+      message_en: row.message_en,
+      technology_ids: [...row.experience_technologies]
+        .sort(bySortOrder)
+        .map((et) => et.technology_id),
+    })),
+  };
+}
+
+export async function getFaqForm(): Promise<FaqValues> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("faq_items")
+    .select("id, question_fr, question_en, answer_fr, answer_en, is_published")
+    .order("sort_order");
+  if (error) throw new Error(`faq_items: ${error.message}`);
+  return { questions: data };
+}
+
+export async function getTestimonialsForm(): Promise<TestimonialsValues> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("testimonials")
+    .select(
+      "id, quote_fr, quote_en, author, role_fr, role_en, company, is_anonymized, is_published",
+    )
+    .order("sort_order");
+  if (error) throw new Error(`testimonials: ${error.message}`);
+  return { testimonials: data };
+}
+
+export type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  locale: "fr" | "en";
+  status: "unread" | "read";
+  emailSent: boolean;
+  createdAt: string;
+};
+
+/** Messages sent through Hermès, newest first (F-ADM-10). */
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("contact_messages")
+    .select(
+      "id, name, email, subject, message, locale, status, email_sent, created_at",
+    )
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw new Error(`contact_messages: ${error.message}`);
+
+  return data.map((row) => ({
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    subject: row.subject,
+    message: row.message,
+    locale: row.locale,
+    status: row.status,
+    emailSent: row.email_sent,
+    createdAt: row.created_at,
+  }));
 }

@@ -287,13 +287,17 @@
     "dashboard": {
       "heading": "Tableau de bord",
       "lead": "Choisir une section à éditer. Chaque enregistrement met le site à jour immédiatement.",
-      "soon": "(prochainement)",
       "sections": {
         "profile": "Profil, disponibilité, photo et SEO de l’accueil",
         "engagement": "Engagement (Rotaract)",
         "links": "Liens et CV",
         "projects": "Projets : récit, fiche, planches, technos et SEO de chaque épreuve",
-        "content": "Technos, compétences, escales, oracle, témoignages, messages"
+        "technologies": "Technos : l’arsenal et ses armes",
+        "skills": "Compétences d’Héphaïstos et d’Athéna",
+        "experiences": "Escales (journal de bord)",
+        "oracle": "Oracle (questions fréquentes)",
+        "testimonials": "Témoignages (voix de Delphes)",
+        "messages": "Messages reçus"
       }
     },
     "nav": {
@@ -301,8 +305,14 @@
       "dashboard": "Tableau de bord",
       "profile": "Profil",
       "projects": "Projets",
+      "technologies": "Technos",
+      "skills": "Compétences",
+      "experiences": "Escales",
+      "oracle": "Oracle",
+      "testimonials": "Témoignages",
       "engagement": "Engagement",
-      "links": "Liens & CV"
+      "links": "Liens & CV",
+      "messages": "Messages"
     },
     "form": {
       "loading": "Chargement…",
@@ -529,7 +539,7 @@
       "stack": {
         "hint": "Technologies de l’épreuve et leur usage ; elles alimentent les renvois de l’arsenal.",
         "none": "[à fournir] Aucune technologie liée.",
-        "noOptions": "Aucune technologie enregistrée : les créer d’abord dans la section Technos (prochainement).",
+        "noOptions": "Aucune technologie enregistrée : les créer d’abord dans la section Technos.",
         "technology": "Technologie",
         "item": "Technologie {n}",
         "usage": "Usage dans ce projet",
@@ -542,6 +552,104 @@
         "ogImage": "Image de partage",
         "ogImageHint": "Si vide, l’image de partage est générée automatiquement."
       }
+    },
+    "technologies": {
+      "heading": "Technos",
+      "lead": "L’arsenal (Chant III), dans l’ordre de l’index. Chaque outil renvoie aux épreuves qui l’utilisent.",
+      "empty": "[à fournir] Aucune technologie.",
+      "item": "Technologie {n}",
+      "add": "Ajouter une technologie",
+      "removeHint": "Retirer une technologie la retire aussi des projets et escales qui l’utilisent.",
+      "name": "Nom",
+      "category": "Catégorie",
+      "years": "Années d’usage",
+      "durationLabel": "Ancienneté affichée (ex. « 6 ans »)",
+      "weapon": "Arme gravée",
+      "weaponNone": "Aucune (suivante de la réserve)",
+      "weapons": {
+        "foudre": "La foudre de Zeus",
+        "egide": "L’égide d’Athéna",
+        "trident": "Le trident de Poséidon",
+        "fil": "Le fil d’Ariane",
+        "caducee": "Le caducée d’Hermès",
+        "casque": "Le casque d’Hadès",
+        "harpe": "La harpè de Persée",
+        "arc": "L’arc d’Artémis",
+        "marteau": "Le marteau d’Héphaïstos",
+        "lyre": "La lyre d’Apollon",
+        "bouclier": "Le bouclier d’Achille",
+        "ancre": "L’ancre d’Ulysse"
+      },
+      "role": "Rôle",
+      "context": "Contexte d’usage",
+      "featured": "Mis en avant",
+      "duplicate": "Deux technologies portent le même nom."
+    },
+    "skills": {
+      "heading": "Compétences",
+      "lead": "Chant I : les compétences de chaque divinité, dans l’ordre d’affichage.",
+      "hephaistos": "Héphaïstos (technique)",
+      "athena": "Athéna (stratégie, AMOA)",
+      "empty": "[à fournir] Aucune compétence.",
+      "item": "Compétence {n}",
+      "add": "Ajouter une compétence",
+      "label": "Intitulé",
+      "description": "Description"
+    },
+    "experiences": {
+      "heading": "Escales",
+      "lead": "Chant IV : le journal de bord, de la plus récente à la plus ancienne.",
+      "empty": "[à fournir] Aucune escale.",
+      "item": "Escale {n}",
+      "add": "Ajouter une escale",
+      "company": "Port (entreprise)",
+      "location": "Lieu",
+      "remote": "Télétravail",
+      "startDate": "Début",
+      "endDate": "Fin (vide = en cours)",
+      "endBeforeStart": "La fin précède le début.",
+      "role": "Poste",
+      "message": "Entrée du journal",
+      "technologies": "Technologies",
+      "noTechnologies": "Aucune technologie enregistrée (section Technos)."
+    },
+    "oracle": {
+      "heading": "Oracle",
+      "lead": "Chant V : les questions des recruteurs, dans l’ordre d’affichage. Seules les questions publiées apparaissent.",
+      "empty": "[à fournir] Aucune question.",
+      "item": "Question {n}",
+      "add": "Ajouter une question",
+      "question": "Question",
+      "answer": "Réponse",
+      "published": "Publiée"
+    },
+    "testimonials": {
+      "heading": "Témoignages",
+      "lead": "Les voix de Delphes (Chant V). Le bloc reste masqué tant qu’aucun témoignage n’est publié. Uniquement des témoignages réels.",
+      "empty": "[à fournir] Aucun témoignage.",
+      "item": "Témoignage {n}",
+      "add": "Ajouter un témoignage",
+      "quote": "Citation",
+      "author": "Auteur",
+      "role": "Fonction",
+      "company": "Entreprise",
+      "anonymized": "Anonymisé (nom non affiché)",
+      "published": "Publié"
+    },
+    "messages": {
+      "heading": "Messages",
+      "lead": "Messages reçus par le formulaire d’Hermès, du plus récent au plus ancien.",
+      "empty": "Aucun message reçu.",
+      "unread": "Non lu",
+      "markRead": "Marquer comme lu",
+      "markUnread": "Marquer comme non lu",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer définitivement ce message ?",
+      "emailFailed": "L’email de notification n’est pas parti : ce message n’existe qu’ici.",
+      "reply": "Répondre",
+      "noSubject": "(sans objet)",
+      "meta": "{date} · {locale}",
+      "failed": "L’action a échoué. Réessayer."
     }
   }
 }

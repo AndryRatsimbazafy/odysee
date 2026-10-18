@@ -1,15 +1,12 @@
 "use client";
 
 import { Controller, useFormContext } from "react-hook-form";
-import { Checkbox } from "@/components/admin/checkbox";
-import { Input } from "@/components/admin/input";
-import { Label } from "@/components/admin/label";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/admin/native-select";
+import { Checkbox } from "./checkbox";
+import { Input } from "./input";
+import { Label } from "./label";
+import { NativeSelect, NativeSelectOption } from "./native-select";
 
-// Single-language fields of the project form, registered by path.
+// Single-language admin form fields, registered by path in the form context.
 
 const idOf = (path: string) => path.replaceAll(".", "-");
 

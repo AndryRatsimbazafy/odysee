@@ -8,8 +8,14 @@ const ITEMS = [
   { href: "/admin", key: "dashboard" },
   { href: "/admin/profile", key: "profile" },
   { href: "/admin/projects", key: "projects" },
+  { href: "/admin/technologies", key: "technologies" },
+  { href: "/admin/skills", key: "skills" },
+  { href: "/admin/experiences", key: "experiences" },
+  { href: "/admin/oracle", key: "oracle" },
+  { href: "/admin/testimonials", key: "testimonials" },
   { href: "/admin/engagement", key: "engagement" },
   { href: "/admin/links", key: "links" },
+  { href: "/admin/messages", key: "messages" },
 ] as const;
 
 export function AdminNav() {
