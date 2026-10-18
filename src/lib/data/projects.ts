@@ -16,6 +16,7 @@ import type {
 // RLS already hides drafts from the publishable key; the status filter keeps
 // the intent explicit (and correct if the client ever changes).
 const SUMMARY_SELECT = `*,
+  project_images(path, kind_fr, kind_en, alt_fr, alt_en, ratio, sort_order),
   project_technologies(sort_order, technologies(name))` as const;
 
 const DETAIL_SELECT = `*,
@@ -62,6 +63,7 @@ function toSummary(
   index: number,
   locale: Locale,
 ): ProjectSummary {
+  const first = [...row.project_images].sort(bySortOrder)[0];
   return {
     id: row.id,
     slug: row.slug,
@@ -82,6 +84,14 @@ function toSummary(
     stack: [...row.project_technologies]
       .sort(bySortOrder)
       .flatMap((pt) => (pt.technologies ? [pt.technologies.name] : [])),
+    firstPlate: first
+      ? {
+          src: mediaUrl(createPublicClient(), first.path),
+          kind: pick(first, "kind", locale),
+          alt: pick(first, "alt", locale),
+          ratio: first.ratio as PlateRatio,
+        }
+      : null,
   };
 }
 

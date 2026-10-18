@@ -54,6 +54,8 @@ export type ProjectSummary = {
   period: string;
   /** Technology names, in project order. */
   stack: string[];
+  /** First plate, shown as the preview's thumbnail (src null = empty slot). */
+  firstPlate: Pick<Plate, "src" | "kind" | "alt" | "ratio"> | null;
 };
 
 export type ProjectDecision = { title: string; why: string; tradeoff: string };

@@ -1759,3 +1759,429 @@
     }
   }
 }
+
+/* ── Chant II · Les épreuves — T16 (STORYBOARD §3, DESIGN §7) ── */
+@layer components {
+  /* The chart stays at the quay, the archives scroll by. */
+  .voyage {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(24px, 4vw, 64px);
+    align-items: start;
+  }
+
+  .carte {
+    position: sticky;
+    top: 88px;
+  }
+
+  .carte svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100svh - 300px);
+    overflow: visible;
+  }
+
+  .carte.tall svg {
+    max-height: calc(100svh - 230px);
+  }
+
+  .carte .grat {
+    fill: none;
+    stroke: var(--regle);
+    stroke-width: 1;
+  }
+
+  .carte .leg {
+    fill: none;
+    stroke: var(--ardoise);
+    stroke-width: 1.2;
+    stroke-dasharray: 3 5;
+    transition: stroke 0.6s var(--ease);
+  }
+
+  .carte .leg[data-state="done"] {
+    stroke: var(--or);
+    stroke-dasharray: none;
+  }
+
+  .carte .leg[data-state="on"] {
+    stroke: var(--or-clair);
+    stroke-dasharray: none;
+    stroke-width: 1.6;
+  }
+
+  .carte .route {
+    fill: none;
+    stroke: none;
+  }
+
+  .carte .pt {
+    cursor: pointer;
+  }
+
+  .carte .pt circle {
+    fill: var(--nuit);
+    stroke: var(--ardoise);
+    stroke-width: 1.2;
+    transition:
+      stroke 0.6s var(--ease),
+      fill 0.6s var(--ease);
+  }
+
+  .carte .pt[data-state="done"] circle {
+    stroke: var(--or);
+  }
+
+  .carte .pt[data-state="on"] circle {
+    stroke: var(--or-clair);
+    fill: var(--or-clair);
+  }
+
+  .carte .pt text,
+  .carte .port text,
+  .carte .north text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--cendre);
+  }
+
+  .carte .pt .plate {
+    fill: var(--nuit);
+  }
+
+  .carte .pt[data-state="on"] text {
+    fill: var(--or-clair);
+  }
+
+  .carte .port circle {
+    fill: var(--or);
+  }
+
+  .carte .port text,
+  .carte .north text {
+    font-size: 10px;
+  }
+
+  .carte .north path {
+    fill: none;
+    stroke: var(--ardoise);
+    stroke-width: 1;
+  }
+
+  .carte .north text {
+    fill: var(--ardoise);
+  }
+
+  .carte .boat {
+    fill: none;
+    stroke: var(--or-clair);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .carte .hint {
+    margin: 12px 0 0;
+  }
+
+  /* Legend: list (≤ 4), two columns (5–6), numeral chips (> 6). */
+  .legs {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--filet);
+  }
+
+  .legs button {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 4ch minmax(0, 1fr);
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--filet);
+    font-size: 14px;
+    color: var(--cendre);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .legs button:focus-visible {
+    outline: 1px solid var(--or-clair);
+    outline-offset: 2px;
+  }
+
+  .legs button .n {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding-top: 2px;
+  }
+
+  .legs button[aria-current="true"] {
+    color: var(--or-clair);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .legs button:hover {
+      color: var(--ivoire);
+    }
+  }
+
+  .legs.many {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 18px;
+  }
+
+  .legs.many button {
+    font-size: 13px;
+  }
+
+  .legs.compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 12px;
+  }
+
+  .legs.compact button {
+    display: block;
+    width: auto;
+    min-width: 44px;
+    padding: 6px 10px;
+    border: 1px solid var(--filet);
+    text-align: center;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .legs.compact button .n {
+    padding: 0;
+  }
+
+  /* The full title stays the button's accessible name. */
+  .legs.compact button .t {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .legs.compact button[aria-current="true"] {
+    border-color: var(--or-clair);
+  }
+
+  /* Archive previews, one under the other, the visuals staggered. */
+  .previews {
+    display: grid;
+    gap: clamp(64px, 10vh, 120px);
+    min-width: 0;
+  }
+
+  .pv {
+    display: grid;
+    gap: 22px;
+  }
+
+  .pv .vis {
+    width: 92%;
+  }
+
+  .pv.alt .vis {
+    width: 86%;
+    justify-self: end;
+  }
+
+  .pv .txt {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+
+  .pv .stamp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    align-items: baseline;
+    margin: 0;
+  }
+
+  .pv .stamp b {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ivoire);
+    transition: color 0.6s var(--ease);
+  }
+
+  .pv[data-on] .stamp b {
+    color: var(--or-clair);
+  }
+
+  .pv h3 {
+    font-size: clamp(34px, 3.4vw, 54px);
+  }
+
+  .pv .sum {
+    margin: 0;
+    max-width: 46ch;
+    color: var(--cendre);
+  }
+
+  .pv .stk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--cendre);
+  }
+
+  .pv .stk li::before {
+    content: "— ";
+    color: var(--or);
+  }
+
+  .pv .seal {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--filet);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--or);
+  }
+
+  .pv .gloss {
+    max-width: 34em;
+  }
+
+  /* Image slot: the real plate if provided, otherwise a clearly marked one. */
+  .ph-img {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--nuit-2);
+  }
+
+  .ph-img img {
+    object-fit: cover;
+  }
+
+  .ph-img.empty::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid var(--filet);
+  }
+
+  .ph-img .wm {
+    position: absolute;
+    inset: 18% 14%;
+    width: 72%;
+    height: 64%;
+    opacity: 0.1;
+  }
+
+  .ph-img .lab {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .ph-img .lab span,
+  .ph-img .lab small {
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .ph-img .lab span {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--todo);
+  }
+
+  .ph-img .lab small {
+    color: var(--cendre);
+  }
+
+  .ph-cap {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 10px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cendre);
+  }
+
+  .ph-cap b {
+    font-weight: 400;
+    color: var(--or);
+  }
+
+  /* Previews not being read rest a little darker. */
+  .pv .ph-img {
+    filter: brightness(0.82);
+    transition: filter 0.6s var(--ease);
+  }
+
+  .pv[data-on] .ph-img {
+    filter: brightness(1);
+  }
+
+  @media (max-width: 900px) {
+    .voyage {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .carte {
+      position: relative;
+      top: auto;
+    }
+
+    .carte svg,
+    .carte.tall svg {
+      max-height: 240px;
+    }
+
+    .carte .pt text,
+    .carte .pt .plate,
+    .carte .port text {
+      display: none;
+    }
+
+    .pv .vis,
+    .pv.alt .vis {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carte .leg,
+    .carte .pt circle,
+    .legs button,
+    .pv .stamp b,
+    .pv .ph-img {
+      transition: none;
+    }
+  }
+}
