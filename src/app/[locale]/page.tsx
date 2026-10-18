@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { Gloss } from "@/components/voyage/gloss";
-import { Marg } from "@/components/voyage/marg";
+import { Gloss } from "@/components/ui/gloss";
+import { Marg } from "@/components/ui/marg";
 
 // Temporary i18n check page (T04b): unstyled list of the chants' titles and leads.
 // Replaced by the real chants from T14 on.
