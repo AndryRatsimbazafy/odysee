@@ -3536,8 +3536,14 @@
     border-color: var(--or-clair);
   }
 
-  .field [aria-invalid="true"] {
-    border-color: var(--todo);
+  /* An error is told by shape, not only by colour: copper and gold are
+     too close (1.05:1). The rule becomes dashed and thicker. */
+  .field :is(input, textarea)[aria-invalid="true"] {
+    border-bottom: 2px dashed var(--todo);
+  }
+
+  [role="radiogroup"][aria-invalid="true"] .choice input {
+    border: 1px dashed var(--todo);
   }
 
   /* Subject: three visible choices instead of a closed select. */
