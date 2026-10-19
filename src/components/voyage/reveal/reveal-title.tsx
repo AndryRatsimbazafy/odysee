@@ -7,7 +7,7 @@ import {
   type ElementType,
   type ReactNode,
 } from "react";
-import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { EASE, inView, MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 
 /** Each word (or rich fragment such as <em>) in its own mask; <br> kept. */
 function words(children: ReactNode): ReactNode[] {
@@ -52,8 +52,8 @@ export function RevealTitle({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap }) => {
       const el = root.current;
       if (!el || inView(el)) return;
       gsap.matchMedia().add(MOTION_OK, () => {

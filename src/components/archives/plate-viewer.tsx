@@ -12,7 +12,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import type { Emblem, Plate } from "@/lib/data/types";
-import { EASE, gsap, MOTION_OK } from "@/lib/motion/gsap";
+import { EASE, loadedMotion, MOTION_OK } from "@/lib/motion/gsap";
 import { lockScroll } from "@/lib/motion/scroll";
 import { PlateImage } from "./plate";
 
@@ -75,9 +75,11 @@ export function PlateViewer({
     const locked = document.documentElement.classList.contains("scroll-locked");
     if (!locked) lockScroll(true);
     el.querySelector<HTMLElement>(".lb-close")?.focus();
-    const mm = gsap.matchMedia();
-    mm.add(MOTION_OK, () => {
-      gsap.fromTo(
+    // Fades are a touch: with GSAP not loaded yet, the viewer just appears.
+    const gsap = loadedMotion()?.gsap;
+    const mm = gsap?.matchMedia();
+    mm?.add(MOTION_OK, () => {
+      gsap?.fromTo(
         el,
         { opacity: 0 },
         { opacity: 1, duration: 0.25, ease: EASE },
@@ -85,7 +87,7 @@ export function PlateViewer({
     });
 
     return () => {
-      mm.revert();
+      mm?.revert();
       others.forEach((other) => (other.inert = false));
       if (!locked) lockScroll(false);
       opener.current?.focus({ preventScroll: true });
@@ -95,7 +97,8 @@ export function PlateViewer({
   // Each figure fades and settles in (DESIGN §9: lightbox, fade + scale).
   useEffect(() => {
     const fig = box.current?.querySelector(".lb-fig .ph-img");
-    if (!fig) return;
+    const gsap = loadedMotion()?.gsap;
+    if (!fig || !gsap) return;
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {
       gsap.fromTo(

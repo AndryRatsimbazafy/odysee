@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
-import { gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 import { CHANTS, type ChantId } from "../chants";
 
 /**
@@ -15,8 +15,8 @@ export function Route({ from, to }: { from: ChantId; to: ChantId }) {
   const root = useRef<HTMLDivElement>(null);
   const rtl = CHANTS.indexOf(from) % 2 === 1;
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap }) => {
       const el = root.current;
       if (!el) return;
       const mm = gsap.matchMedia();
@@ -50,11 +50,13 @@ export function Route({ from, to }: { from: ChantId; to: ChantId }) {
             scrollTrigger: { ...scrub, invalidateOnRefresh: true },
           },
         );
+        // The destination is written out as the boat arrives: a clip, not
+        // a dim, so the label never sits on screen below AA (T25).
         gsap.fromTo(
           q(".to"),
-          { opacity: 0.25 },
+          { clipPath: "inset(0% 100% 0% 0%)" },
           {
-            opacity: 1,
+            clipPath: "inset(0% 0% 0% 0%)",
             ease: "none",
             scrollTrigger: {
               trigger: el,

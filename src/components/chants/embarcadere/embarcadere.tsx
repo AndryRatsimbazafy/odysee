@@ -75,6 +75,7 @@ export async function Embarcadere() {
           <figcaption className="mono">{t("chart.caption")}</figcaption>
         </figure>
 
+        {/* Four groups: the hero shows once the 4th is parsed (globals.css). */}
         <dl className="fiche-id" aria-label={t("identity.label")}>
           <div>
             <dt>{t("identity.role")}</dt>

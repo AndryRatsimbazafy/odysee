@@ -2,7 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
-import { EASE, gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import {
+  EASE,
+  inView,
+  loadedMotion,
+  MOTION_OK,
+  useMotion,
+} from "@/lib/motion/gsap";
 import { lockScroll, scrollToSection } from "@/lib/motion/scroll";
 
 // The dossier as a full-screen dialog over the page (intercepted route,
@@ -76,7 +82,8 @@ export function useCloseDossier() {
       closing = false;
       router.back();
     };
-    if (!active || !matchMedia(MOTION_OK).matches) return done();
+    const gsap = loadedMotion()?.gsap;
+    if (!gsap || !active || !matchMedia(MOTION_OK).matches) return done();
     gsap.to(active, {
       clipPath: "inset(0% 0% 100% 0%)",
       duration: 0.35,
@@ -109,8 +116,10 @@ export function DossierOverlay({
   // Opening (DESIGN §9): the dossier rises over the page like a curtain
   // coming down (not on previous / next), its opening settles in stagger and
   // its engravings are drawn; sections follow as the dialog scrolls.
-  useGSAP(
-    () => {
+  // GSAP is normally here (the archives' scene loaded it); if not, the
+  // dossier opens without its entrance rather than blink (`sync`).
+  useMotion(
+    ({ gsap }, sync) => {
       const dialog = root.current;
       if (!dialog) return;
       active = dialog;
@@ -119,40 +128,44 @@ export function DossierOverlay({
       const q = gsap.utils.selector(dialog);
 
       gsap.matchMedia().add(MOTION_OK, () => {
-        if (first) {
+        if (sync) {
+          if (first) {
+            gsap.fromTo(
+              dialog,
+              { clipPath: "inset(100% 0% 0% 0%)" },
+              {
+                clipPath: "inset(0% 0% 0% 0%)",
+                duration: 0.8,
+                ease: EASE,
+                clearProps: "clipPath",
+              },
+            );
+          } else {
+            gsap.set(dialog, { clearProps: "clipPath" });
+          }
+          gsap.from(q(".r-open .grid-12 > *"), {
+            opacity: 0,
+            y: 18,
+            duration: 0.8,
+            ease: EASE,
+            stagger: 0.07,
+            delay: first ? 0.3 : 0,
+          });
           gsap.fromTo(
-            dialog,
-            { clipPath: "inset(100% 0% 0% 0%)" },
+            q(".r-open .line [pathLength]"),
+            { strokeDashoffset: 1 },
             {
-              clipPath: "inset(0% 0% 0% 0%)",
-              duration: 0.8,
-              ease: EASE,
-              clearProps: "clipPath",
+              strokeDashoffset: 0,
+              duration: 1.6,
+              ease: "power2.inOut",
+              delay: first ? 0.6 : 0.1,
+              autoRound: false,
             },
           );
-        } else {
-          gsap.set(dialog, { clearProps: "clipPath" });
         }
-        gsap.from(q(".r-open .grid-12 > *"), {
-          opacity: 0,
-          y: 18,
-          duration: 0.8,
-          ease: EASE,
-          stagger: 0.07,
-          delay: first ? 0.3 : 0,
-        });
-        gsap.fromTo(
-          q(".r-open .line [pathLength]"),
-          { strokeDashoffset: 1 },
-          {
-            strokeDashoffset: 0,
-            duration: 1.6,
-            ease: "power2.inOut",
-            delay: first ? 0.6 : 0.1,
-            autoRound: false,
-          },
-        );
         for (const block of q(".r-sec, .r-close")) {
+          // Late setup: what is already on screen stays as is.
+          if (!sync && inView(block)) continue;
           gsap.from(block.querySelectorAll(".grid-12 > *"), {
             opacity: 0,
             y: 16,

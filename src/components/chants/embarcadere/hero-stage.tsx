@@ -1,14 +1,19 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import { EASE, gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
+import { MOTION_OK } from "@/lib/motion/gsap";
 import { isBoarding, whenBoarded } from "@/components/voyage/loader/boarding";
 
+// --ease (DESIGN §9), for the Web Animations API.
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+
 /**
- * The hero section and its motion. The opening (name letter by letter, then
- * the rest in stagger) only plays on the first visit, behind the loader, so
- * nothing server-rendered ever blinks; the h1 is never hidden. The chart
- * trace is CSS. Here also: the ship rocks, the chart turns with the scroll.
+ * The hero section and its motion, without GSAP (it stays off the first
+ * load, T25). The opening (name letter by letter, then the rest in stagger)
+ * only plays on the first visit: created paused behind the loader, so
+ * nothing server-rendered ever blinks, played once it leaves; the h1 is
+ * never hidden. The chart trace, the rocking ship and the chart turning
+ * with the scroll are CSS (globals.css).
  */
 export function HeroStage({
   labelledBy,
@@ -19,61 +24,57 @@ export function HeroStage({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      const el = root.current;
-      if (!el) return;
-      gsap.matchMedia().add(MOTION_OK, () => {
-        const q = gsap.utils.selector(el);
-        let stopWaiting = () => {};
-
-        if (isBoarding()) {
-          const opening = gsap
-            .timeline({ paused: true })
-            .from(
-              q(".hero-name .l"),
-              { yPercent: 105, duration: 1.2, ease: EASE, stagger: 0.06 },
-              0.15,
-            )
-            .from(
-              q("[data-intro]"),
-              { opacity: 0, y: 14, duration: 0.9, ease: EASE, stagger: 0.08 },
-              0.5,
-            )
-            .from(
-              q(".fiche-id > div"),
-              { opacity: 0, y: 16, duration: 0.9, ease: EASE, stagger: 0.08 },
-              0.8,
-            );
-          stopWaiting = whenBoarded(() => opening.play());
-        }
-
-        gsap.to(q(".ship"), {
-          y: -3,
-          rotation: 0.8,
-          svgOrigin: "150 170",
-          duration: 4.5,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
-        gsap.to(q(".chart svg"), {
-          rotation: -8,
-          transformOrigin: "50% 50%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: el,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.4,
-          },
-        });
-
-        return () => stopWaiting();
-      });
-    },
-    { scope: root },
-  );
+  useLayoutEffect(() => {
+    const el = root.current;
+    if (!el || !isBoarding() || !matchMedia(MOTION_OK).matches) return;
+    const rise = (
+      selector: string,
+      from: Keyframe,
+      start: number,
+      duration: number,
+      stagger: number,
+    ) =>
+      Array.from(el.querySelectorAll(selector), (target, i) =>
+        target.animate([from, { opacity: 1, transform: "none" }], {
+          duration,
+          delay: start + i * stagger,
+          easing: EASE,
+          fill: "backwards",
+        }),
+      );
+    const opening = [
+      ...rise(
+        ".hero-name .l",
+        { transform: "translateY(105%)" },
+        150,
+        1200,
+        60,
+      ),
+      ...rise(
+        "[data-intro]",
+        { opacity: 0, transform: "translateY(14px)" },
+        500,
+        900,
+        80,
+      ),
+      ...rise(
+        ".fiche-id > div",
+        { opacity: 0, transform: "translateY(16px)" },
+        800,
+        900,
+        80,
+      ),
+    ];
+    // Paused at 0, the backwards fill holds the starting state.
+    opening.forEach((animation) => animation.pause());
+    const stopWaiting = whenBoarded(() =>
+      opening.forEach((animation) => animation.play()),
+    );
+    return () => {
+      stopWaiting();
+      opening.forEach((animation) => animation.cancel());
+    };
+  }, []);
 
   return (
     <section

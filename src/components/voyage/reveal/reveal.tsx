@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ElementType, type ReactNode } from "react";
-import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { EASE, inView, MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 
 /**
  * Children that settle one after the other (DESIGN §9: stagger 60–90 ms)
@@ -25,8 +25,8 @@ export function Reveal({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap }) => {
       const el = root.current;
       if (!el || inView(el)) return;
       gsap.matchMedia().add(MOTION_OK, () => {

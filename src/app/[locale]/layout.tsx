@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { hasLocale, type Locale, NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CONSTELLATIONS } from "@/components/engravings/constellations";
 import { Compass } from "@/components/voyage/compass/compass";
@@ -17,6 +17,20 @@ import { routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/seo/urls";
 import { fontVariables } from "../fonts";
 import "../globals.css";
+
+// Only what Client Components read goes to the client (hero.identity: the
+// Hermès letter; dossier.plate: the lightbox). The rest stays on the server,
+// out of every page's payload (T25).
+const CLIENT_NAMESPACES = ["voyage", "hermes", "lightbox"] as const;
+
+async function clientMessages(locale: Locale) {
+  const all = await getMessages({ locale });
+  return {
+    ...Object.fromEntries(CLIENT_NAMESPACES.map((ns) => [ns, all[ns]])),
+    hero: { identity: all.hero.identity },
+    dossier: { plate: all.dossier.plate },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -43,7 +57,10 @@ export default async function LocaleLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
-  const t = await getTranslations({ locale, namespace: "voyage" });
+  const [t, messages] = await Promise.all([
+    getTranslations({ locale, namespace: "voyage" }),
+    clientMessages(locale),
+  ]);
   const skyNames = Object.fromEntries(
     CONSTELLATIONS.map(({ id }) => [id, t(`sky.${id}`)]),
   ) as Record<(typeof CONSTELLATIONS)[number]["id"], string>;
@@ -65,7 +82,7 @@ export default async function LocaleLayout({
         <a className="skip" href="#main">
           {t("skipLink")}
         </a>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
             <Sky names={skyNames} />
             <Loader />

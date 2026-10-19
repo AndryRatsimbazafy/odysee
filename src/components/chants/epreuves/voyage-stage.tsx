@@ -1,14 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import {
-  EASE,
-  gsap,
-  inView,
-  MOTION_OK,
-  ScrollTrigger,
-  useGSAP,
-} from "@/lib/motion/gsap";
+import { EASE, inView, MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 import { scrollToSection } from "@/lib/motion/scroll";
 
 /** Reading line: a preview is "being read" once its top passes 45 % of the viewport. */
@@ -29,8 +22,8 @@ export function VoyageStage({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap, ScrollTrigger }) => {
       const el = root.current;
       const svg = el?.querySelector<SVGSVGElement>(".carte svg");
       if (!el || !svg) return;

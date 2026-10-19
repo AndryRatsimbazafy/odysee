@@ -9,7 +9,7 @@ import {
   CONTACT_SUBJECTS,
   type ContactField,
   type ContactState,
-} from "@/lib/validation/contact";
+} from "@/lib/validation/contact-fields";
 
 const INITIAL: ContactState = { status: "idle" };
 // Same caps as the schema, so a letter can't be refused for its length.

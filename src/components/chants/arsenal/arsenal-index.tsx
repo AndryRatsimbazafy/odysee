@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { WeaponMedallion } from "@/components/engravings/weapons";
 import type { Weapon } from "@/lib/data/types";
-import { gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { MOTION_OK, useMotion } from "@/lib/motion/gsap";
 
 export type Tool = {
   id: string;
@@ -62,9 +62,10 @@ export function ArsenalIndex({
     intent.current = window.setTimeout(() => setHovered(i), INTENT_MS);
   };
 
-  // A new active tool: its weapon is traced, its text settles.
-  useGSAP(
-    () => {
+  // A new active tool: its weapon is traced, its text settles. GSAP comes
+  // with the chant's own scene; a change before that just shows the tool.
+  useMotion(
+    ({ gsap }) => {
       if (shown.current === active) return;
       shown.current = active;
       const el = shrine.current;
@@ -90,7 +91,7 @@ export function ArsenalIndex({
         );
       });
     },
-    { scope: shrine, dependencies: [active], revertOnUpdate: true },
+    { scope: shrine, when: "near", dependencies: [active] },
   );
 
   return (

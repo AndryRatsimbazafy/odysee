@@ -537,33 +537,172 @@
       radial-gradient(70% 50% at 40% 100%, var(--sky-c), transparent 70%);
   }
 
-  .zodiac svg {
+  /* Every moving part is an HTML box on its own layer: transform and
+     opacity animate on the compositor, the SVGs are never repainted (T25). */
+  .zodiac .sky-pan {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
     will-change: transform;
+    animation: sky-in 1.2s var(--ease) both;
   }
 
   @media (max-width: 700px) {
-    .zodiac svg {
+    .zodiac .sky-pan {
       left: -50vw;
       width: 240vw;
     }
   }
 
-  /* Below luxe-4 (.55): keeps every token ≥ 4.5 over light stars (T11). */
-  :root[data-theme="light"] .zodiac svg {
-    opacity: 0.4;
+  .zodiac .sky-drift {
+    position: relative;
+    animation: sky-drift 60s ease-in-out infinite alternate;
   }
 
-  .zodiac .field {
+  .zodiac svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .zodiac .figures {
+    position: relative;
+  }
+
+  .zodiac .sky-field,
+  .zodiac .fl,
+  .zodiac .fl i {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Star layers: var(--star) through their SVG mask (sky-markup.ts). */
+  .zodiac .fl i {
+    background: var(--star);
+    mask: var(--m) 0 0 / 100% 100% no-repeat;
+  }
+
+  .zodiac .sky-field {
     opacity: 0.6;
+    will-change: transform;
   }
 
-  .zodiac .sf {
-    fill: var(--star);
+  /* Each star layer floats at its own rhythm (luxe-4: 16 / 22 / 28 s). */
+  .zodiac .fl {
+    --dx: 1.67%;
+    --dy: -0.28%;
+    animation: sky-float 16s ease-in-out infinite alternate;
+  }
+
+  .zodiac .fl:nth-child(2) {
+    --dx: -2.08%;
+    --dy: 0.42%;
+    animation-duration: 22s;
+  }
+
+  .zodiac .fl:nth-child(3) {
+    --dx: 1.11%;
+    --dy: -0.47%;
+    animation-duration: 28s;
+  }
+
+  /* One star in seven twinkles, in three phases (one per layer). */
+  .zodiac .tw {
+    animation: sky-twinkle 2.8s ease-in-out infinite alternate;
+  }
+
+  .zodiac .fl:nth-child(2) .tw {
+    animation-delay: -0.93s;
+  }
+
+  .zodiac .fl:nth-child(3) .tw {
+    animation-delay: -1.87s;
+  }
+
+  /* The figures come out one after the other, once boarded. */
+  .zodiac .cst {
+    animation: sky-cst 1.6s cubic-bezier(0.33, 1, 0.68, 1)
+      calc(var(--i) * 120ms) both;
+  }
+
+  :root[data-boarding="on"] .zodiac .cst {
+    animation-play-state: paused;
+  }
+
+  /* Parallax, on the scroll itself (no JS): the whole sky scrolls by, its
+     last screen meeting the page's end; the star field a bit slower. */
+  @supports (animation-timeline: scroll()) {
+    .zodiac .sky-pan {
+      animation-name: sky-in, sky-scroll;
+      animation-duration: 1.2s, auto;
+      animation-timing-function: var(--ease), linear;
+      animation-fill-mode: both;
+      animation-timeline: auto, scroll(root);
+    }
+
+    .zodiac .sky-field {
+      animation: sky-field-scroll linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  @keyframes sky-scroll {
+    to {
+      translate: 0 calc(-90% + 90vh);
+    }
+  }
+
+  @keyframes sky-field-scroll {
+    to {
+      translate: 0 2.8%;
+    }
+  }
+
+  @keyframes sky-cst {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sky-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sky-drift {
+    to {
+      transform: translateX(-60px);
+    }
+  }
+
+  @keyframes sky-float {
+    to {
+      transform: translate(var(--dx), var(--dy));
+    }
+  }
+
+  @keyframes sky-twinkle {
+    to {
+      opacity: 0.1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zodiac .sky-pan,
+    .zodiac .sky-field,
+    .zodiac .sky-drift,
+    .zodiac .fl,
+    .zodiac .tw,
+    .zodiac .cst {
+      animation: none;
+    }
+  }
+
+  /* Below luxe-4 (.55): keeps every token ≥ 4.5 over light stars (T11). */
+  :root[data-theme="light"] .zodiac .sky-pan {
+    opacity: 0.4;
   }
 
   .zodiac .ed {
@@ -1287,6 +1426,13 @@
     align-items: end;
   }
 
+  /* The hero is bottom-aligned: painted half-parsed, it moves as the rest
+     streams in (CLS up to .55 on a slow phone, T25). It waits, laid out
+     but unpainted, for the identity band's last group (4 static groups). */
+  .hero:not(:has(.fiche-id > :nth-child(4))) > .grid-12 {
+    visibility: hidden;
+  }
+
   .hero-id {
     position: relative;
     z-index: 2;
@@ -1341,12 +1487,16 @@
     grid-column: 8 / span 5;
     align-self: stretch;
     display: grid;
+    /* A definite track: the SVG's 100% width never resolves against an
+       auto track (it could collapse to 0 and shift the hero, T25). */
+    grid-template-columns: minmax(0, 1fr);
     align-content: end;
     gap: 14px;
     margin: 0;
   }
 
   .chart svg {
+    display: block;
     width: 100%;
     height: auto;
     overflow: visible;
@@ -1381,6 +1531,41 @@
   :root[data-boarding="on"] .chart .trace path,
   :root[data-boarding="on"] .chart .city-mark {
     animation-play-state: paused;
+  }
+
+  /* The ship rocks on its line (around 150 170, like the engraving). */
+  .chart .ship {
+    transform-box: view-box;
+    transform-origin: 150px 170px;
+    animation: ship-rock 4.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes ship-rock {
+    from {
+      transform: translate(0, 6px);
+    }
+    to {
+      transform: translate(0, 3px) rotate(0.8deg);
+    }
+  }
+
+  /* The chart turns as the hero scrolls away (top at top → bottom at top). */
+  @supports (animation-timeline: view()) {
+    .hero {
+      view-timeline-name: --hero;
+    }
+
+    .chart svg {
+      animation: chart-turn linear both;
+      animation-timeline: --hero;
+      animation-range: exit-crossing;
+    }
+  }
+
+  @keyframes chart-turn {
+    to {
+      rotate: -8deg;
+    }
   }
 
   @keyframes chart-trace {
@@ -1505,7 +1690,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .chart .trace path,
-    .chart .city-mark {
+    .chart .city-mark,
+    .chart .ship,
+    .chart svg {
       animation: none;
     }
 
@@ -2276,7 +2463,7 @@
     margin: 0 0 18px;
   }
 
-  .r-open :is(h1, h2) {
+  .r-open .d-title {
     margin: 0;
     font-family: var(--font-display);
     font-weight: 500;
@@ -2287,7 +2474,7 @@
     overflow-wrap: anywhere;
   }
 
-  .r-open :is(h1, h2):focus {
+  .r-open .d-title:focus {
     outline: none;
   }
 
@@ -2408,7 +2595,7 @@
     grid-column: 8 / span 5;
   }
 
-  .o-process .first h3 {
+  .o-process .first :is(h2, h3) {
     margin: 0 0 10px;
     font-family: var(--font-mono);
     font-size: 11px;
@@ -2457,7 +2644,7 @@
     color: var(--or);
   }
 
-  .r-sec .lbl h3 {
+  .r-sec .lbl :is(h2, h3) {
     margin: 0;
     font-family: var(--font-display);
     font-weight: 500;

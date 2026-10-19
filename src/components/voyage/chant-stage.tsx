@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ElementType, type ReactNode } from "react";
-import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { EASE, inView, MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 
 const RISE = 12;
 const ONCE = { start: "top 80%", once: true } as const;
@@ -28,8 +28,8 @@ export function ChantStage({
 }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap }) => {
       const el = root.current;
       if (!el) return;
       gsap.matchMedia().add(MOTION_OK, () => {

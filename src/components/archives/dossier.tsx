@@ -40,6 +40,8 @@ export function Dossier({
   const or = (text: string) => text || <span className="todo">{todo}</span>;
 
   const Title = mode === "page" ? "h1" : "h2";
+  // One level below the title, whichever it is (no skipped level, T25).
+  const Sub = mode === "page" ? "h2" : "h3";
   const stamp = (
     <p className="kicker stamp">
       {t("stamp", { n: roman(p.index), kind: p.kindLabel || todo })}
@@ -180,7 +182,7 @@ export function Dossier({
           {facts}
         </div>
         <div className="first">
-          <h3>{t("sections.decisionsFirst")}</h3>
+          <Sub>{t("sections.decisionsFirst")}</Sub>
           {decisions}
         </div>
       </>
@@ -344,7 +346,7 @@ export function Dossier({
               <div className="grid-12">
                 <div className="lbl">
                   <span className="n">{t("section", { n: i + 2 })}</span>
-                  <h3 id={`d-${p.slug}-${key}`}>{s.title}</h3>
+                  <Sub id={`d-${p.slug}-${key}`}>{s.title}</Sub>
                 </div>
                 {key === "plates" && rest.length ? (
                   s.body

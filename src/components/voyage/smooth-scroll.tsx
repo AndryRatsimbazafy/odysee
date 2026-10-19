@@ -2,35 +2,42 @@
 
 import Lenis from "lenis";
 import { useEffect } from "react";
-import { gsap, MOTION_OK, ScrollTrigger } from "@/lib/motion/gsap";
+import { MOTION_OK, warmMotionOnIntent, whenMotion } from "@/lib/motion/gsap";
 import { scrollToSection, setLenis } from "@/lib/motion/scroll";
 
 /**
- * Damped scrolling (Lenis, driven by GSAP's ticker so ScrollTrigger stays in
- * step), off with reduced motion; and same-page anchor links that land below
- * the fixed header instead of under it.
+ * Damped scrolling (Lenis on its own frame loop, feeding ScrollTrigger once
+ * GSAP is loaded), off with reduced motion; GSAP itself fetched at the
+ * reader's first gesture; and same-page anchor links that land below the
+ * fixed header instead of under it.
  */
 export function SmoothScroll() {
   useEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add(MOTION_OK, () => {
+    const stopWarming = warmMotionOnIntent();
+
+    const query = matchMedia(MOTION_OK);
+    let stopLenis = () => {};
+    const sync = () => {
+      stopLenis();
+      if (!query.matches) return;
       const lenis = new Lenis({
         lerp: 0.085,
         wheelMultiplier: 0.95,
-        autoRaf: false,
+        autoRaf: true,
       });
-      const raf = (time: number) => lenis.raf(time * 1000);
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add(raf);
-      gsap.ticker.lagSmoothing(0);
+      const stopFeeding = whenMotion(({ ScrollTrigger }) =>
+        lenis.on("scroll", ScrollTrigger.update),
+      );
       setLenis(lenis);
-      return () => {
-        gsap.ticker.remove(raf);
-        gsap.ticker.lagSmoothing(500, 33);
+      stopLenis = () => {
+        stopFeeding();
         setLenis(null);
         lenis.destroy();
+        stopLenis = () => {};
       };
-    });
+    };
+    sync();
+    query.addEventListener("change", sync);
 
     // Capture phase: runs before the router's own link handling.
     const onClick = (e: MouseEvent) => {
@@ -64,7 +71,9 @@ export function SmoothScroll() {
 
     return () => {
       document.removeEventListener("click", onClick, true);
-      mm.revert();
+      query.removeEventListener("change", sync);
+      stopLenis();
+      stopWarming();
     };
   }, []);
 

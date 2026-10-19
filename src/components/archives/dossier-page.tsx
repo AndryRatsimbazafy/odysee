@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
+import { EASE, inView, MOTION_OK, useScrollScene } from "@/lib/motion/gsap";
 
 /**
  * The dossier as a full page (direct load): its sections settle in as they
@@ -11,8 +11,8 @@ import { EASE, gsap, inView, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
 export function DossierPage({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
+  useScrollScene(
+    ({ gsap }) => {
       const el = root.current;
       if (!el) return;
       gsap.matchMedia().add(MOTION_OK, () => {

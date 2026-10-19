@@ -20,7 +20,7 @@ export function LocaleSwitch() {
             locale={locale}
             hrefLang={locale}
             lang={locale}
-            aria-label={t(locale)}
+            aria-label={`${locale.toUpperCase()}, ${t(locale)}`}
             aria-current={locale === current ? "true" : undefined}
           >
             {locale}
