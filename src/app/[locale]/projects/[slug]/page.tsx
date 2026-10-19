@@ -6,7 +6,7 @@ import { DossierPage } from "@/components/archives/dossier-page";
 import { loadDossier } from "@/components/archives/load-dossier";
 import { routing } from "@/i18n/routing";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getProject, getProjectSlugs } from "@/lib/data/projects";
+import { getProject, getDossierParams } from "@/lib/data/projects";
 import type { Project } from "@/lib/data/types";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbNode, creativeWorkNode, graph } from "@/lib/seo/schema";
@@ -19,10 +19,7 @@ import { breadcrumbNode, creativeWorkNode, graph } from "@/lib/seo/schema";
 export const instant = false;
 
 export async function generateStaticParams() {
-  const slugs = await getProjectSlugs();
-  return routing.locales.flatMap((locale) =>
-    slugs.map((slug) => ({ locale, slug })),
-  );
+  return getDossierParams(routing.locales);
 }
 
 export async function generateMetadata({

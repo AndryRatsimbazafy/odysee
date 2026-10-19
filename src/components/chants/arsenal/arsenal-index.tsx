@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { WeaponMedallion } from "@/components/engravings/weapons";
 import type { Weapon } from "@/lib/data/types";
 import { gsap, MOTION_OK, useGSAP } from "@/lib/motion/gsap";
@@ -125,12 +125,12 @@ export function ArsenalIndex({
                 <>
                   <span className="sr-only">{refsLabel} : </span>
                   {t.refs.map((r, k) => (
-                    <span key={r.href}>
+                    <Fragment key={r.href}>
                       {k > 0 ? ", " : null}
                       <a href={r.href} aria-label={r.label} title={r.label}>
                         {r.n}
                       </a>
-                    </span>
+                    </Fragment>
                   ))}
                 </>
               ) : (

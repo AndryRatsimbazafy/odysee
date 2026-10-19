@@ -4,7 +4,7 @@ import { Dossier } from "@/components/archives/dossier";
 import { DossierOverlay } from "@/components/archives/dossier-overlay";
 import { loadDossier } from "@/components/archives/load-dossier";
 import { routing } from "@/i18n/routing";
-import { getProjectSlugs } from "@/lib/data/projects";
+import { getDossierParams } from "@/lib/data/projects";
 
 // "Lire les archives" from the page: the same dossier, intercepted into a
 // full-screen dialog over the one-page (DESIGN §8). URL stays shareable.
@@ -12,10 +12,7 @@ import { getProjectSlugs } from "@/lib/data/projects";
 // one (no SEO stake here: a direct load renders the full page instead).
 
 export async function generateStaticParams() {
-  const slugs = await getProjectSlugs();
-  return routing.locales.flatMap((locale) =>
-    slugs.map((slug) => ({ locale, slug })),
-  );
+  return getDossierParams(routing.locales);
 }
 
 export default function DossierModal({

@@ -1634,6 +1634,7 @@
   .god dl {
     margin: 8px 0 0;
     border-top: 1px solid var(--filet);
+    container-type: inline-size;
   }
 
   .god dl > div {
@@ -1656,6 +1657,7 @@
 
   .god dd {
     margin: 0;
+    overflow-wrap: break-word;
   }
 
   .god.minor {
@@ -1746,7 +1748,9 @@
     }
   }
 
-  @media (max-width: 480px) {
+  /* Too narrow for two columns (small screens, Athena's column at ~1024):
+     the term goes above its description. */
+  @container (max-width: 400px) {
     .god dl > div {
       grid-template-columns: minmax(0, 1fr);
       gap: 4px;
@@ -3040,11 +3044,24 @@
     }
   }
 
+  /* Many trials wrap after a comma, right-aligned under each other. */
   .tindex .refs {
+    max-width: 16ch;
     font-family: var(--font-mono);
     font-size: 12px;
+    text-align: right;
     color: var(--cendre);
-    white-space: nowrap;
+  }
+
+  /* Small screens: the trials go under the name, which keeps the width. */
+  @media (max-width: 600px) {
+    .tindex .refs {
+      grid-column: 1 / -1;
+      max-width: none;
+      margin-top: -8px;
+      padding-bottom: 10px;
+      text-align: left;
+    }
   }
 
   /* Each cross-reference is a 24 px target (WCAG 2.5.8), the numeral stays small. */

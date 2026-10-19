@@ -2,6 +2,9 @@ import { chartLayout } from "./chart-layout";
 
 /** Advance of an 11 px JetBrains Mono glyph (0.6 em), in viewBox units. */
 const MONO_ADVANCE = 6.6;
+/** The north arrow and its "N": right-hand room it takes, down to this y. */
+const NORTH_ROOM = 36;
+const NORTH_BOTTOM = 56;
 
 type ChartLabels = { title: string; port: string; north: string };
 
@@ -40,11 +43,20 @@ export function VoyageChart({
         </text>
       </g>
       {points.map((p, i) => {
-        const label = `${stops[i].n} · ${stops[i].label}`;
+        const full = `${stops[i].n} · ${stops[i].label}`;
+        const x = p.labelEnd ? p.x - 14 : p.x + 14;
+        // A long short title is cut to the room left before the chart's edge,
+        // or before the north arrow at its height (the full name stays in the
+        // title and in the dossier preview).
+        const edge = p.y < NORTH_BOTTOM ? width - NORTH_ROOM : width;
+        const room = Math.floor(
+          ((p.labelEnd ? x : edge - x) - 6) / MONO_ADVANCE,
+        );
+        const label =
+          full.length > room ? `${full.slice(0, room - 1).trimEnd()}…` : full;
         // Monospace labels: the width is known, so a plate of night is laid
         // under each name and the legs pass beneath it, not through it.
         const w = label.length * MONO_ADVANCE + 6;
-        const x = p.labelEnd ? p.x - 14 : p.x + 14;
         return (
           <g key={i} className="pt" data-jump={i + 1}>
             <rect
@@ -56,6 +68,7 @@ export function VoyageChart({
             />
             <circle cx={p.x} cy={p.y} r={6} />
             <text x={x} y={p.y + 4} textAnchor={p.labelEnd ? "end" : undefined}>
+              {label !== full ? <title>{full}</title> : null}
               {label}
             </text>
           </g>

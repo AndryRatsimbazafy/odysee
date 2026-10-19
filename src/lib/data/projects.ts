@@ -107,6 +107,18 @@ export async function getProjectSlugs(): Promise<string[]> {
   return rows.map((row) => row.slug);
 }
 
+/**
+ * Static params of the dossier routes. Cache Components refuses an empty list,
+ * so with no published project a placeholder slug (never a valid slug: it has
+ * underscores) is prerendered, and it answers 404.
+ */
+export async function getDossierParams(locales: readonly Locale[]) {
+  const slugs = await getProjectSlugs();
+  return locales.flatMap((locale) =>
+    (slugs.length ? slugs : ["__none__"]).map((slug) => ({ locale, slug })),
+  );
+}
+
 /** Lightweight links to published projects, keyed by id (used by the arsenal). */
 export async function getProjectLinks(
   locale: Locale,
