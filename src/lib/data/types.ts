@@ -31,6 +31,7 @@ export type Profile = {
   publicEmail: string;
   photo: { src: string; alt: string } | null;
   seo: { title: string; description: string; ogImage: string | null };
+  updatedAt: string;
 };
 
 /** A project as shown on the chart and in the previews (chant II). */

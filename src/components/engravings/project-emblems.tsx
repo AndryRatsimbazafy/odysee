@@ -5,7 +5,7 @@ import type { Emblem } from "@/lib/data/types";
 
 type Stroke = { d: string; fine?: true };
 
-const EMBLEMS: Record<Emblem, Stroke[]> = {
+export const EMBLEMS: Record<Emblem, Stroke[]> = {
   maze: [
     {
       d: "M14 8 H146 V92 H14 V20 H134 V80 H26 V32 H122 V68 H38 V44 H110 V56 H52",

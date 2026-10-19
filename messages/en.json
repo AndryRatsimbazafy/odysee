@@ -1,7 +1,17 @@
 {
   "metadata": {
     "title": "Andry · The Odyssey",
-    "description": "Portfolio of Andry, Lead Front-End Developer (React/TypeScript) and business analyst, based in Madagascar."
+    "description": "Portfolio of Andry, Lead Front-End Developer (React/TypeScript) and business analyst, based in Madagascar.",
+    "template": "{title} · Andry",
+    "siteName": "Andry · The Odyssey",
+    "og": {
+      "kickerHome": "Portfolio",
+      "kickerProject": "Book II · Trial {n}",
+      "fallbackTitle": "The Odyssey"
+    },
+    "breadcrumb": {
+      "home": "Home"
+    }
   },
   "voyage": {
     "skipLink": "Skip to content",

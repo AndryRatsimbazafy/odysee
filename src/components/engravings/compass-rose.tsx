@@ -11,7 +11,7 @@ const at = (deg: number, r: number) => {
   return `${(Math.cos(a) * r).toFixed(2)} ${(Math.sin(a) * r).toFixed(2)}`;
 };
 
-const STROKES: { d: string; fine?: true }[] = [
+export const COMPASS_STROKES: { d: string; fine?: true }[] = [
   { d: ring(60) },
   { d: ring(54), fine: true },
   { d: ring(14), fine: true },
@@ -39,7 +39,7 @@ export function CompassRoseEngraving({ className }: { className?: string }) {
       aria-hidden="true"
       focusable="false"
     >
-      {STROKES.map(({ d, fine }, i) => (
+      {COMPASS_STROKES.map(({ d, fine }, i) => (
         <path
           key={i}
           d={d}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { hasLocale, type Locale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CONSTELLATIONS } from "@/components/engravings/constellations";
@@ -14,6 +14,7 @@ import { SiteFooter } from "@/components/voyage/site-footer";
 import { SiteHeader } from "@/components/voyage/site-header";
 import { SmoothScroll } from "@/components/voyage/smooth-scroll";
 import { routing } from "@/i18n/routing";
+import { siteUrl } from "@/lib/seo/urls";
 import { fontVariables } from "../fonts";
 import "../globals.css";
 
@@ -21,9 +22,18 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("metadata");
-  return { title: t("title"), description: t("description") };
+// Defaults for every page of a language; pages set their own title,
+// canonical, hreflang and Open Graph (pageMetadata), so the 404 inherits none.
+export async function generateMetadata({
+  params,
+}: LayoutProps<"/[locale]">): Promise<Metadata> {
+  const locale = (await params).locale as Locale;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  return {
+    metadataBase: new URL(siteUrl()),
+    title: t("title"),
+    description: t("description"),
+  };
 }
 
 export default async function LocaleLayout({

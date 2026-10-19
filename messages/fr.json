@@ -1,7 +1,17 @@
 {
   "metadata": {
     "title": "Andry · L'Odyssée",
-    "description": "Portfolio d'Andry, Lead Front-End Developer React/TypeScript et AMOA, basé à Madagascar."
+    "description": "Portfolio d'Andry, Lead Front-End Developer React/TypeScript et AMOA, basé à Madagascar.",
+    "template": "{title} · Andry",
+    "siteName": "Andry · L'Odyssée",
+    "og": {
+      "kickerHome": "Portfolio",
+      "kickerProject": "Chant II · Épreuve {n}",
+      "fallbackTitle": "L'Odyssée"
+    },
+    "breadcrumb": {
+      "home": "Accueil"
+    }
   },
   "voyage": {
     "skipLink": "Aller au contenu",

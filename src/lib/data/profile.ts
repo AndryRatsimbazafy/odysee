@@ -48,5 +48,6 @@ export async function getProfile(locale: Locale): Promise<Profile | null> {
       description: pick(row, "seo_description", locale),
       ogImage: mediaUrl(client, row.og_image_path),
     },
+    updatedAt: row.updated_at,
   };
 }

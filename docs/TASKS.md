@@ -65,7 +65,7 @@
 
 ## Phase 6 — SEO, qualité, mise en ligne
 
-- [ ] **T23** SEO complet 🧭 — Lire : PRD §8 bis ; ARCHITECTURE §7. Métadonnées, hreflang, sitemap (projets inclus), robots, OG dynamiques (style luxe-4), JSON-LD. Skill `seo`.
+- [x] **T23** SEO complet 🧭 — Lire : PRD §8 bis ; ARCHITECTURE §7. Métadonnées, hreflang, sitemap (projets inclus), robots, OG dynamiques (style luxe-4), JSON-LD. Skill `seo`.
 - [ ] **T24** Robustesse — `break-ui` : textes longs, EN manquant → FR, 0 / 1 / 9 projets, 12 outils, 7 escales, 0 témoignage, 0 question : carte, index, journal et routes s'adaptent ; aucun débordement à 375–1920.
 - [ ] **T25** Accessibilité et performance — `/impeccable audit`, `web-quality-audit`, `vercel-react-best-practices`, contrastes clair/sombre (ciel compris), clavier (dossier, index, lightbox), reduced-motion, effet du chargeur sur le LCP, Lighthouse mobile.
 - [ ] **T26** Déploiement Vercel — 👤 connecter le dépôt, variables, cron `/api/keepalive`. Vérifier en production : email, admin, mise à jour sans redéploiement.
