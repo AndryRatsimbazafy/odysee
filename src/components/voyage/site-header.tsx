@@ -1,5 +1,6 @@
 import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { PortraitMark } from "@/components/engravings/portrait-mark";
 import { LocaleSwitch } from "./locale-switch";
 import { getResumeUrl } from "@/lib/data/resumes";
 import { Link } from "@/i18n/navigation";
@@ -18,6 +19,7 @@ export async function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <HeaderBar>
       <Link className="brand" href="/#embarcadere" aria-label={t("home")}>
+        <PortraitMark className="brand-mark" />
         <b>{t("brand")}</b>
         <span>{t("role")}</span>
       </Link>

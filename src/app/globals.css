@@ -348,6 +348,18 @@
     text-decoration: none;
   }
 
+  .brand-mark {
+    flex: none;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-mark .line {
+    stroke: var(--or-clair);
+    stroke-width: 1;
+  }
+
   .brand b {
     font-family: var(--font-display);
     font-weight: 600;
@@ -1533,19 +1545,52 @@
     animation-play-state: paused;
   }
 
-  /* The ship rocks on its line (around 150 170, like the engraving). */
-  .chart .ship {
+  /* The bust breathes on its shoulders, like the ship rocked on its line. */
+  .chart .bust {
     transform-box: view-box;
-    transform-origin: 150px 170px;
-    animation: ship-rock 4.5s ease-in-out infinite alternate;
+    transform-origin: 150px 230px;
+    animation: bust-breathe 4.5s ease-in-out infinite alternate;
   }
 
-  @keyframes ship-rock {
+  @keyframes bust-breathe {
     from {
-      transform: translate(0, 6px);
+      transform: translate(0, 1px);
     }
     to {
-      transform: translate(0, 3px) rotate(0.8deg);
+      transform: translate(0, -1.5px) rotate(-0.6deg);
+    }
+  }
+
+  /* Once traced, the chain's plaques catch the light one after the other,
+     then the lenses (a sheen, not a blink: long cycle, short peak). */
+  .chart .glint path {
+    fill: var(--or-clair);
+    stroke: none;
+    stroke-dasharray: none;
+    opacity: 0;
+    animation: bust-glint 7s ease-in-out calc(3.4s + var(--g) * 0.18s)
+      infinite;
+  }
+
+  .chart .glint .lens {
+    fill: none;
+    stroke: var(--or-clair);
+    stroke-width: 0.8;
+    animation-delay: 4.3s;
+  }
+
+  :root[data-boarding="on"] .chart .glint path {
+    animation-play-state: paused;
+  }
+
+  @keyframes bust-glint {
+    0%,
+    14%,
+    100% {
+      opacity: 0;
+    }
+    6% {
+      opacity: 0.55;
     }
   }
 
@@ -1691,7 +1736,8 @@
   @media (prefers-reduced-motion: reduce) {
     .chart .trace path,
     .chart .city-mark,
-    .chart .ship,
+    .chart .bust,
+    .chart .glint path,
     .chart svg {
       animation: none;
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { WeaponMedallion } from "@/components/engravings/weapons";
 import type { Weapon } from "@/lib/data/types";
 import { MOTION_OK, useMotion } from "@/lib/motion/gsap";
@@ -19,14 +19,11 @@ export type Tool = {
   refs: { n: string; href: string; label: string }[];
 };
 
-/** Hover intent before a line opens: passing over the list moves nothing. */
-const INTENT_MS = 120;
-
 /**
  * Book index of the tools and the shrine of the active one (STORYBOARD §5).
- * One line is open at a time (role, context): the hovered one, otherwise the
- * active one. Focus or click makes a tool active, and its weapon is engraved
- * in the shrine (aria-live).
+ * One line is open at a time (role, context): the active one. Hover, focus
+ * or click (touch) makes a tool active at once, and its weapon is engraved
+ * in the shrine (aria-live). Leaving the list keeps the last one open.
  */
 export function ArsenalIndex({
   tools,
@@ -38,29 +35,11 @@ export function ArsenalIndex({
   refsLabel: string;
 }) {
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const intent = useRef<number | undefined>(undefined);
   const shrine = useRef<HTMLElement>(null);
   // Tool already on show: the first one is drawn by the chant's entrance
   // (ArsenalStage), and React may run the effect twice on mount.
   const shown = useRef(0);
   const tool = tools[active];
-  const open = hovered ?? active;
-
-  useEffect(() => () => window.clearTimeout(intent.current), []);
-
-  // Focus or click: that tool, and its line open, win over a stale hover.
-  const choose = (i: number) => {
-    window.clearTimeout(intent.current);
-    setHovered(null);
-    setActive(i);
-  };
-
-  // Mouse only: touch and pen go through focus / click.
-  const hover = (i: number | null) => {
-    window.clearTimeout(intent.current);
-    intent.current = window.setTimeout(() => setHovered(i), INTENT_MS);
-  };
 
   // A new active tool: its weapon is traced, its text settles. GSAP comes
   // with the chant's own scene; a change before that just shows the tool.
@@ -96,24 +75,21 @@ export function ArsenalIndex({
 
   return (
     <div className="arsenal">
-      <ul
-        className="tindex"
-        aria-label={indexLabel}
-        onPointerLeave={(e) => e.pointerType === "mouse" && hover(null)}
-      >
+      <ul className="tindex" aria-label={indexLabel}>
         {tools.map((t, i) => (
           <li
             key={t.id}
-            data-open={i === open || undefined}
-            onPointerEnter={(e) => e.pointerType === "mouse" && hover(i)}
+            data-open={i === active || undefined}
+            // Mouse only: touch and pen go through focus / click.
+            onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
           >
             {/* The fold stays out of the button: its name is tool + age. */}
             <button
               type="button"
               aria-pressed={i === active}
               aria-controls="shrine"
-              onClick={() => choose(i)}
-              onFocus={() => choose(i)}
+              onClick={() => setActive(i)}
+              onFocus={() => setActive(i)}
             >
               <span className="row">
                 <span className="nm">{t.name}</span>

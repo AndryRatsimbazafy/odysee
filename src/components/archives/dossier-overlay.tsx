@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 import {
   EASE,
@@ -17,20 +17,17 @@ import { lockScroll, scrollToSection } from "@/lib/motion/scroll";
 // back button does the same. Whatever closes it, the slot leaves (unmounted,
 // or kept hidden by Next's <Activity>, which also runs effect cleanups) and
 // the cleanup below gives the page back.
+// It lives in the intercepted segment's layout, which survives a change of
+// slug: previous / next only swaps the dossier inside the same dialog.
 
 /** Where to go once the dossier has closed (contact → chant VI). */
 let afterClose: (() => void) | null = null;
 
-// Previous / next swaps one dossier instance for another, in no guaranteed
-// effect order: the page is frozen while at least one is shown.
-let shown = 0;
 let behind: HTMLElement[] = [];
 let opener: HTMLElement | null = null;
 
 /** The dialog on screen (closing animates it out). */
 let active: HTMLElement | null = null;
-/** Set by a previous / next click: the next dossier swaps in, unveiled. */
-let swapping = false;
 let closing = false;
 
 function freezePage() {
@@ -93,23 +90,21 @@ export function useCloseDossier() {
   };
 }
 
-export function DossierOverlay({
-  slug,
-  children,
-}: {
-  slug: string;
-  children: ReactNode;
-}) {
+export function DossierOverlay({ children }: { children: ReactNode }) {
+  const { slug } = useParams<{ slug: string }>();
   const root = useRef<HTMLDivElement>(null);
   const current = useRef(slug);
+  /** The dialog has risen once: previous / next comes without a curtain. */
+  const risen = useRef(false);
   const close = useCloseDossier();
 
   // Opening: the page behind goes inert and frozen; closing gives it back
   // and returns focus to the "Read the archives" link of the last dossier.
   useEffect(() => {
-    if (shown++ === 0) freezePage();
+    freezePage();
     return () => {
-      if (--shown === 0) releasePage(current.current);
+      risen.current = false;
+      releasePage(current.current);
     };
   }, []);
 
@@ -123,8 +118,8 @@ export function DossierOverlay({
       const dialog = root.current;
       if (!dialog) return;
       active = dialog;
-      const first = !swapping;
-      swapping = false;
+      const first = !risen.current;
+      risen.current = true;
       const q = gsap.utils.selector(dialog);
 
       gsap.matchMedia().add(MOTION_OK, () => {
@@ -186,7 +181,7 @@ export function DossierOverlay({
         if (active === dialog) active = null;
       };
     },
-    { scope: root },
+    { scope: root, dependencies: [slug] },
   );
 
   // Each dossier (first one, then previous / next) starts at its title.
@@ -218,10 +213,6 @@ export function DossierOverlay({
       aria-modal="true"
       aria-labelledby={`dossier-${slug}`}
       data-lenis-prevent
-      onClickCapture={(e) => {
-        // Previous / next: the following dossier swaps in without a curtain.
-        if ((e.target as Element).closest("nav a")) swapping = true;
-      }}
     >
       {children}
     </div>
